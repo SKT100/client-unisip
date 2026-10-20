@@ -181,8 +181,6 @@ export default function Footer() {
           {/* Company & Legal Section */}
           <div className="flex flex-col gap-1.5">
             <h3 className="text-micro text-white/60 tracking-wider mb-1">Company</h3>
-            <Link to="/#faq" className="text-general font-bold text-white hover:text-cyanglow transition-colors duration-200">FAQ</Link>
-            <Link to="/terms" className="text-general font-bold text-white hover:text-cyanglow transition-colors duration-200">Terms & Conditions</Link>
             <Link to="/404" className="text-general font-bold text-white hover:text-cyanglow transition-colors duration-200">Not Found (404)</Link>
             <Link to="/contact" className="text-general font-bold text-white hover:text-cyanglow transition-colors duration-200">Contact Us</Link>
           </div>
