@@ -1,0 +1,196 @@
+@import url("https://fonts.googleapis.com/css2?family=Fira+Sans+Extra+Condensed:wght@200;300;400;500;600;700;800;900&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-fira: "Fira Sans Extra Condensed", ui-sans-serif, system-ui, sans-serif;
+
+  /* Brand Color Palette */
+  --color-darkblue: #101a35;
+  --color-midblue: #2d468a;
+  --color-lightblue: #669eff;
+  --color-cyanglow: #39b8f2;
+  --color-cream: #f5f4ef;
+}
+
+:root {
+  font-family: "Fira Sans Extra Condensed", sans-serif;
+  --color-darkblue: #101a35;
+  --color-midblue: #2d468a;
+  --color-lightblue: #669eff;
+  --color-cyanglow: #39b8f2;
+  --color-cream: #f5f4ef;
+}
+
+/* Global Utility Classes */
+.cyan-glow {
+  color: var(--color-cyanglow);
+  text-shadow: 0 0 14px rgba(57, 184, 242, 0.65);
+}
+
+/* Pre-built Typography Presets */
+@layer utilities {
+
+  /* Hero / Display Heading (Extra Large Main Titles) */
+  .heading-display {
+    font-family: var(--font-fira);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.025em;
+    line-height: 0.85;
+    font-size: clamp(2.75rem, 8vw, 6rem);
+    /* 44px -> 96px */
+  }
+
+  /* Big Heading (Section Big Headers) */
+  .heading-big {
+    font-family: var(--font-fira);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 0.88;
+    font-size: clamp(2.25rem, 6vw, 4.5rem);
+    /* 36px -> 72px */
+  }
+
+  /* Semi-Big Heading (Secondary Page Headers) */
+  .heading-semi-big {
+    font-family: var(--font-fira);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.015em;
+    line-height: 0.92;
+    font-size: clamp(1.875rem, 4.5vw, 3.25rem);
+    /* 30px -> 52px */
+  }
+
+  /* Mid Heading (Card Titles & Section Subheaders) */
+  .heading-mid {
+    font-family: var(--font-fira);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    font-size: clamp(1.5rem, 3.2vw, 2.25rem);
+    /* 24px -> 36px */
+  }
+
+  /* Small Heading (Sub-titles & Block Headers) */
+  .heading-small {
+    font-family: var(--font-fira);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 1.1;
+    font-size: clamp(1.25rem, 2.5vw, 1.625rem);
+    /* 20px -> 26px */
+  }
+
+  /* General Body Text (Standard Paragraph Content) */
+  .text-general {
+    font-family: var(--font-fira);
+    font-weight: 400;
+    line-height: 1.5;
+    font-size: clamp(1rem, 1.8vw, 1.25rem);
+    /* 16px -> 20px */
+  }
+
+  /* Small Text (Meta, Captions, Dates, Read Times) */
+  .text-small {
+    font-family: var(--font-fira);
+    font-weight: 500;
+    line-height: 1.4;
+    font-size: clamp(0.875rem, 1.4vw, 1rem);
+    /* 14px -> 16px */
+  }
+
+  /* Micro Text (Pill Badges & Tag Labels) */
+  .text-micro {
+    font-family: var(--font-fira);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: clamp(0.75rem, 1.2vw, 0.875rem);
+    /* 12px -> 14px */
+  }
+
+
+  /* ==========================================================================
+   UNISIP INSET BRAND SCROLLBAR SYSTEM
+   ========================================================================== */
+
+/* Remove native WebKit scrollbar arrow buttons across all browser engines */
+::-webkit-scrollbar-button,
+::-webkit-scrollbar-button:single-button,
+::-webkit-scrollbar-button:vertical:decrement,
+::-webkit-scrollbar-button:vertical:increment,
+::-webkit-scrollbar-button:horizontal:decrement,
+::-webkit-scrollbar-button:horizontal:increment {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent !important;
+}
+
+/* Custom Inset Scrollbar Class */
+.custom-scrollbar {
+  --sb-width: 6px;
+  --sb-thumb-color: #101A35;       /* Navy Blue Thumb */
+  --sb-thumb-hover-color: #2D468A; /* Royal Blue Hover */
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--sb-thumb-color) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: var(--sb-width);
+  height: var(--sb-width);
+}
+
+.custom-scrollbar::-webkit-scrollbar-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  margin-block: 12px; /* Insets thumb away from top/bottom container edges */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--sb-thumb-color);
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  transition: background-color 0.2s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--sb-thumb-hover-color);
+}
+
+}
+
+/* Global Reset & Page Setup */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--color-cream);
+}
+
+a {
+  text-decoration: none;
+}
+
+.page {
+  width: 100%;
+  overflow: hidden;
+  background: var(--color-cream);
+}

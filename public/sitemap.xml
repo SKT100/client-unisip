@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemapindex.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://unisip.in/</loc>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://unisip.in/about</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://unisip.in/work</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://unisip.in/contact</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://unisip.in/terms</loc>
+    <priority>0.3</priority>
+  </url>
+</urlset>
