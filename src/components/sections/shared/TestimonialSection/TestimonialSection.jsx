@@ -1,9 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import TestimonialCard from './TestimonialCard';
 
 const images = '/images';
 
-// Minimal Testimonials Data featuring Hospitality & Nightlife Partners
 const DEFAULT_TESTIMONIALS = [
   {
     id: 1,
@@ -13,9 +12,9 @@ const DEFAULT_TESTIMONIALS = [
     image: `${images}/rumors.webp`,
     avatar: `${images}/monojit.webp`,
     rating: 5,
-    initialX: -30,
+    initialX: -45,
     initialY: 20,
-    initialRotate: -7,
+    initialRotate: -8,
     bgColor: 'bg-[#669eff]',
     textColor: 'text-[#101a35]',
     starColor: 'text-[#f5f4ef]',
@@ -30,9 +29,9 @@ const DEFAULT_TESTIMONIALS = [
     image: `${images}/hammer.webp`,
     avatar: `${images}/asfaq.webp`,
     rating: 5,
-    initialX: 30,
+    initialX: 45,
     initialY: -20,
-    initialRotate: 6,
+    initialRotate: 7,
     bgColor: 'bg-[#39b8f2]',
     textColor: 'text-[#101a35]',
     starColor: 'text-[#2d468a]',
@@ -47,9 +46,9 @@ const DEFAULT_TESTIMONIALS = [
     image: `${images}/wilson.webp`,
     avatar: `${images}/suman.webp`,
     rating: 5,
-    initialX: -12,
+    initialX: -16,
     initialY: -10,
-    initialRotate: -2,
+    initialRotate: -3,
     bgColor: 'bg-[#f5f4ef]',
     textColor: 'text-[#101a35]',
     starColor: 'text-[#2d468a]',
@@ -64,9 +63,9 @@ const DEFAULT_TESTIMONIALS = [
     image: `${images}/pipal.webp`,
     avatar: `${images}/shruti.webp`,
     rating: 5,
-    initialX: 12,
-    initialY: 12,
-    initialRotate: 3,
+    initialX: 18,
+    initialY: 14,
+    initialRotate: 4,
     bgColor: 'bg-[#2d468a]',
     textColor: 'text-[#f5f4ef]',
     starColor: 'text-[#39b8f2]',
@@ -85,14 +84,38 @@ export default function TestimonialSection({
   className = '',
 }) {
   const containerRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [zOrder, setZOrder] = useState(() =>
+    testimonials.reduce((acc, t, idx) => ({ ...acc, [t.id]: idx + 10 }), {})
+  );
+
+  // Brings clicked or dragged card directly to the top layer
+  const bringToFront = (id) => {
+    setZOrder((prev) => {
+      const highestZ = Math.max(...Object.values(prev), 10);
+      return { ...prev, [id]: highestZ + 1 };
+    });
+  };
+
+  const handleNext = () => {
+    const nextIdx = (activeIndex + 1) % testimonials.length;
+    setActiveIndex(nextIdx);
+    bringToFront(testimonials[nextIdx].id);
+  };
+
+  const handlePrev = () => {
+    const prevIdx = (activeIndex - 1 + testimonials.length) % testimonials.length;
+    setActiveIndex(prevIdx);
+    bringToFront(testimonials[prevIdx].id);
+  };
 
   return (
-    <section className={`w-full max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8 py-10 font-fira relative ${className}`}>
+    <section className={`w-full max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8 font-fira relative ${className}`}>
       
-      {/* Outer Container */}
+      {/* Outer Drag-Bound Canvas */}
       <div
         ref={containerRef}
-        className="w-full bg-[#101a35] text-[#f5f4ef] rounded-[32px] sm:rounded-[60px] md:rounded-[90px] lg:rounded-[130px] p-6 sm:p-12 lg:p-16 overflow-hidden relative shadow-2xl flex flex-col items-center justify-between min-h-[1100px] sm:min-h-[1350px] lg:min-h-[1480px]"
+        className="w-full bg-[#101a35] text-[#f5f4ef] rounded-[32px] sm:rounded-[60px] md:rounded-[90px] lg:rounded-[130px] p-5 sm:p-10 lg:p-16 overflow-hidden relative shadow-2xl flex flex-col items-center justify-between min-h-[680px] xs:min-h-[740px] sm:min-h-[860px] lg:min-h-[1160px]"
       >
         {/* Background Water Texture Overlay */}
         <img
@@ -105,12 +128,12 @@ export default function TestimonialSection({
         {/* ========================================================================
             1. TOP HEADER STACK
             ======================================================================== */}
-        <div className="flex flex-col items-center text-center z-10 relative mb-8 sm:mb-12">
+        <div className="flex flex-col items-center text-center z-10 relative mb-2 sm:mb-4">
           
           {/* Slanted Pill Badge */}
           {tagText && (
-            <div className="mb-3 sm:mb-4 -rotate-[3deg]">
-              <span className="inline-block bg-[#f5f4ef] text-[#101a35] font-fira font-extrabold text-sm sm:text-base lg:text-lg uppercase tracking-tight px-4 sm:px-5 py-1.5 rounded-full shadow-md">
+            <div className="mb-2 sm:mb-3 -rotate-[3deg]">
+              <span className="inline-block bg-[#f5f4ef] text-[#101a35] font-fira font-extrabold text-xs sm:text-base uppercase tracking-tight px-3.5 py-1 sm:px-5 sm:py-1.5 rounded-full shadow-md">
                 {tagText}
               </span>
             </div>
@@ -118,53 +141,120 @@ export default function TestimonialSection({
 
           {/* Main Headline Stack */}
           <h2 className="m-0 font-fira font-extrabold uppercase tracking-tight leading-[0.83] text-center">
-            {/* White Line 1 */}
-            <span className="block text-[#f5f4ef] text-[40px] sm:text-[72px] lg:text-[96px] xl:text-[112px]">
+            <span className="block text-[#f5f4ef] text-[38px] sm:text-[68px] lg:text-[96px] xl:text-[112px]">
               {titleLine1}
             </span>
-            {/* Cyan Line 2 */}
-            <span className="block text-[#39b8f2] text-[40px] sm:text-[72px] lg:text-[96px] xl:text-[112px] -mt-1 sm:-mt-3">
+            <span className="block text-[#39b8f2] text-[38px] sm:text-[68px] lg:text-[96px] xl:text-[112px] -mt-1 sm:-mt-2">
               {titleLine2}
             </span>
           </h2>
 
           {/* Subtitle Statement */}
-          <p className="mt-4 sm:mt-6 max-w-xs sm:max-w-md lg:max-w-lg font-fira font-normal text-[#f5f4ef]/80 text-xs sm:text-base lg:text-lg leading-snug tracking-tight m-0">
+          <p className="mt-3 sm:mt-5 max-w-xs sm:max-w-md lg:max-w-lg font-fira font-normal text-[#f5f4ef]/80 text-xs sm:text-sm lg:text-base leading-snug tracking-tight m-0">
             {subtitle}
           </p>
+
+          {/* Subtle "Drag to Explore" Highlight Pill (Desktop Only) */}
+          <div className="hidden md:inline-flex items-center gap-2 mt-5 px-3.5 py-1 rounded-full bg-white/5 border border-white/15 text-[#f5f4ef]/70 font-fira text-xs font-bold tracking-widest uppercase select-none pointer-events-none">
+            <svg
+              className="w-3.5 h-3.5 text-[#39b8f2]"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"
+              />
+            </svg>
+            <span>DRAG CARDS TO EXPLORE</span>
+          </div>
         </div>
 
         {/* ========================================================================
-            2. FAN-STACKED DRAGGABLE CARDS AREA
+            2. FREE-FLOWING DRAGGABLE DECK CANVAS
             ======================================================================== */}
-        <div className="relative w-full max-w-2xl h-[580px] sm:h-[700px] lg:h-[760px] flex items-center justify-center z-20 my-auto">
-          {testimonials.map((item) => (
-            <TestimonialCard
-              key={item.id}
-              quote={item.quote}
-              name={item.name}
-              role={item.role}
-              avatar={item.avatar}
-              image={item.image}
-              rating={item.rating}
-              initialX={item.initialX}
-              initialY={item.initialY}
-              initialRotate={item.initialRotate}
-              dragConstraintsRef={containerRef}
-              bgColor={item.bgColor}
-              textColor={item.textColor}
-              starColor={item.starColor}
-              authorBgColor={item.authorBgColor}
-              authorTextColor={item.authorTextColor}
-            />
-          ))}
+        <div className="relative w-full max-w-3xl h-[440px] xs:h-[480px] sm:h-[540px] lg:h-[660px] flex items-center justify-center z-20 my-auto">
+          {testimonials.map((item, idx) => {
+            const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
+            return (
+              <TestimonialCard
+                key={item.id}
+                id={item.id}
+                quote={item.quote}
+                name={item.name}
+                role={item.role}
+                avatar={item.avatar}
+                image={item.image}
+                rating={item.rating}
+                // On mobile, keep cards stable; on desktop, allow full fan-spread
+                initialX={isMobile ? (idx === activeIndex ? 0 : (idx % 2 === 0 ? -6 : 6)) : item.initialX}
+                initialY={isMobile ? (idx === activeIndex ? 0 : 8) : item.initialY}
+                initialRotate={isMobile ? (idx === activeIndex ? 0 : (idx % 2 === 0 ? -1.5 : 1.5)) : item.initialRotate}
+                dragConstraintsRef={containerRef}
+                zIndex={zOrder[item.id] || 10}
+                onBringToFront={() => {
+                  bringToFront(item.id);
+                  setActiveIndex(idx);
+                }}
+                bgColor={item.bgColor}
+                textColor={item.textColor}
+                starColor={item.starColor}
+                authorBgColor={item.authorBgColor}
+                authorTextColor={item.authorTextColor}
+              />
+            );
+          })}
         </div>
 
         {/* ========================================================================
-            3. FOOTER STATEMENT
+            3. MOBILE DECK CONTROLLER (Dots & Arrows)
             ======================================================================== */}
-        <div className="z-10 relative mt-8 sm:mt-12 text-center">
-          <p className="font-fira font-extrabold text-[#f5f4ef] text-sm sm:text-xl lg:text-2xl leading-none tracking-wider uppercase m-0 opacity-90">
+        <div className="flex md:hidden items-center justify-center gap-3 z-30 my-3">
+          <button
+            type="button"
+            onClick={handlePrev}
+            aria-label="Previous testimonial"
+            className="w-8 h-8 rounded-full bg-white/10 active:bg-white/20 text-white flex items-center justify-center text-sm font-bold transition-colors"
+          >
+            ←
+          </button>
+
+          <div className="flex items-center gap-1.5">
+            {testimonials.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => {
+                  setActiveIndex(i);
+                  bringToFront(testimonials[i].id);
+                }}
+                aria-label={`Go to slide ${i + 1}`}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  activeIndex === i ? 'w-6 bg-[#39b8f2]' : 'w-2 bg-white/30'
+                }`}
+              />
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={handleNext}
+            aria-label="Next testimonial"
+            className="w-8 h-8 rounded-full bg-white/10 active:bg-white/20 text-white flex items-center justify-center text-sm font-bold transition-colors"
+          >
+            →
+          </button>
+        </div>
+
+        {/* ========================================================================
+            4. FOOTER STATEMENT
+            ======================================================================== */}
+        <div className="z-10 relative mt-4 sm:mt-8 text-center">
+          <p className="font-fira font-extrabold text-[#f5f4ef] text-xs sm:text-base lg:text-lg leading-none tracking-wider uppercase m-0 opacity-80">
             {footerText}
           </p>
         </div>

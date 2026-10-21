@@ -1,0 +1,8 @@
+# SPA Client-Side Routing (Prevents direct link 404s)
+/*    /index.html   200
+
+# 301 Redirects for legacy indexed URLs to the new Work page
+/our-work    /work    301
+/portfolio   /work    301
+/works       /work    301
+/projects    /work    301

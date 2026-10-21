@@ -11,7 +11,7 @@ export default function NotFoundPage() {
       <Navbar />
 
       {/* Main Content with Universal Top & Bottom Clearance */}
-      <main className="flex-1 flex flex-col items-center justify-center px-4 sm:px-8 lg:px-12 pt-28 sm:pt-36 lg:pt-44 pb-16 sm:pb-24 lg:pb-32 text-center my-auto">
+      <main className="flex-1 flex flex-col items-center justify-center px-4 sm:px-8 lg:px-12 pt-20 sm:pt-24 lg:pt-28 pb-8 sm:pb-12 text-center my-auto">
         
         {/* 404 Water Droplet Graphic */}
         <div 

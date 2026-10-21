@@ -14,8 +14,11 @@ import TestimonialSection from '../components/sections/shared/TestimonialSection
 export default function HomePage() {
   return (
     <PageShell maxWidth="max-w-[1680px]">
-      <div className="flex flex-col gap-12 sm:gap-20 lg:gap-28">
-        {/* Section 1: Hero Banner */}
+      {/* 
+        This is your ONLY spacing controller for the entire page:
+        Mobile: 48px | Tablet: 64px | Desktop: 96px
+      */}
+      <div className="flex flex-col gap-12 sm:gap-16 lg:gap-24">
         <HomeHero />
         <HomeAboutBanner />
         <BottleTypesCarousel />

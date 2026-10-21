@@ -41,7 +41,7 @@ export default function OurStorySection() {
   ];
 
   return (
-    <section className="w-full max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 font-fira relative overflow-visible">
+    <section className="w-full max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8 font-fira relative overflow-visible">
       
       {/* Header Section */}
       <div className="flex flex-col items-center text-center mb-16 sm:mb-24">

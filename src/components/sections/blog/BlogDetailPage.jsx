@@ -11,7 +11,7 @@ const fallbackImage = '/images/hand-bottle-about.webp';
 
 function DashedDivider() {
   return (
-    <div className="w-full my-10 sm:my-14">
+    <div className="w-full my-8 sm:my-10">
       <svg
         className="w-full h-1 text-darkblue/20"
         viewBox="0 0 1200 4"
@@ -109,7 +109,7 @@ export default function BlogDetailPage() {
         </h1>
 
         {/* Main Hero Cover Image */}
-        <div className="w-full aspect-[16/9] sm:aspect-[21/9] bg-[#D9D9D9] rounded-[28px] sm:rounded-[40px] overflow-hidden mb-12 shadow-md">
+        <div className="w-full aspect-[16/9] sm:aspect-[21/9] bg-[#D9D9D9] rounded-[28px] sm:rounded-[40px] overflow-hidden mb-8 sm:mb-12">
           <img
             src={post.image || fallbackImage}
             alt={post.title}
@@ -211,7 +211,7 @@ export default function BlogDetailPage() {
         </div>
 
         {/* Prev / Next Article Navigation */}
-        <div className="flex items-center justify-between gap-4 pt-10">
+        <div className="flex items-center justify-between gap-4 pt-6 sm:pt-8">
           <Link
             to={`/blog/${prevPost.slug}`}
             className="inline-flex items-center gap-2 bg-darkblue text-cream hover:bg-midblue px-5 py-2.5 rounded-full text-micro transition-colors duration-200"
@@ -237,7 +237,7 @@ export default function BlogDetailPage() {
         <DashedDivider />
 
         {/* Related Posts Section */}
-        <section className="mb-16">
+        <section className="mb-6 sm:mb-10">
 
           <div className="flex items-center justify-between gap-4 mb-8">
             <h3 className="heading-semi-big text-darkblue">

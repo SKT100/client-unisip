@@ -130,7 +130,7 @@ export default function ProcessSection({
     <section ref={sectionRef} className={`w-full mx-auto font-fira relative ${className}`}>
       
       {/* Outer Container with Generous Padding */}
-      <div className="w-full bg-[#39B8F2] text-[#101A35] rounded-[32px] sm:rounded-[60px] md:rounded-[80px] lg:rounded-[110px] xl:rounded-[130px] p-6 sm:p-12 lg:p-18 xl:p-24 overflow-hidden relative">
+      <div className="w-full bg-[#39B8F2] text-[#101A35] rounded-[32px] sm:rounded-[60px] md:rounded-[80px] lg:rounded-[110px] xl:rounded-[130px] p-5 sm:p-10 lg:p-16 xl:p-20 overflow-hidden relative">
         
         {/* Background Water Texture Overlay */}
         <img
@@ -169,7 +169,7 @@ export default function ProcessSection({
         {/* ========================================================================
             1. SECTION HEADER STACK
             ======================================================================== */}
-        <div className="flex flex-col items-center text-center z-10 relative mb-16 sm:mb-24 lg:mb-32">
+        <div className="flex flex-col items-center text-center z-10 relative mb-8 sm:mb-14 lg:mb-20">
           <h2 className="m-0 font-fira font-extrabold uppercase tracking-tight leading-[0.83] text-center">
             {/* White Top Line */}
             <span className="block text-[#F5F4EF] text-[40px] sm:text-[76px] lg:text-[108px] xl:text-[128px]">

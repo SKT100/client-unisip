@@ -8,7 +8,7 @@ export default function BlogSearchFilter({
   onCategoryChange,
 }) {
   return (
-    <div className="w-full bg-lightblue text-cream rounded-[28px] sm:rounded-[36px] p-5 sm:p-7 lg:p-8 mb-10 sm:mb-14 shadow-xl font-fira">
+    <div className="w-full bg-lightblue text-cream rounded-[28px] sm:rounded-[36px] p-5 sm:p-7 lg:p-8 mb-8 sm:mb-10 shadow-xl font-fira">
       
       {/* Top Bar */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-6 border-b border-white/20">

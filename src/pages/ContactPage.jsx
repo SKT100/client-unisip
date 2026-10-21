@@ -118,7 +118,7 @@ export default function ContactPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 font-fira">
 
         {/* Header Section */}
-        <header className="mb-12 sm:mb-16">
+        <header className="mb-8 sm:mb-12">
           <div className="mb-1.5 sm:mb-3">
             <PillTag variant="dark" size="md" rotate="-rotate-[3deg]">
               Contact
@@ -143,7 +143,7 @@ export default function ContactPage() {
         </header>
 
         {/* Form + Sidebar Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start mb-6 sm:mb-10">
 
           {/* Contact Form Column */}
           <form className="lg:col-span-7 flex flex-col gap-6 font-fira">

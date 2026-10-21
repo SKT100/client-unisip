@@ -30,7 +30,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
   };
 
   return (
-    <nav className="flex items-center justify-center gap-2 sm:gap-3 my-12 font-fira select-none" aria-label="Blog pagination">
+    <nav className="flex items-center justify-center gap-2 sm:gap-3 mt-10 sm:mt-14 mb-4 sm:mb-6 font-fira select-none" aria-label="Blog pagination">
       {/* Previous Button */}
       <button
         type="button"

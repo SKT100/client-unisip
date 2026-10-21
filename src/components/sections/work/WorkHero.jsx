@@ -1,12 +1,20 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import PillTag from '../../ui/PillTag';
 import PillButton from '../../ui/PillButton';
 
 const images = '/images';
 
+// Smooth top-down descent animation config
+const dropDownTransition = {
+  duration: 1.1,
+  delay: 0.1,
+  ease: [0.16, 1, 0.3, 1], // Fluid deceleration curve
+};
+
 export default function WorkHero({ className = '' }) {
   return (
-    <section className={`w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 -mt-2 sm:-mt-8 lg:-mt-14 pt-4 sm:pt-0 sm:pb-2 lg:pb-4 font-fira relative overflow-x-clip ${className}`}>
+    <section className={`w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 font-fira relative overflow-x-clip ${className}`}>
 
       {/* 12-Column Responsive Grid Stack */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-4 lg:gap-6 items-center w-full relative">
@@ -14,8 +22,11 @@ export default function WorkHero({ className = '' }) {
         {/* ========================================================================
             BACKGROUND FADED BOTTLE & SCENIC VISUAL (CENTERED ON MOBILE: < md)
             ======================================================================== */}
-        <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[340px] xs:w-[400px] sm:w-[460px] opacity-25 pointer-events-none select-none z-0 md:hidden">
-          <img
+        <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[340px] xs:w-[400px] sm:w-[460px] pointer-events-none select-none z-0 md:hidden">
+          <motion.img
+            initial={{ y: -120, opacity: 0 }}
+            animate={{ y: 0, opacity: 0.25 }}
+            transition={dropDownTransition}
             src={`${images}/work-hero.webp`}
             alt=""
             aria-hidden="true"
@@ -80,11 +91,14 @@ export default function WorkHero({ className = '' }) {
         </div>
 
         {/* ========================================================================
-            RIGHT COLUMN: DESKTOP BOTTLE & SCENIC ILLUSTRATION (VISIBLE ONLY md AND UP)
+            RIGHT COLUMN: DESKTOP BOTTLE & SCENIC ILLUSTRATION (DESCENDS FROM TOP)
             ======================================================================== */}
         <div className="hidden md:flex md:col-span-5 justify-center items-center relative z-0 md:mt-0 lg:ml-2 xl:ml-4">
           <div className="relative w-full max-w-[360px] lg:max-w-[480px] xl:max-w-[520px] flex justify-center items-center pointer-events-none select-none">
-            <img
+            <motion.img
+              initial={{ y: -220, opacity: 0, scale: 0.94 }}
+              animate={{ y: 0, opacity: 1, scale: 1 }}
+              transition={dropDownTransition}
               src={`${images}/work-hero.webp`}
               alt="UniSip custom branded bottle making process"
               className="relative z-0 w-full h-auto object-contain drop-shadow-xl"

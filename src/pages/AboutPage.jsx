@@ -9,7 +9,8 @@ import FAQSection from '../components/sections/shared/FAQSection';
 export default function AboutPage() {
   return (
     <PageShell maxWidth="max-w-[1680px]">
-      <div className="flex flex-col gap-12 sm:gap-20 lg:gap-28">
+      {/* Unified rhythm: 48px mobile | 64px tablet | 96px desktop */}
+      <div className="flex flex-col gap-12 sm:gap-16 lg:gap-24">
         <AboutHero />
         <OurStorySection />
         <OurBeliefSection />

@@ -34,7 +34,7 @@ export default function BlogSection({
   className = '',
 }) {
   return (
-    <section className={`w-full max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 font-fira relative ${className}`}>
+    <section className={`w-full max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8 font-fira relative ${className}`}>
       
       {/* ========================================================================
           HEADER STACK

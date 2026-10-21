@@ -34,7 +34,7 @@ export default function WhereBrandShowsUpSection({
   className = '',
 }) {
   return (
-    <section className={`w-full max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 font-fira relative ${className}`}>
+    <section className={`w-full max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8 font-fira relative ${className}`}>
       
       {/* ========================================================================
           1. SECTION HEADER STACK

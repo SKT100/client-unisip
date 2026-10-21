@@ -4,9 +4,25 @@ import PillButton from '../../ui/PillButton';
 
 const images = '/images';
 
+// Elastic spring physics for organic water splash & bottle emergence
+const splashSpring = {
+  type: 'spring',
+  stiffness: 110,
+  damping: 13,
+  mass: 0.85,
+};
+
+const bottleSpring = {
+  type: 'spring',
+  stiffness: 120,
+  damping: 14,
+  mass: 0.9,
+  delay: 0.12, // Slight stagger so splash erupts first
+};
+
 export default function HomeHero() {
   return (
-    <section className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 -mt-2 sm:-mt-10 lg:-mt-20 xl:-mt-28 pt-4 sm:pt-0 pb-12 sm:pb-16 lg:pb-24 font-fira relative overflow-x-clip">
+    <section className="w-full max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-10 font-fira relative overflow-x-clip">
       
       {/* 12-Column Responsive Grid Stack */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-4 lg:gap-6 items-center w-full relative">
@@ -14,29 +30,34 @@ export default function HomeHero() {
         {/* ========================================================================
             BACKGROUND FADED BOTTLE & SPLASH VISUAL (CENTERED ON MOBILE: < md)
             ======================================================================== */}
-        <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[320px] xs:w-[380px] sm:w-[440px] opacity-30 pointer-events-none select-none z-0 md:hidden">
-          <div className="relative w-full aspect-square flex justify-center items-center">
-            {/* Water Splash Layer */}
-            <img
-              src={`${images}/splash-final.webp`}
-              alt=""
-              aria-hidden="true"
-              className="absolute inset-0 w-[140%] h-[140%] -left-[20%] -top-[20%] object-contain pointer-events-none z-0 scale-125 rotate-[-45deg]"
-              onError={(e) => {
-                e.currentTarget.style.display = 'none';
-              }}
-            />
-            {/* Main Bottle Layer */}
-            <img
-              src={`${images}/unisip-bottle-hero.webp`}
-              alt=""
-              aria-hidden="true"
-              className="relative z-0 w-full h-auto object-contain drop-shadow-md rotate-[-28deg]"
-              onError={(e) => {
-                e.currentTarget.src = `${images}/about-bg-bottle.webp`;
-              }}
-            />
-          </div>
+        <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[300px] xs:w-[350px] sm:w-[420px] aspect-square opacity-30 pointer-events-none select-none z-0 md:hidden flex items-center justify-center">
+          {/* Centered Mobile Splash */}
+          <motion.img
+            initial={{ scale: 0.2, opacity: 0, rotate: -55 }}
+            animate={{ scale: 1.25, opacity: 1, rotate: -45 }}
+            transition={splashSpring}
+            src={`${images}/splash-final.webp`}
+            alt=""
+            aria-hidden="true"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] object-contain pointer-events-none z-0"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+            }}
+          />
+
+          {/* Centered Mobile Bottle */}
+          <motion.img
+            initial={{ scale: 0.6, opacity: 0, rotate: -34, y: 30 }}
+            animate={{ scale: 1, opacity: 1, rotate: -28, y: 0 }}
+            transition={bottleSpring}
+            src={`${images}/unisip-bottle-hero.webp`}
+            alt=""
+            aria-hidden="true"
+            className="relative z-10 w-full h-auto object-contain drop-shadow-md"
+            onError={(e) => {
+              e.currentTarget.src = `${images}/about-bg-bottle.webp`;
+            }}
+          />
         </div>
 
         {/* ========================================================================
@@ -53,7 +74,6 @@ export default function HomeHero() {
           {/* Slanted Rectangle Emblem Badge ("REMEMBERED.") */}
           <div className="-mt-1 sm:-mt-3 lg:-mt-5 mb-5 sm:mb-6 inline-block relative bg-cream p-1 sm:p-2 -rotate-[2.5deg] select-none shadow-none z-10">
             <div className="relative bg-[#223856] text-cream font-fira font-extrabold uppercase leading-[0.82] tracking-tight text-[40px] xs:text-[48px] sm:text-[58px] md:text-[66px] lg:text-[80px] xl:text-[92px] px-4 sm:px-5 lg:px-6 py-1.5 sm:py-2 overflow-hidden whitespace-nowrap shadow-md">
-              {/* Background Water Texture Overlay */}
               <img
                 src={`${images}/logo/water-texture.svg`}
                 alt=""
@@ -93,36 +113,39 @@ export default function HomeHero() {
         </div>
 
         {/* ========================================================================
-            RIGHT COLUMN: DESKTOP BOTTLE & WATER SPLASH (VISIBLE ONLY md AND UP)
+            RIGHT COLUMN: PULLED INWARD CLOSER TO CENTER (DESKTOP: md+)
             ======================================================================== */}
-        <div className="hidden md:flex md:col-span-5 justify-center items-center relative z-0 md:mt-0 lg:ml-2 xl:ml-4">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.92, y: 15 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full max-w-[360px] lg:max-w-[420px] xl:max-w-[460px] flex justify-center items-center pointer-events-none select-none"
-          >
-            {/* Water Splash Rotated -45 Degrees */}
-            <img
+        <div className="hidden md:flex md:col-span-5 justify-start items-center relative z-0 md:mt-0 md:-ml-4 lg:-ml-8 xl:-ml-12">
+          <div className="relative w-full max-w-[360px] lg:max-w-[420px] xl:max-w-[460px] flex justify-center items-center pointer-events-none select-none">
+            
+            {/* 1. Water Splash: Sized to 140%, locked dead-center, blooms from 0.2 to 1.24 */}
+            <motion.img
+              initial={{ scale: 0.2, opacity: 0, rotate: -55 }}
+              animate={{ scale: 1.24, opacity: 1, rotate: -45 }}
+              transition={splashSpring}
               src={`${images}/splash-final.webp`}
               alt=""
               aria-hidden="true"
-              className="absolute inset-0 w-[135%] h-[135%] -left-[17.5%] -top-[17.5%] object-contain pointer-events-none z-0 scale-120 rotate-[-45deg]"
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] object-contain pointer-events-none z-0 origin-center"
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
               }}
             />
 
-            {/* Main Branded Hero Bottle Visual */}
-            <img
+            {/* 2. Main Branded Bottle: Emerges through the splash from 0.55 to 1.0 */}
+            <motion.img
+              initial={{ scale: 0.55, opacity: 0, rotate: -34, y: 35 }}
+              animate={{ scale: 1, opacity: 1, rotate: -28, y: 0 }}
+              transition={bottleSpring}
               src={`${images}/unisip-bottle-hero.webp`}
               alt="UniSip custom branded bottle with water splash"
-              className="relative z-0 w-full h-auto object-contain drop-shadow-xl rotate-[-28deg]"
+              className="relative z-10 w-full h-auto object-contain drop-shadow-2xl origin-center"
               onError={(e) => {
                 e.currentTarget.src = `${images}/about-bg-bottle.webp`;
               }}
             />
-          </motion.div>
+
+          </div>
         </div>
 
       </div>

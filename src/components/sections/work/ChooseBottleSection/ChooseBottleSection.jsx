@@ -86,13 +86,13 @@ export default function ChooseBottleSection({
   );
 
   return (
-    <section className={`w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] py-12 sm:py-20 font-fira overflow-hidden bg-cream ${className}`}>
+    <section className={`w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] font-fira overflow-hidden bg-cream ${className}`}>
 
       {/* Top row: scrolls left */}
       <Marquee items={bottles} renderItem={renderCard} speed={60} />
 
       {/* Headline */}
-      <div className="flex flex-col items-center text-center my-10 sm:my-16 lg:my-20 px-4 z-10 relative max-w-[1400px] mx-auto">
+      <div className="flex flex-col items-center text-center my-8 sm:my-12 lg:my-16 px-4 z-10 relative max-w-[1400px] mx-auto">
         <h2 className="m-0 font-fira font-extrabold uppercase tracking-tight leading-[0.83] text-center">
           {titleOutlined && (
             <span
