@@ -42,28 +42,22 @@ export default function BottleTypesCarousel({
 }) {
   const containerRef = useRef(null);
   const dragWrapperRef = useRef(null);
-
   const [dragBounds, setDragBounds] = useState({ left: 0, right: 0 });
 
-  // Real-time Motion Value tracking carousel position
   const x = useMotionValue(0);
 
-  // Directly bind carousel drag position (x) to thumb translation percentage
-  // Track = 100%, Thumb = 35%, Max travel offset = 65% of track (185.714% of thumb width)
   const thumbX = useTransform(
     x,
     [dragBounds.left < 0 ? dragBounds.left : -1, 0],
     ['185.714%', '0%']
   );
 
-  // Recalculate drag boundaries dynamically on window resize
   useEffect(() => {
     const calculateBounds = () => {
       if (containerRef.current && dragWrapperRef.current) {
         const containerWidth = containerRef.current.offsetWidth;
         const totalContentWidth = dragWrapperRef.current.scrollWidth;
         const maxDrag = Math.min(0, containerWidth - totalContentWidth);
-
         setDragBounds({ left: maxDrag, right: 0 });
       }
     };
@@ -76,54 +70,70 @@ export default function BottleTypesCarousel({
   return (
     <section className={`w-full max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8 font-fira relative overflow-hidden ${className}`}>
       
-      {/* ========================================================================
-          1. SECTION HEADER STACK
-          ======================================================================== */}
-      <div className="flex flex-col items-start text-left mb-10 sm:mb-14">
-        
-        {tagText && (
-          <div className="mb-3 sm:mb-4">
-            <PillTag variant="dark" size="md" rotate="-rotate-[3deg]">
-              {tagText}
-            </PillTag>
+      {/* 1. Header Stack with Integrated Glass Drag Indicator */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 sm:mb-12">
+        <div className="flex flex-col items-start text-left">
+          {tagText && (
+            <div className="mb-2.5 sm:mb-4">
+              <PillTag variant="dark" size="md" rotate="-rotate-[3deg]">
+                {tagText}
+              </PillTag>
+            </div>
+          )}
+
+          <h2 className="m-0 heading-display text-darkblue leading-[0.82]">
+            {titleLine1 && <span className="block">{titleLine1}</span>}
+            <span className="flex items-center gap-3 sm:gap-5 flex-wrap -mt-1 sm:-mt-3">
+              {titleLine2Prefix && <span>{titleLine2Prefix}</span>}
+              {titleLine2Outlined && (
+                <span
+                  className="select-none"
+                  style={{
+                    WebkitTextStroke: '3px var(--color-darkblue)',
+                    color: 'transparent',
+                  }}
+                >
+                  {titleLine2Outlined}
+                </span>
+              )}
+            </span>
+          </h2>
+        </div>
+
+        {/* Minimal Glass Drag Indicator */}
+        <div className="inline-flex items-center gap-2 self-start sm:self-end px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-white/45 backdrop-blur-md border border-darkblue/10 shadow-sm pointer-events-none select-none">
+          <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white/75 backdrop-blur-md border border-white/60 shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)] flex items-center justify-center text-darkblue">
+            <svg
+              className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-current"
+              viewBox="0 0 24 24"
+              fill="none"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M7 8l-4 4 4 4M17 8l4 4-4 4M3 12h18" />
+            </svg>
           </div>
-        )}
-
-        <h2 className="m-0 font-fira font-extrabold uppercase tracking-tight leading-[0.82] text-darkblue text-[44px] sm:text-[76px] lg:text-[104px] xl:text-[128px]">
-          {titleLine1 && <span className="block">{titleLine1}</span>}
-          <span className="flex items-center gap-3 sm:gap-5 flex-wrap -mt-1 sm:-mt-3">
-            {titleLine2Prefix && <span>{titleLine2Prefix}</span>}
-            {titleLine2Outlined && (
-              <span
-                className="select-none"
-                style={{
-                  WebkitTextStroke: '3px #101A35',
-                  color: 'transparent',
-                }}
-              >
-                {titleLine2Outlined}
-              </span>
-            )}
+          <span className="font-fira font-bold text-[10px] sm:text-[11px] tracking-widest text-darkblue/75 uppercase pr-1">
+            DRAG TO EXPLORE
           </span>
-        </h2>
-
+        </div>
       </div>
 
-      {/* ========================================================================
-          2. DRAGGABLE CAROUSEL CANVAS (Framer Motion Drag)
-          ======================================================================== */}
+      {/* 2. Draggable Carousel Track */}
       <div
         ref={containerRef}
-        className="w-full overflow-hidden cursor-grab active:cursor-grabbing select-none py-2"
+        className="w-full overflow-hidden cursor-grab active:cursor-grabbing select-none py-2 touch-pan-y"
       >
         <motion.div
           ref={dragWrapperRef}
           drag="x"
+          dragDirectionLock
           dragConstraints={dragBounds}
           dragElastic={0.08}
-          dragTransition={{ power: 0.2, timeConstant: 200 }}
+          dragTransition={{ power: 0.25, timeConstant: 220 }}
           style={{ x }}
-          className="flex flex-nowrap items-stretch w-max"
+          className="flex flex-nowrap items-stretch w-max touch-pan-y"
         >
           {items.map((card, idx) => (
             <BottleTypeCard
@@ -137,11 +147,9 @@ export default function BottleTypesCarousel({
         </motion.div>
       </div>
 
-      {/* ========================================================================
-          3. REAL-TIME SYNCHRONIZED PROGRESS SCROLLBAR TRACK
-          ======================================================================== */}
-      <div className="flex justify-center mt-8 sm:mt-12">
-        <div className="w-40 sm:w-56 h-2 bg-[#93B5F6]/30 backdrop-blur-sm rounded-full relative overflow-hidden border border-darkblue/10">
+      {/* 3. Synchronized Progress Track */}
+      <div className="flex justify-center mt-6 sm:mt-10">
+        <div className="w-36 sm:w-52 h-1.5 sm:h-2 bg-cyanglow/30 backdrop-blur-sm rounded-full relative overflow-hidden border border-darkblue/10">
           <motion.div
             className="h-full bg-darkblue rounded-full"
             style={{

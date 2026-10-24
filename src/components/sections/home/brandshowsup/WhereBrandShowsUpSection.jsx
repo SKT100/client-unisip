@@ -4,24 +4,11 @@ import BrandShowcaseCard from './BrandShowcaseCard';
 
 const images = '/images';
 
-// Default Showcase Visuals matching the 4-card Bento layout
 const DEFAULT_SHOWCASE_ITEMS = [
-  {
-    id: 'portrait-card',
-    image: `${images}/gallery-1.webp`,
-  },
-  {
-    id: 'landscape-card',
-    image: `${images}/gallery-2.webp`,
-  },
-  {
-    id: 'bottom-left-card',
-    image: `${images}/gallery-3.webp`,
-  },
-  {
-    id: 'bottom-right-card',
-    image: `${images}/gallery-4.webp`,
-  },
+  { id: 'portrait-card', image: `${images}/gallery-1.webp` },
+  { id: 'landscape-card', image: `${images}/gallery-2.webp` },
+  { id: 'bottom-left-card', image: `${images}/gallery-3.webp` },
+  { id: 'bottom-right-card', image: `${images}/gallery-4.webp` },
 ];
 
 export default function WhereBrandShowsUpSection({
@@ -36,12 +23,8 @@ export default function WhereBrandShowsUpSection({
   return (
     <section className={`w-full max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8 font-fira relative ${className}`}>
       
-      {/* ========================================================================
-          1. SECTION HEADER STACK
-          ======================================================================== */}
-      <div className="flex flex-col items-center text-center mb-12 sm:mb-16">
-        
-        {/* Slanted Pill Tag */}
+      {/* 1. Header Stack */}
+      <div className="flex flex-col items-center text-center mb-10 sm:mb-16">
         {tagText && (
           <div className="mb-3 sm:mb-4">
             <PillTag variant="dark" size="md" rotate="-rotate-[3deg]">
@@ -50,15 +33,14 @@ export default function WhereBrandShowsUpSection({
           </div>
         )}
 
-        {/* Display Headline */}
-        <h2 className="m-0 font-fira font-extrabold uppercase tracking-tight leading-[0.83] text-darkblue text-center">
-          <span className="flex items-center justify-center gap-3 sm:gap-5 flex-wrap text-[40px] sm:text-[76px] lg:text-[104px] xl:text-[124px]">
+        <h2 className="m-0 heading-display text-darkblue text-center leading-[0.83]">
+          <span className="flex items-center justify-center gap-3 sm:gap-5 flex-wrap">
             <span>{titleLine1Prefix}</span>
             {titleLine1Outlined && (
               <span
                 className="select-none"
                 style={{
-                  WebkitTextStroke: '3px #101A35',
+                  WebkitTextStroke: '3px var(--color-darkblue)',
                   color: 'transparent',
                 }}
               >
@@ -66,23 +48,18 @@ export default function WhereBrandShowsUpSection({
               </span>
             )}
           </span>
-          <span className="block text-[40px] sm:text-[76px] lg:text-[104px] xl:text-[124px] -mt-1 sm:-mt-3">
+          <span className="block -mt-1 sm:-mt-3">
             {titleLine2}
           </span>
         </h2>
 
-        {/* Subtitle Statement */}
-        <p className="mt-4 sm:mt-6 max-w-md sm:max-w-xl lg:max-w-2xl font-fira font-normal text-darkblue/80 text-sm sm:text-lg lg:text-xl leading-snug tracking-tight m-0">
+        <p className="mt-4 sm:mt-6 max-w-md sm:max-w-xl lg:max-w-2xl text-general font-normal text-darkblue/80 leading-snug tracking-tight m-0">
           {subtitle}
         </p>
       </div>
 
-      {/* ========================================================================
-          2. PROPORTIONAL BENTO GRID LAYOUT
-          ======================================================================== */}
+      {/* 2. Bento Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 w-full">
-        
-        {/* TOP ROW: Narrow Portrait (Col 4) + Wide Landscape (Col 8) */}
         <div className="lg:col-span-4">
           <BrandShowcaseCard
             image={items[0]?.image}
@@ -97,7 +74,6 @@ export default function WhereBrandShowsUpSection({
           />
         </div>
 
-        {/* BOTTOM ROW: Equal 50/50 Split (Col 6 + Col 6) */}
         <div className="lg:col-span-6">
           <BrandShowcaseCard
             image={items[2]?.image}
@@ -111,7 +87,6 @@ export default function WhereBrandShowsUpSection({
             aspectClass="aspect-[16/10] sm:aspect-[16/11] lg:aspect-auto lg:h-[380px] xl:h-[420px]"
           />
         </div>
-
       </div>
 
     </section>

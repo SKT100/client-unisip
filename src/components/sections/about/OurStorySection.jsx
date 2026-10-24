@@ -7,7 +7,7 @@ const images = '/images';
 export default function OurStorySection() {
   const containerRef = useRef(null);
 
-  // Direct 1:1 scroll tracking (instant rapid response scrolling up and down)
+  // Direct 1:1 scroll tracking
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start 65%', 'end 85%'],
@@ -41,7 +41,7 @@ export default function OurStorySection() {
   ];
 
   return (
-    <section className="w-full max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8 font-fira relative overflow-visible">
+    <section className="w-full max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8 font-fira relative overflow-visible pb-12 sm:pb-20 lg:pb-36">
       
       {/* Header Section */}
       <div className="flex flex-col items-center text-center mb-16 sm:mb-24">
@@ -56,7 +56,7 @@ export default function OurStorySection() {
         <h2 className="m-0 flex flex-col items-center font-fira font-extrabold uppercase leading-[0.82] tracking-tight">
           <span 
             className="text-[54px] sm:text-[90px] lg:text-[120px] select-none"
-            style={{ WebkitTextStroke: '2.5px #101A35', color: 'transparent' }}
+            style={{ WebkitTextStroke: '2.5px var(--color-darkblue)', color: 'transparent' }}
           >
             WHY
           </span>
@@ -82,21 +82,25 @@ export default function OurStorySection() {
           aria-hidden="true" 
         />
 
-        {/* Top Right Decorative Image: Bottle Caps (Positioned in empty right space of Row 1) */}
-        <div className="hidden lg:block absolute right-[-10%] xl:right-[-14%] top-[-15%] z-0 pointer-events-none select-none">
+        {/* Top Right Decorative Image: Bottle Caps */}
+        <div className="hidden lg:block absolute right-[-8%] xl:right-[-12%] top-[-10%] z-0 pointer-events-none select-none">
           <img
             src={`${images}/bottle-caps-about.webp`}
-            alt="Variety of UniSip custom bottle caps"
-            className="w-[360px] lg:w-[440px] xl:w-[500px] h-auto object-contain"
+            alt=""
+            loading="lazy"
+            decoding="async"
+            className="w-[340px] lg:w-[420px] xl:w-[480px] h-auto object-contain"
           />
         </div>
 
-        {/* Bottom Left Decorative Image: Packaging Box & Bottles (Positioned in empty left space of Row 4) */}
-        <div className="hidden lg:block absolute left-[-14%] xl:left-[-18%] bottom-[-25%] z-0 pointer-events-none select-none">
+        {/* Bottom Left Decorative Image: Packaging Box & Bottles (Tucked safely inside bottom padding) */}
+        <div className="hidden lg:block absolute left-[-10%] xl:left-[-14%] bottom-[-8%] xl:bottom-[-10%] z-0 pointer-events-none select-none">
           <img
             src={`${images}/toppled-bottles-about.webp`}
-            alt="UniSip custom packaging box and branded bottles"
-            className="w-[420px] lg:w-[520px] xl:w-[600px] h-auto object-contain"
+            alt=""
+            loading="lazy"
+            decoding="async"
+            className="w-[380px] lg:w-[460px] xl:w-[520px] h-auto object-contain"
           />
         </div>
 
@@ -120,10 +124,10 @@ export default function OurStorySection() {
                 >
                   {isLeft && (
                     <div className="max-w-md md:ml-auto">
-                      <h3 className="font-fira font-extrabold text-darkblue uppercase tracking-tight text-2xl sm:text-3xl lg:text-[38px] leading-none mb-2">
+                      <h3 className="heading-category text-darkblue mb-1 sm:mb-2">
                         {step.title}
                       </h3>
-                      <p className="font-fira font-normal text-darkblue/80 text-base sm:text-xl lg:text-[22px] leading-snug">
+                      <p className="text-general font-normal text-darkblue/80 leading-snug m-0">
                         {step.text}
                       </p>
                     </div>
@@ -132,7 +136,7 @@ export default function OurStorySection() {
 
                 {/* Timeline Center Node Dot */}
                 <div 
-                  className="absolute left-6 md:left-1/2 -translate-x-1/2 w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-darkblue border-4 border-cream z-30"
+                  className="absolute left-6 md:left-1/2 -translate-x-1/2 w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-darkblue border-4 border-cream z-30 shadow-sm"
                   aria-hidden="true" 
                 />
 
@@ -146,10 +150,10 @@ export default function OurStorySection() {
                 >
                   {!isLeft && (
                     <div className="max-w-md">
-                      <h3 className="font-fira font-extrabold text-darkblue uppercase tracking-tight text-2xl sm:text-3xl lg:text-[38px] leading-none mb-2">
+                      <h3 className="heading-category text-darkblue mb-1 sm:mb-2">
                         {step.title}
                       </h3>
-                      <p className="font-fira font-normal text-darkblue/80 text-base sm:text-xl lg:text-[22px] leading-snug">
+                      <p className="text-general font-normal text-darkblue/80 leading-snug m-0">
                         {step.text}
                       </p>
                     </div>

@@ -41,7 +41,7 @@ export default function Footer() {
         
         {/* Background Image */}
         <img
-          src={`${images}/footer-img-unisip.png`}
+          src={`${images}/footer-img-unisip.webp`}
           alt="Custom branded bottles"
           loading="lazy"
           className="absolute inset-0 w-full h-full object-cover object-center"
