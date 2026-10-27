@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import SplitReveal from '../../../ui/SplitReveal';
 import TestimonialCard from './TestimonialCard';
@@ -97,42 +97,43 @@ export default function TestimonialSection({
   );
 
   useEffect(() => {
-    let timeoutId;
+    let ticking = false;
     const checkViewport = () => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        setIsMobile(window.innerWidth < 768);
-      }, 100);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsMobile(window.innerWidth < 768);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     window.addEventListener('resize', checkViewport, { passive: true });
-    return () => {
-      clearTimeout(timeoutId);
-      window.removeEventListener('resize', checkViewport);
-    };
+    return () => window.removeEventListener('resize', checkViewport);
   }, []);
 
-  const bringToFront = (id) => {
+  const bringToFront = useCallback((id) => {
     setZOrder((prev) => {
       const highestZ = Math.max(...Object.values(prev), 10);
       return { ...prev, [id]: highestZ + 1 };
     });
-  };
+  }, []);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     setActiveIndex((prev) => (prev + 1) % testimonials.length);
-  };
+  }, [testimonials.length]);
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     setActiveIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  };
+  }, [testimonials.length]);
 
   return (
-    <section className={`w-full max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8 font-fira relative ${className}`}>
+    <section className={`w-full max-w-[1480px] mx-auto px-3 sm:px-6 lg:px-8 font-fira relative ${className}`}>
       <div
         ref={containerRef}
-        className="w-full bg-[#101a35] text-[#f5f4ef] rounded-[32px] sm:rounded-[60px] md:rounded-[90px] lg:rounded-[130px] p-5 sm:p-10 lg:p-16 overflow-hidden relative shadow-2xl flex flex-col items-center justify-between min-h-[580px] sm:min-h-[720px] lg:min-h-[1100px]"
+        className="w-full bg-[#101a35] text-[#f5f4ef] rounded-[28px] sm:rounded-[60px] md:rounded-[90px] lg:rounded-[130px] p-4 sm:p-10 lg:p-16 overflow-hidden relative shadow-2xl flex flex-col items-center justify-between min-h-[660px] xs:min-h-[700px] sm:min-h-[740px] lg:min-h-[1050px]"
       >
+        {/* Ambient Subtle Texture */}
         <img
           src={`${images}/logo/water-texture.svg`}
           alt=""
@@ -143,7 +144,7 @@ export default function TestimonialSection({
         />
 
         {/* 1. HEADER */}
-        <div className="flex flex-col items-center text-center z-10 relative mb-4 sm:mb-8">
+        <div className="flex flex-col items-center text-center z-10 relative mb-3 sm:mb-8 pt-1 sm:pt-0">
           {tagText && (
             <div className="mb-2 sm:mb-3 -rotate-[3deg]">
               <span className="inline-block bg-[#f5f4ef] text-[#101a35] font-fira font-extrabold text-xs sm:text-base uppercase tracking-tight px-3.5 py-1 sm:px-5 sm:py-1.5 rounded-full shadow-md">
@@ -153,19 +154,15 @@ export default function TestimonialSection({
           )}
 
           <h2 className="m-0 font-fira font-extrabold uppercase tracking-tight leading-[0.83] text-center">
-            <span className="block text-[#f5f4ef] text-[36px] sm:text-[68px] lg:text-[96px] xl:text-[112px]">
-              <SplitReveal delay={0.05}>
-                {titleLine1}
-              </SplitReveal>
+            <span className="block text-[#f5f4ef] text-[34px] xs:text-[38px] sm:text-[68px] lg:text-[96px] xl:text-[112px]">
+              <SplitReveal delay={0.05}>{titleLine1}</SplitReveal>
             </span>
-            <span className="block text-[#39b8f2] text-[36px] sm:text-[68px] lg:text-[96px] xl:text-[112px] -mt-1 sm:-mt-2">
-              <SplitReveal delay={0.18}>
-                {titleLine2}
-              </SplitReveal>
+            <span className="block text-[#39b8f2] text-[34px] xs:text-[38px] sm:text-[68px] lg:text-[96px] xl:text-[112px] -mt-1 sm:-mt-2">
+              <SplitReveal delay={0.16}>{titleLine2}</SplitReveal>
             </span>
           </h2>
 
-          <p className="mt-2.5 sm:mt-5 max-w-xs sm:max-w-md lg:max-w-lg font-fira font-normal text-[#f5f4ef]/80 text-xs sm:text-sm lg:text-base leading-snug tracking-tight m-0">
+          <p className="mt-2 sm:mt-4 max-w-xs sm:max-w-md lg:max-w-lg font-fira font-normal text-[#f5f4ef]/80 text-xs sm:text-sm lg:text-base leading-snug tracking-tight m-0">
             {subtitle}
           </p>
 
@@ -177,24 +174,25 @@ export default function TestimonialSection({
           </div>
         </div>
 
-        {/* 2. CARD DISPLAY AREA */}
+        {/* 2. CARD DISPLAY STAGE */}
         {isMobile ? (
-          <div className="relative w-full max-w-[320px] h-[390px] flex items-center justify-center z-20 my-auto overflow-hidden">
-            <AnimatePresence initial={false}>
+          <div className="relative w-full max-w-[340px] min-h-[380px] xs:min-h-[410px] flex items-center justify-center z-20 my-auto py-2">
+            <AnimatePresence initial={false} mode="wait">
               <motion.div
                 key={testimonials[activeIndex].id}
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -50 }}
-                transition={{ duration: 0.18, ease: 'easeOut' }}
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.96 }}
+                transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
                 drag="x"
+                dragDirectionLock
                 dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={0.2}
+                dragElastic={0.15}
                 onDragEnd={(_, info) => {
-                  if (info.offset.x < -35) handleNext();
-                  if (info.offset.x > 35) handlePrev();
+                  if (info.offset.x < -40) handleNext();
+                  if (info.offset.x > 40) handlePrev();
                 }}
-                className="w-full flex justify-center touch-pan-y absolute will-change-transform"
+                className="w-full flex justify-center touch-pan-y will-change-transform"
               >
                 <TestimonialCard
                   id={testimonials[activeIndex].id}
@@ -243,13 +241,13 @@ export default function TestimonialSection({
           </div>
         )}
 
-        {/* 3. MOBILE CONTROLS */}
-        <div className="flex md:hidden items-center justify-center gap-3 z-30 my-2">
+        {/* 3. MOBILE PAGINATION & BUTTON CONTROLS */}
+        <div className="flex md:hidden items-center justify-center gap-3 z-30 my-2.5">
           <button
             type="button"
             onClick={handlePrev}
             aria-label="Previous testimonial"
-            className="w-10 h-10 rounded-full bg-white/10 active:bg-white/25 text-white flex items-center justify-center text-sm font-bold transition-colors cursor-pointer"
+            className="w-10 h-10 rounded-full bg-white/10 active:bg-white/25 text-white flex items-center justify-center text-sm font-bold transition-colors cursor-pointer select-none"
           >
             ←
           </button>
@@ -272,14 +270,14 @@ export default function TestimonialSection({
             type="button"
             onClick={handleNext}
             aria-label="Next testimonial"
-            className="w-10 h-10 rounded-full bg-white/10 active:bg-white/25 text-white flex items-center justify-center text-sm font-bold transition-colors cursor-pointer"
+            className="w-10 h-10 rounded-full bg-white/10 active:bg-white/25 text-white flex items-center justify-center text-sm font-bold transition-colors cursor-pointer select-none"
           >
             →
           </button>
         </div>
 
         {/* 4. FOOTER STATEMENT */}
-        <div className="z-10 relative mt-3 sm:mt-6 text-center">
+        <div className="z-10 relative mt-2 sm:mt-6 text-center pb-1 sm:pb-0">
           <p className="font-fira font-extrabold text-[#f5f4ef] text-xs sm:text-base leading-none tracking-wider uppercase m-0 opacity-80">
             {footerText}
           </p>
