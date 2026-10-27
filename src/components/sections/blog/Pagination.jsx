@@ -3,7 +3,6 @@ import React from 'react';
 export default function Pagination({ currentPage, totalPages, onPageChange }) {
   if (totalPages <= 1) return null;
 
-  // Helper to generate numbered page items with ellipsis logic
   const getPageNumbers = () => {
     const pages = [];
     const maxVisible = 5;
@@ -31,25 +30,25 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
 
   return (
     <nav className="flex items-center justify-center gap-2 sm:gap-3 mt-10 sm:mt-14 mb-4 sm:mb-6 font-fira select-none" aria-label="Blog pagination">
-      {/* Previous Button */}
+      {/* Prev Button */}
       <button
         type="button"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className={`flex items-center gap-1.5 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full font-bold text-xs sm:text-sm uppercase tracking-wider transition-all duration-200 ${
+        className={`flex items-center gap-1.5 px-4 py-2.5 sm:px-5 sm:py-3 rounded-full font-bold text-xs sm:text-sm uppercase tracking-wider min-h-[44px] transition-all duration-200 cursor-pointer ${
           currentPage === 1
             ? 'opacity-40 cursor-not-allowed bg-darkblue/10 text-darkblue'
             : 'bg-darkblue text-cream hover:bg-midblue hover:scale-105 shadow-sm'
         }`}
         aria-label="Go to previous page"
       >
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5" aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
         </svg>
         <span>PREV</span>
       </button>
 
-      {/* Page Numbers */}
+      {/* Number Buttons: 44px on mobile, 48px on desktop */}
       <div className="flex items-center gap-1.5 sm:gap-2">
         {getPageNumbers().map((page, index) => {
           if (page === '...') {
@@ -66,12 +65,13 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
               key={page}
               type="button"
               onClick={() => onPageChange(page)}
-              className={`w-9 h-9 sm:w-11 sm:h-11 rounded-full font-bold text-sm sm:text-base transition-all duration-200 flex items-center justify-center ${
+              className={`w-11 h-11 sm:w-12 sm:h-12 rounded-full font-bold text-sm sm:text-base transition-all duration-200 flex items-center justify-center cursor-pointer ${
                 isActive
                   ? 'bg-darkblue text-cream shadow-md scale-105'
                   : 'bg-darkblue/10 text-darkblue hover:bg-darkblue/20 hover:scale-105'
               }`}
               aria-current={isActive ? 'page' : undefined}
+              aria-label={`Page ${page}`}
             >
               {page}
             </button>
@@ -84,7 +84,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
         type="button"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className={`flex items-center gap-1.5 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full font-bold text-xs sm:text-sm uppercase tracking-wider transition-all duration-200 ${
+        className={`flex items-center gap-1.5 px-4 py-2.5 sm:px-5 sm:py-3 rounded-full font-bold text-xs sm:text-sm uppercase tracking-wider min-h-[44px] transition-all duration-200 cursor-pointer ${
           currentPage === totalPages
             ? 'opacity-40 cursor-not-allowed bg-darkblue/10 text-darkblue'
             : 'bg-darkblue text-cream hover:bg-midblue hover:scale-105 shadow-sm'
@@ -92,7 +92,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
         aria-label="Go to next page"
       >
         <span>NEXT</span>
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5" aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
         </svg>
       </button>

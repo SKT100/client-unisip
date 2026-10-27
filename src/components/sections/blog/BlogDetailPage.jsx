@@ -57,7 +57,7 @@ export default function BlogDetailPage() {
           <h2 className="heading-mid text-darkblue">Article Not Found</h2>
           <button
             onClick={() => navigate('/blog')}
-            className="mt-6 bg-darkblue text-cream text-micro px-6 py-2.5 rounded-full"
+            className="mt-6 bg-darkblue text-cream text-micro px-6 py-2.5 rounded-full cursor-pointer"
           >
             Back to All Blogs
           </button>
@@ -66,7 +66,6 @@ export default function BlogDetailPage() {
     );
   }
 
-  // Social share items array for ActionCard
   const shareItems = [
     {
       icon: 'x',
@@ -88,31 +87,36 @@ export default function BlogDetailPage() {
   return (
     <PageShell>
       <article className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 font-fira">
-        
-        {/* Top Header Badges */}
+
+        {/* Header Badges */}
         <div className="flex flex-wrap items-center gap-3 pt-2 mb-4">
           <div className="mb-1.5 sm:mb-3">
             <PillTag variant="dark" size="md" rotate="-rotate-[0deg]">
-               {post.category}
+              {post.category}
             </PillTag>
           </div>
           <div className="mb-1.5 sm:mb-3">
             <PillTag variant="dark" size="md" rotate="-rotate-[0deg]">
-               {post.publishDate}
+              {post.publishDate}
             </PillTag>
           </div>
         </div>
 
-        {/* Article Title Headline */}
-        <h1 className="heading-display text-midblue mb-8 max-w-5xl">
+        {/* Article Title */}
+        <h1 className="heading-display text-midblue mb-8 max-w-5xl leading-[0.88]">
           {post.title}
         </h1>
 
-        {/* Main Hero Cover Image */}
-        <div className="w-full aspect-[16/9] sm:aspect-[21/9] bg-[#D9D9D9] rounded-[28px] sm:rounded-[40px] overflow-hidden mb-8 sm:mb-12">
+        {/* Cover Hero Image (LCP Element) */}
+        <div className="w-full aspect-[16/9] sm:aspect-[21/9] bg-cream/50 rounded-[28px] sm:rounded-[40px] overflow-hidden mb-8 sm:mb-12 border border-darkblue/10">
           <img
             src={post.image || fallbackImage}
             alt={post.title}
+            fetchPriority="high"
+            loading="eager"
+            decoding="async"
+            width="1200"
+            height="514"
             className="w-full h-full object-cover object-center"
             onError={(e) => {
               e.currentTarget.src = fallbackImage;
@@ -121,11 +125,10 @@ export default function BlogDetailPage() {
         </div>
 
         {/* 2-Column Content Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-          
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
+
           {/* Main Article Body Column */}
           <div className="lg:col-span-8 text-darkblue">
-            
             <h2 className="heading-semi-big text-darkblue mb-2">
               Brewing A Perfect Impression
             </h2>
@@ -146,17 +149,21 @@ export default function BlogDetailPage() {
               Every brand has a unique story. Tailoring physical packaging ensures that your visual identity translates seamlessly into reality. Choose colors, typography, and finishes that resonate with your target audience.
             </p>
 
-            {/* DYNAMIC 2-IMAGE INLINE GALLERY GRID */}
+            {/* Inline Sub-Images with explicit dimensions */}
             {post.subImages && post.subImages.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 my-8">
                 {post.subImages.map((subImg, idx) => (
                   <div
                     key={idx}
-                    className="aspect-[4/3] bg-[#D9D9D9] rounded-[24px] overflow-hidden shadow-sm group"
+                    className="aspect-[4/3] bg-cream/40 rounded-[24px] overflow-hidden shadow-sm border border-darkblue/10 group"
                   >
                     <img
                       src={subImg}
                       alt={`${post.title} detail photo ${idx + 1}`}
+                      loading="lazy"
+                      decoding="async"
+                      width="600"
+                      height="450"
                       className="w-full h-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
                       onError={(e) => {
                         e.currentTarget.src = fallbackImage;
@@ -194,11 +201,10 @@ export default function BlogDetailPage() {
             <p className="text-general text-darkblue/85">
               Delivering chilled, beautifully branded water creates an instant sense of care and luxury.
             </p>
-
           </div>
 
-          {/* Reusable ActionCard Sidebar */}
-          <aside className="lg:col-span-4">
+          {/* Sticky ActionCard Sidebar with Stretch Track */}
+          <aside className="lg:col-span-4 h-full">
             <div className="sticky top-28">
               <ActionCard
                 title="SHARE THIS POST"
@@ -210,13 +216,13 @@ export default function BlogDetailPage() {
 
         </div>
 
-        {/* Prev / Next Article Navigation */}
+        {/* Prev / Next Navigation */}
         <div className="flex items-center justify-between gap-4 pt-6 sm:pt-8">
           <Link
             to={`/blog/${prevPost.slug}`}
             className="inline-flex items-center gap-2 bg-darkblue text-cream hover:bg-midblue px-5 py-2.5 rounded-full text-micro transition-colors duration-200"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
             </svg>
             <span>PREV POST</span>
@@ -227,18 +233,16 @@ export default function BlogDetailPage() {
             className="inline-flex items-center gap-2 bg-darkblue text-cream hover:bg-midblue px-5 py-2.5 rounded-full text-micro transition-colors duration-200"
           >
             <span>NEXT POST</span>
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
             </svg>
           </Link>
         </div>
 
-        {/* Dashed Separator */}
         <DashedDivider />
 
-        {/* Related Posts Section */}
+        {/* Related Posts */}
         <section className="mb-6 sm:mb-10">
-
           <div className="flex items-center justify-between gap-4 mb-8">
             <h3 className="heading-semi-big text-darkblue">
               Related Post
@@ -255,13 +259,11 @@ export default function BlogDetailPage() {
             </PillButton>
           </div>
 
-          {/* 3 Related Article Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             {relatedPosts.map((related) => (
-              <BlogCard key={related.id} post={related} />
+              <BlogCard key={related.id} post={related} isPriority={false} />
             ))}
           </div>
-
         </section>
 
       </article>

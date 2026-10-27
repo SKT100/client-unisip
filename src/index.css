@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Fira+Sans+Extra+Condensed:wght@200;300;400;500;600;700;800;900&display=swap");
 @import "tailwindcss";
 
 /* ==========================================================================
@@ -8,10 +7,16 @@ html {
   scroll-behavior: auto !important;
 }
 
+/* 
+  CRITICAL: Using overflow-x: clip instead of overflow-x: hidden prevents
+  horizontal scrollbars while keeping overflow-y: visible so that 
+  position: sticky works across the entire application.
+*/
 html,
 body {
-  overflow-x: hidden;
+  overflow-x: clip;
   max-width: 100vw;
+  width: 100%;
 }
 
 html.lenis,
@@ -64,7 +69,6 @@ html.lenis body {
 /* Pre-built Typography Presets */
 @layer utilities {
 
-  /* Hero / Display Heading (Extra Large Main Titles) */
   .heading-display {
     font-family: var(--font-fira);
     font-weight: 800;
@@ -74,7 +78,6 @@ html.lenis body {
     font-size: clamp(2.75rem, 8vw, 6rem);
   }
 
-  /* Big Heading (Section Big Headers) */
   .heading-big {
     font-family: var(--font-fira);
     font-weight: 800;
@@ -84,7 +87,6 @@ html.lenis body {
     font-size: clamp(2.25rem, 6vw, 4.5rem);
   }
 
-  /* Semi-Big Heading (Secondary Page Headers) */
   .heading-semi-big {
     font-family: var(--font-fira);
     font-weight: 800;
@@ -94,7 +96,6 @@ html.lenis body {
     font-size: clamp(1.875rem, 4.5vw, 3.25rem);
   }
 
-  /* Mid Heading (Card Titles & Section Subheaders) */
   .heading-mid {
     font-family: var(--font-fira);
     font-weight: 700;
@@ -104,7 +105,6 @@ html.lenis body {
     font-size: clamp(1.5rem, 3.2vw, 2.25rem);
   }
 
-  /* Category Heading (Section Eyebrows, Step Titles, Badges) */
   .heading-category {
     font-family: var(--font-fira);
     font-weight: 800;
@@ -114,7 +114,6 @@ html.lenis body {
     font-size: clamp(1.25rem, 2.2vw, 1.875rem);
   }
 
-  /* Small Heading (Sub-titles & Block Headers) */
   .heading-small {
     font-family: var(--font-fira);
     font-weight: 700;
@@ -124,7 +123,6 @@ html.lenis body {
     font-size: clamp(1.125rem, 2vw, 1.5rem);
   }
 
-  /* General Body Text (Standard Paragraph Content) */
   .text-general {
     font-family: var(--font-fira);
     font-weight: 400;
@@ -132,7 +130,6 @@ html.lenis body {
     font-size: clamp(1rem, 1.8vw, 1.25rem);
   }
 
-  /* Small Text (Meta, Captions, Dates, Read Times) */
   .text-small {
     font-family: var(--font-fira);
     font-weight: 500;
@@ -140,7 +137,6 @@ html.lenis body {
     font-size: clamp(0.875rem, 1.4vw, 1rem);
   }
 
-  /* Micro Text (Pill Badges & Tag Labels) */
   .text-micro {
     font-family: var(--font-fira);
     font-weight: 700;
@@ -169,8 +165,8 @@ html.lenis body {
 
   .custom-scrollbar {
     --sb-width: 6px;
-    --sb-thumb-color: #101A35;
-    --sb-thumb-hover-color: #2D468A;
+    --sb-thumb-color: #101a35;
+    --sb-thumb-hover-color: #2d468a;
 
     scrollbar-width: thin;
     scrollbar-color: var(--sb-thumb-color) transparent;
@@ -222,7 +218,7 @@ a {
 
 .page {
   width: 100%;
-  overflow: hidden;
+  overflow-x: clip;
   background: var(--color-cream);
 }
 
@@ -237,6 +233,19 @@ a {
 
 .animate-ticker {
   animation: ticker 28s linear infinite;
+}
+
+@keyframes splashPulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1.22) rotate(-45deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.31) rotate(-45deg);
+  }
+}
+
+.animate-splash-pulse {
+  animation: splashPulse 6s ease-in-out infinite;
 }
 
 @media (hover: hover) {

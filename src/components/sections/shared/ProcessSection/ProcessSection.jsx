@@ -1,9 +1,6 @@
-import React, { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import React, { useRef } from 'react';
+import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import ProcessStepCard from './ProcessStepCard';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const images = '/images';
 
@@ -38,6 +35,33 @@ const DEFAULT_PROCESS_STEPS = [
   },
 ];
 
+function AnimatedProcessCard({ step, idx, progress }) {
+  // Stagger card appearances along the progress curve
+  const start = 0.08 + idx * 0.22;
+  const end = Math.min(start + 0.16, 0.98);
+
+  const opacity = useTransform(progress, [start, end], [0, 1]);
+  const y = useTransform(progress, [start, end], [36, 0]);
+  const scale = useTransform(progress, [start, end], [0.92, 1]);
+
+  const isOddColumn = idx % 2 === 1;
+
+  return (
+    <motion.div
+      style={{ opacity, y, scale }}
+      className={isOddColumn ? 'md:mt-20 lg:mt-32' : ''}
+    >
+      <ProcessStepCard
+        stepNumber={step.stepNumber}
+        badgeText={step.badgeText}
+        title={step.title}
+        description={step.description}
+        image={step.image}
+      />
+    </motion.div>
+  );
+}
+
 export default function ProcessSection({
   titleLine1 = 'FROM IDEA',
   titleLine2 = 'TO YOUR BOTTLE.',
@@ -46,60 +70,25 @@ export default function ProcessSection({
   className = '',
 }) {
   const sectionRef = useRef(null);
-  const pathRef = useRef(null);
-  const cardsRef = useRef([]);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const path = pathRef.current;
-      if (!path) return;
+  // Reactive scroll tracking that handles dynamic page height changes
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start 75%', 'end 85%'],
+  });
 
-      const pathLength = path.getTotalLength();
-      gsap.set(path, {
-        strokeDasharray: pathLength,
-        strokeDashoffset: pathLength,
-      });
-
-      cardsRef.current.forEach((card) => {
-        if (card) {
-          gsap.set(card, { opacity: 0, scale: 0.9, y: 30 });
-        }
-      });
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 65%',
-          end: 'bottom 85%',
-          scrub: 1.0,
-        },
-      });
-
-      tl.to(path, {
-        strokeDashoffset: 0,
-        ease: 'none',
-        duration: 4,
-      });
-
-      cardsRef.current.forEach((card, idx) => {
-        if (card) {
-          tl.to(
-            card,
-            { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: 'power2.out' },
-            0.35 + idx * 0.9
-          );
-        }
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+  // Physical spring interpolation for smooth scrolling in both directions
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 24,
+    restDelta: 0.001,
+  });
 
   return (
     <section ref={sectionRef} className={`w-full mx-auto font-fira relative ${className}`}>
       <div className="w-full bg-cyanglow text-darkblue rounded-[32px] sm:rounded-[60px] md:rounded-[80px] lg:rounded-[110px] xl:rounded-[130px] p-5 sm:p-10 lg:p-16 xl:p-20 overflow-hidden relative shadow-xl">
         
-        {/* Subtle Background Water Texture */}
+        {/* Background Water Texture Overlay */}
         <img
           src={`${images}/logo/water-texture.svg`}
           alt=""
@@ -107,7 +96,7 @@ export default function ProcessSection({
           className="absolute inset-0 w-full h-full object-cover opacity-15 mix-blend-overlay pointer-events-none select-none z-0"
         />
 
-        {/* Desktop-Only SVG Curve */}
+        {/* Desktop-Only SVG Flow Curve: Broader 24px stroke with Framer Motion pathLength */}
         <svg
           className="hidden md:block absolute inset-0 w-full h-full pointer-events-none z-0"
           viewBox="0 0 1000 1800"
@@ -115,8 +104,7 @@ export default function ProcessSection({
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path
-            ref={pathRef}
+          <motion.path
             d="M -20 280 
                C 120 220, 280 260, 240 420 
                C 200 580, 620 400, 780 580 
@@ -124,10 +112,11 @@ export default function ProcessSection({
                C 140 1180, 600 1100, 760 1340 
                C 880 1520, 480 1620, 500 1800"
             stroke="var(--color-cream)"
-            strokeWidth="12"
+            strokeWidth="24"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="drop-shadow-[0_8px_16px_rgba(16,26,53,0.18)]"
+            initial={{ pathLength: 0 }}
+            style={{ pathLength: smoothProgress }}
           />
         </svg>
 
@@ -147,27 +136,16 @@ export default function ProcessSection({
           </p>
         </div>
 
-        {/* 2. 2x2 Grid */}
+        {/* 2. 2x2 Grid with Bi-directional Scroll-synced Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 sm:gap-16 lg:gap-24 z-10 relative max-w-5xl mx-auto pb-8 sm:pb-16">
-          {steps.map((step, idx) => {
-            const isOddColumn = idx % 2 === 1;
-
-            return (
-              <div
-                key={step.stepNumber || idx}
-                ref={(el) => (cardsRef.current[idx] = el)}
-                className={isOddColumn ? 'md:mt-20 lg:mt-32' : ''}
-              >
-                <ProcessStepCard
-                  stepNumber={step.stepNumber}
-                  badgeText={step.badgeText}
-                  title={step.title}
-                  description={step.description}
-                  image={step.image}
-                />
-              </div>
-            );
-          })}
+          {steps.map((step, idx) => (
+            <AnimatedProcessCard
+              key={step.stepNumber || idx}
+              step={step}
+              idx={idx}
+              progress={smoothProgress}
+            />
+          ))}
         </div>
 
       </div>

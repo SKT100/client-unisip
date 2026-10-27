@@ -1,24 +1,32 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function BlogCard({ post, className = '' }) {
+const fallbackImage = '/images/hand-bottle-about.webp';
+
+export default function BlogCard({ post, isPriority = false, className = '' }) {
   const { title, category, tags = [], publishDate, readTime, image, slug, excerpt } = post;
 
-  // Combine category and tags into a single clean array of pill labels
   const allTags = [category, ...tags.filter((t) => t.toUpperCase() !== category.toUpperCase())];
 
   return (
-    <article className={`group relative flex flex-col justify-between bg-lightblue p-4 sm:p-5 rounded-[28px] sm:rounded-[32px] transition-all duration-300 hover:-translate-y-2 shadow-sm hover:shadow-xl ${className}`}>
-      <Link to={slug ? `/blog/${slug}` : '#'} className="flex flex-col h-full" aria-label={title}>
+    <article className={`group relative flex flex-col justify-between bg-lightblue p-4 sm:p-5 rounded-[28px] sm:rounded-[32px] transition-transform duration-300 ease-out hover:-translate-y-2 shadow-sm hover:shadow-xl will-change-transform ${className}`}>
+      <Link to={slug ? `/blog/${slug}` : '#'} className="flex flex-col h-full focus:outline-none" aria-label={title}>
         
-        {/* Image Container */}
+        {/* Aspect Ratio Bounding Container */}
         <div className="relative w-full aspect-[16/10] bg-cream rounded-[20px] sm:rounded-[24px] overflow-hidden mb-4 shrink-0">
           {image ? (
             <img 
               src={image} 
               alt={title} 
-              loading="lazy"
-              className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+              loading={isPriority ? 'eager' : 'lazy'}
+              fetchPriority={isPriority ? 'high' : 'auto'}
+              decoding="async"
+              width="400"
+              height="250"
+              className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out will-change-transform"
+              onError={(e) => {
+                e.currentTarget.src = fallbackImage;
+              }}
             />
           ) : (
             <div className="w-full h-full bg-cream/90 flex flex-col items-center justify-center text-darkblue/30 text-micro p-4 text-center">
@@ -27,26 +35,26 @@ export default function BlogCard({ post, className = '' }) {
           )}
         </div>
 
-        {/* Article Metadata Row */}
+        {/* Metadata */}
         <div className="flex items-center gap-2 text-small text-darkblue/75 mb-2 font-bold">
           <span>{publishDate}</span>
           <span>•</span>
           <span>{readTime}</span>
         </div>
 
-        {/* Article Title */}
-        <h3 className="heading-mid text-darkblue line-clamp-2 mb-2 group-hover:text-darkblue/80 transition-colors">
+        {/* Title */}
+        <h3 className="heading-mid text-darkblue line-clamp-2 mb-2 group-hover:text-midblue transition-colors duration-200">
           {title}
         </h3>
 
         {/* Excerpt */}
         {excerpt && (
-          <p className="text-general text-darkblue/85 line-clamp-2 mb-4">
+          <p className="text-general text-darkblue/85 line-clamp-2 mb-4 m-0">
             {excerpt}
           </p>
         )}
 
-        {/* Bottom Pill Badges */}
+        {/* Tags */}
         <div className="mt-auto pt-3 border-t border-darkblue/15 flex flex-wrap gap-2">
           {allTags.map((tag) => (
             <span 

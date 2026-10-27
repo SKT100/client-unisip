@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import PillTag from '../../ui/PillTag';
 import PillButton from '../../ui/PillButton';
@@ -31,7 +30,7 @@ export default function BlogSection({
   return (
     <section className={`w-full max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8 font-fira relative ${className}`}>
       
-      {/* 1. Header */}
+      {/* 1. Header Stack */}
       <div className="flex flex-col items-center text-center mb-10 sm:mb-14">
         {tagText && (
           <div className="mb-3 sm:mb-4">
@@ -71,55 +70,62 @@ export default function BlogSection({
         )}
       </div>
 
-      {/* 2. View All Button */}
+      {/* 2. Responsive View All Button */}
       {viewAllLink && (
-        <div className="flex justify-end mb-6 sm:mb-8 pr-2">
+        <div className="flex justify-center sm:justify-end mb-6 sm:mb-8 pr-0 sm:pr-2">
           <PillButton to={viewAllLink} variant="dark" size="md">
             {viewAllText}
           </PillButton>
         </div>
       )}
 
-      {/* 3. Cards Grid */}
+      {/* 3. Cards Grid (Hardware-Accelerated CSS Hover, Zero JS Frame Cost) */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-8 items-start">
         {posts.map((post, idx) => {
           const isMiddleOffset = enableOffset && (post.offset || idx === 1);
           const postLink = post.link || (post.slug ? `/blog/${post.slug}` : '#');
 
           return (
-            <motion.div
+            <div
               key={post.id || idx}
-              whileHover={{ y: -6 }}
-              transition={{ duration: 0.25, ease: 'easeOut' }}
-              className={`flex flex-col bg-lightblue text-darkblue rounded-[28px] sm:rounded-[36px] p-4 sm:p-5 shadow-lg border border-darkblue/10 overflow-hidden text-left group ${
+              className={`flex flex-col bg-lightblue text-darkblue rounded-[28px] sm:rounded-[36px] p-4 sm:p-5 shadow-lg border border-darkblue/10 overflow-hidden text-left group transition-transform duration-300 ease-out hover:-translate-y-2 will-change-transform ${
                 isMiddleOffset ? 'lg:translate-y-8' : ''
               }`}
             >
-              <Link to={postLink} className="flex flex-col h-full">
+              <Link 
+                to={postLink} 
+                className="flex flex-col h-full focus:outline-none"
+                aria-label={post.title}
+              >
+                {/* Image Container with Reserved Bounding Box */}
                 <div className="w-full h-[240px] sm:h-[280px] lg:h-[300px] rounded-[20px] sm:rounded-[26px] overflow-hidden bg-cream/50 mb-4 sm:mb-5 relative">
                   <img
                     src={post.image || fallbackImage}
                     alt={post.title}
                     loading="lazy"
                     decoding="async"
-                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+                    width="400"
+                    height="300"
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out will-change-transform"
                     onError={(e) => {
                       e.currentTarget.src = fallbackImage;
                     }}
                   />
                 </div>
 
+                {/* Category Pill Tag */}
                 <div className="mb-2.5 sm:mb-3">
                   <span className="inline-block bg-darkblue text-cream px-3.5 py-1 rounded-full font-fira font-extrabold text-micro uppercase tracking-wider">
                     {post.category}
                   </span>
                 </div>
 
-                <h3 className="heading-mid text-darkblue mb-2 group-hover:text-midblue transition-colors">
+                {/* Blog Title */}
+                <h3 className="heading-mid text-darkblue mb-2 group-hover:text-midblue transition-colors duration-200">
                   {post.title}
                 </h3>
               </Link>
-            </motion.div>
+            </div>
           );
         })}
       </div>

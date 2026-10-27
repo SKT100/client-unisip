@@ -7,7 +7,6 @@ const images = '/images';
 export default function OurStorySection() {
   const containerRef = useRef(null);
 
-  // Direct 1:1 scroll tracking
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start 65%', 'end 85%'],
@@ -45,14 +44,12 @@ export default function OurStorySection() {
       
       {/* Header Section */}
       <div className="flex flex-col items-center text-center mb-16 sm:mb-24">
-        {/* Top Slanted Pill Tag */}
         <div className="mb-2 sm:mb-3">
           <PillTag variant="dark" size="md" rotate="-rotate-[3deg]">
             OUR STORY
           </PillTag>
         </div>
 
-        {/* Display Title ("WHY" Outlined + "UNISIP?" Solid) */}
         <h2 className="m-0 flex flex-col items-center font-fira font-extrabold uppercase leading-[0.82] tracking-tight">
           <span 
             className="text-[54px] sm:text-[90px] lg:text-[120px] select-none"
@@ -69,37 +66,41 @@ export default function OurStorySection() {
       {/* Main Timeline Container */}
       <div ref={containerRef} className="relative max-w-5xl mx-auto min-h-[600px]">
 
-        {/* Faint Background Timeline Spine */}
+        {/* Timeline Spine */}
         <div 
           className="absolute left-6 md:left-1/2 top-4 bottom-8 w-[2.5px] bg-darkblue/15 -translate-x-1/2 z-0" 
           aria-hidden="true" 
         />
 
-        {/* Rapid 1:1 Descending Line (Animated on Scroll) */}
+        {/* Rapid 1:1 Descending Line */}
         <motion.div 
           style={{ scaleY: scrollYProgress }}
           className="absolute left-6 md:left-1/2 top-4 bottom-8 w-[2.5px] bg-darkblue -translate-x-1/2 origin-top z-10" 
           aria-hidden="true" 
         />
 
-        {/* Top Right Decorative Image: Bottle Caps */}
+        {/* Top Right Decorative Image */}
         <div className="hidden lg:block absolute right-[-8%] xl:right-[-12%] top-[-10%] z-0 pointer-events-none select-none">
           <img
             src={`${images}/bottle-caps-about.webp`}
             alt=""
             loading="lazy"
             decoding="async"
+            width="420"
+            height="320"
             className="w-[340px] lg:w-[420px] xl:w-[480px] h-auto object-contain"
           />
         </div>
 
-        {/* Bottom Left Decorative Image: Packaging Box & Bottles (Tucked safely inside bottom padding) */}
+        {/* Bottom Left Decorative Image */}
         <div className="hidden lg:block absolute left-[-10%] xl:left-[-14%] bottom-[-8%] xl:bottom-[-10%] z-0 pointer-events-none select-none">
           <img
             src={`${images}/toppled-bottles-about.webp`}
             alt=""
             loading="lazy"
             decoding="async"
+            width="460"
+            height="340"
             className="w-[380px] lg:w-[460px] xl:w-[520px] h-auto object-contain"
           />
         </div>
@@ -114,7 +115,6 @@ export default function OurStorySection() {
                 key={step.id}
                 className="relative grid grid-cols-1 md:grid-cols-2 items-center w-full min-h-[90px]"
               >
-                {/* Left Side Column */}
                 <div
                   className={`${
                     isLeft
@@ -134,13 +134,11 @@ export default function OurStorySection() {
                   )}
                 </div>
 
-                {/* Timeline Center Node Dot */}
                 <div 
                   className="absolute left-6 md:left-1/2 -translate-x-1/2 w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-darkblue border-4 border-cream z-30 shadow-sm"
                   aria-hidden="true" 
                 />
 
-                {/* Right Side Column */}
                 <div
                   className={`${
                     !isLeft

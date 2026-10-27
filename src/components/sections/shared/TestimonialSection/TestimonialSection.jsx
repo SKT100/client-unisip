@@ -86,16 +86,30 @@ export default function TestimonialSection({
 }) {
   const containerRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+
+  // Synchronous initialization avoids double-mount on mobile devices
+  const [isMobile, setIsMobile] = useState(() => {
+    return typeof window !== 'undefined' ? window.innerWidth < 768 : false;
+  });
+
   const [zOrder, setZOrder] = useState(() =>
     testimonials.reduce((acc, t, idx) => ({ ...acc, [t.id]: idx + 10 }), {})
   );
 
   useEffect(() => {
-    const checkViewport = () => setIsMobile(window.innerWidth < 768);
-    checkViewport();
+    let timeoutId;
+    const checkViewport = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setIsMobile(window.innerWidth < 768);
+      }, 100);
+    };
+
     window.addEventListener('resize', checkViewport, { passive: true });
-    return () => window.removeEventListener('resize', checkViewport);
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('resize', checkViewport);
+    };
   }, []);
 
   const bringToFront = (id) => {
@@ -115,7 +129,6 @@ export default function TestimonialSection({
 
   return (
     <section className={`w-full max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8 font-fira relative ${className}`}>
-      
       <div
         ref={containerRef}
         className="w-full bg-[#101a35] text-[#f5f4ef] rounded-[32px] sm:rounded-[60px] md:rounded-[90px] lg:rounded-[130px] p-5 sm:p-10 lg:p-16 overflow-hidden relative shadow-2xl flex flex-col items-center justify-between min-h-[580px] sm:min-h-[720px] lg:min-h-[1100px]"
@@ -124,6 +137,8 @@ export default function TestimonialSection({
           src={`${images}/logo/water-texture.svg`}
           alt=""
           aria-hidden="true"
+          width="1200"
+          height="800"
           className="absolute inset-0 w-full h-full object-cover opacity-15 mix-blend-overlay pointer-events-none select-none z-0"
         />
 
@@ -160,7 +175,6 @@ export default function TestimonialSection({
 
         {/* 2. CARD DISPLAY AREA */}
         {isMobile ? (
-          /* MOBILE MODE: Single Active Card with flick navigation (60fps guaranteed) */
           <div className="relative w-full max-w-[320px] h-[390px] flex items-center justify-center z-20 my-auto">
             <AnimatePresence mode="wait">
               <motion.div
@@ -197,7 +211,6 @@ export default function TestimonialSection({
             </AnimatePresence>
           </div>
         ) : (
-          /* DESKTOP MODE: Full 4-Card Free-Flowing Canvas */
           <div className="relative w-full max-w-3xl h-[620px] flex items-center justify-center z-20 my-auto">
             {testimonials.map((item) => (
               <TestimonialCard
@@ -232,20 +245,20 @@ export default function TestimonialSection({
             type="button"
             onClick={handlePrev}
             aria-label="Previous testimonial"
-            className="w-8 h-8 rounded-full bg-white/10 active:bg-white/25 text-white flex items-center justify-center text-sm font-bold transition-colors cursor-pointer"
+            className="w-10 h-10 rounded-full bg-white/10 active:bg-white/25 text-white flex items-center justify-center text-sm font-bold transition-colors cursor-pointer"
           >
             ←
           </button>
 
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
             {testimonials.map((_, i) => (
               <button
                 key={i}
                 type="button"
                 onClick={() => setActiveIndex(i)}
                 aria-label={`Go to slide ${i + 1}`}
-                className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                  activeIndex === i ? 'w-6 bg-[#39b8f2]' : 'w-2 bg-white/30'
+                className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                  activeIndex === i ? 'w-6 bg-[#39b8f2]' : 'w-2.5 bg-white/30'
                 }`}
               />
             ))}
@@ -255,7 +268,7 @@ export default function TestimonialSection({
             type="button"
             onClick={handleNext}
             aria-label="Next testimonial"
-            className="w-8 h-8 rounded-full bg-white/10 active:bg-white/25 text-white flex items-center justify-center text-sm font-bold transition-colors cursor-pointer"
+            className="w-10 h-10 rounded-full bg-white/10 active:bg-white/25 text-white flex items-center justify-center text-sm font-bold transition-colors cursor-pointer"
           >
             →
           </button>
