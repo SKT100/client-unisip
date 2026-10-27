@@ -1,8 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import PillButton from '../ui/PillButton';
+import SplitReveal from '../ui/SplitReveal';
+import AngledBadgeReveal from '../ui/AngledBadgeReveal';
+import RollingText from '../ui/RollingText';
+import Magnetic from '../ui/Magnetic';
 
 const images = '/images';
+const MotionLink = motion(Link);
 
 function DashedDivider() {
   return (
@@ -35,61 +41,117 @@ export default function Footer() {
 
   return (
     <footer className="relative mx-3 mb-3 mt-8 sm:mx-6 sm:mb-6 sm:mt-12 lg:mx-8 lg:mb-8 lg:mt-16 bg-darkblue text-cream rounded-[32px] sm:rounded-[56px] lg:rounded-[80px] p-3 sm:p-6 lg:p-8 overflow-hidden font-fira">
-      
-      {/* Hero CTA Container */}
-      <section className="relative w-full min-h-[360px] sm:min-h-[460px] lg:min-h-[540px] rounded-[24px] sm:rounded-[40px] lg:rounded-[60px] overflow-hidden flex flex-col items-center justify-center text-center">
-        
-        {/* Background Image with Dimensions & Decoding */}
-        <img
-          src={`${images}/footer-img-unisip.webp`}
-          alt="Custom branded UniSip bottles collection"
-          loading="lazy"
-          decoding="async"
-          width="1400"
-          height="600"
-          className="absolute inset-0 w-full h-full object-cover object-center"
-          onError={(e) => {
-            e.currentTarget.onerror = null;
-            e.currentTarget.src = `${images}/unisip-bottle-hero.webp`;
-          }}
-        />
+
+      {/* ========================================================================
+          1. HERO CTA CONTAINER (DUAL ACTION: PROJECT + BROCHURE)
+          ======================================================================== */}
+      <section className="relative w-full min-h-[380px] sm:min-h-[480px] lg:min-h-[560px] rounded-[24px] sm:rounded-[40px] lg:rounded-[60px] overflow-hidden flex flex-col items-center justify-center text-center">
+
+        {/* Deferred Offscreen Background Image */}
+        <picture>
+          <source
+            media="(max-width: 639px)"
+            srcSet={`${images}/footer-img-unisip.webp`}
+            width="640"
+            height="360"
+          />
+          <img
+            src={`${images}/footer-img-unisip.webp`}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            width="1200"
+            height="500"
+            className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none select-none"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = `${images}/unisip-bottle-hero.webp`;
+            }}
+          />
+        </picture>
 
         {/* Dark Blue Overlay */}
         <div className="absolute inset-0 bg-darkblue/85" />
 
         {/* Content Wrapper */}
-        <div className="relative z-10 flex flex-col items-center justify-center px-4 pt-8 pb-10 sm:pt-12 sm:pb-14">
-          
-          <h2 className="heading-display text-cream m-0 leading-[0.85]">
-            YOUR BRAND.
-            <br />
-            YOUR BOTTLE.
+        <div className="relative z-10 flex flex-col items-center justify-center px-4 pt-8 pb-10 sm:pt-12 sm:pb-14 w-full max-w-4xl mx-auto">
+
+          {/* Heading with SplitReveal */}
+          <h2 className="heading-display text-cream m-0 leading-[0.85] text-center">
+            <span className="block">
+              <SplitReveal delay={0.05}>
+                YOUR BRAND.
+              </SplitReveal>
+            </span>
+            <span className="block -mt-1 sm:-mt-2">
+              <SplitReveal delay={0.18}>
+                YOUR BOTTLE.
+              </SplitReveal>
+            </span>
           </h2>
 
-          {/* Slanted Rectangle Badge */}
-          <div className="-mt-2 lg:-mt-1 mb-6 sm:mb-10 inline-block bg-cream text-darkblue heading-big px-5 py-1.5 sm:px-8 sm:py-2.5 -rotate-[2.5deg] shadow-2xl whitespace-nowrap select-none">
-            MAKE IT YOURS.
+          {/* Angled Badge Pop-In */}
+          <AngledBadgeReveal
+            trigger="inView"
+            targetRotate={-2.5}
+            delay={0.3}
+            className="-mt-2 lg:-mt-1 mb-8 sm:mb-12 z-10"
+          >
+            <div className="bg-cream text-darkblue heading-big px-5 py-1.5 sm:px-8 sm:py-2.5 shadow-2xl whitespace-nowrap select-none">
+              MAKE IT YOURS.
+            </div>
+          </AngledBadgeReveal>
+
+          {/* Action Row: Primary Contact + Magnetic Brochure Download */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-5 w-full sm:w-auto">
+            
+            {/* Primary Action Button */}
+            <PillButton
+              to="/contact"
+              variant="light"
+              logo={`${images}/logo/bottle-logo-mini.svg`}
+              iconSize={28}
+              className="w-full sm:w-auto !min-h-[50px] sm:!min-h-[60px] !px-8 sm:!px-10 heading-small !leading-none hover:scale-105 transition-transform"
+            >
+              <span>START YOUR PROJECT</span>
+            </PillButton>
+
+            {/* Secondary Magnetic Brochure Download Button */}
+            <Magnetic pullStrength={0.3} radius={35}>
+              <a
+                href="/unisip--brochure.pdf"
+                download="UniSip-Brochure.pdf"
+                className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-full border-2 border-cream/35 hover:border-cyanglow bg-cream/10 hover:bg-cream/20 px-7 sm:px-9 min-h-[50px] sm:min-h-[60px] text-cream hover:text-cyanglow font-fira font-extrabold uppercase tracking-wider text-xs sm:text-sm lg:text-base transition-all duration-200 backdrop-blur-sm cursor-pointer shadow-lg active:scale-95"
+              >
+                <svg
+                  className="w-4 h-4 sm:w-5 sm:h-5 stroke-current transition-transform duration-300 group-hover:translate-y-0.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                <span>DOWNLOAD BROCHURE</span>
+              </a>
+            </Magnetic>
+
           </div>
 
-          {/* React Router Client-Side CTA Button */}
-          <PillButton
-            to="/contact"
-            variant="light"
-            logo={`${images}/logo/bottle-logo-mini.svg`}
-            iconSize={32}
-            className="!min-h-[52px] sm:!min-h-[64px] xl:!min-h-[72px] !px-8 sm:!px-10 xl:!px-12 heading-small !leading-none hover:scale-105 transition-transform"
-          >
-            START YOUR PROJECT
-          </PillButton>
         </div>
       </section>
 
-      {/* Main Footer Body */}
+      {/* ========================================================================
+          2. MAIN FOOTER BODY
+          ======================================================================== */}
       <div className="px-3 sm:px-8 lg:px-12 pt-8 pb-6 sm:pt-12 sm:pb-8">
-        
+
         {/* Brand Header & Contact Row */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-8">
-          
+
           {/* Logo & Wordmark */}
           <Link to="/" className="inline-flex items-center gap-3 sm:gap-5 group" aria-label="Unisip Home">
             <img
@@ -118,8 +180,8 @@ export default function Footer() {
             <h3 className="heading-small text-cream mb-2 sm:mb-3">
               LET'S TALK
             </h3>
-            <a 
-              href="mailto:enquiry.unisip@gmail.com" 
+            <a
+              href="mailto:enquiry.unisip@gmail.com"
               className="text-general font-medium text-cream/90 hover:text-cyanglow transition-colors duration-200 flex items-center gap-2.5 group py-1"
             >
               <svg className="w-4 h-4 sm:w-5 sm:h-5 text-cyanglow shrink-0 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
@@ -127,8 +189,8 @@ export default function Footer() {
               </svg>
               enquiry.unisip@gmail.com
             </a>
-            <a 
-              href="tel:+918585034143" 
+            <a
+              href="tel:+918585034143"
               className="text-general font-medium text-cream/90 hover:text-cyanglow transition-colors duration-200 flex items-center gap-2.5 mt-1 group py-1"
             >
               <svg className="w-4 h-4 sm:w-5 sm:h-5 text-cyanglow shrink-0 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
@@ -144,54 +206,88 @@ export default function Footer() {
         {/* Navigation Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-left">
           
-          {/* Socials Column (48x48px min touch target compliant) */}
+          {/* Socials Column with Magnetic Attractor */}
           <div className="flex flex-col gap-3 col-span-2 md:col-span-1">
-            <h3 className="text-micro text-cream/60 tracking-wider">
-              Socials
-            </h3>
+            <h3 className="text-micro text-cream/60 tracking-wider">Socials</h3>
             <div className="flex items-center gap-3">
-              <a
-                href="https://www.instagram.com/unisip.in"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram @unisip.in"
-                className="w-12 h-12 rounded-full bg-cream text-darkblue flex items-center justify-center hover:bg-cyanglow transition-colors duration-200 shrink-0"
-              >
-                <svg className="w-5 h-5 sm:w-6 sm:h-6 fill-darkblue" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                </svg>
-              </a>
+              <Magnetic pullStrength={0.35} radius={35}>
+                <a
+                  href="https://www.instagram.com/unisip.in"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram @unisip.in"
+                  className="w-12 h-12 rounded-full bg-cream text-darkblue flex items-center justify-center hover:bg-cyanglow transition-colors duration-200 shrink-0 shadow-md"
+                >
+                  <svg className="w-5 h-5 sm:w-6 sm:h-6 fill-darkblue" viewBox="0 0 24 24">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                  </svg>
+                </a>
+              </Magnetic>
 
-              <a
-                href="https://www.youtube.com/@unisip_in"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="YouTube @unisip_in"
-                className="w-12 h-12 rounded-full bg-cream text-darkblue flex items-center justify-center hover:bg-cyanglow transition-colors duration-200 shrink-0"
-              >
-                <svg className="w-5 h-5 sm:w-6 sm:h-6 fill-darkblue" viewBox="0 0 24 24">
-                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.377.55a3.016 3.016 0 0 0-2.122 2.136C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.55 9.376.55 9.376.55s7.505 0 9.377-.55a3.016 3.016 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                </svg>
-              </a>
+              <Magnetic pullStrength={0.35} radius={35}>
+                <a
+                  href="https://www.youtube.com/@unisip_in"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="YouTube @unisip_in"
+                  className="w-12 h-12 rounded-full bg-cream text-darkblue flex items-center justify-center hover:bg-cyanglow transition-colors duration-200 shrink-0 shadow-md"
+                >
+                  <svg className="w-5 h-5 sm:w-6 sm:h-6 fill-darkblue" viewBox="0 0 24 24">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.377.55a3.016 3.016 0 0 0-2.122 2.136C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.55 9.376.55 9.376.55s7.505 0 9.377-.55a3.016 3.016 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                  </svg>
+                </a>
+              </Magnetic>
             </div>
           </div>
 
-          {/* Explore Links */}
-          <div className="flex flex-col gap-1.5">
+          {/* Explore Links with RollingText on Hover */}
+          <div className="flex flex-col gap-2">
             <h3 className="text-micro text-cream/60 tracking-wider mb-1">Explore</h3>
-            <Link to="/" className="text-general font-bold text-cream hover:text-cyanglow transition-colors duration-200 py-0.5">Home</Link>
-            <Link to="/about" className="text-general font-bold text-cream hover:text-cyanglow transition-colors duration-200 py-0.5">About</Link>
-            <Link to="/work" className="text-general font-bold text-cream hover:text-cyanglow transition-colors duration-200 py-0.5">Work</Link>
-            <Link to="/blog" className="text-general font-bold text-cream hover:text-cyanglow transition-colors duration-200 py-0.5">Blog</Link>
+            {[
+              { name: 'Home', path: '/' },
+              { name: 'About', path: '/about' },
+              { name: 'Work', path: '/work' },
+              { name: 'Blog', path: '/blog' },
+            ].map((link) => (
+              <MotionLink
+                key={link.path}
+                to={link.path}
+                initial="initial"
+                whileHover="hover"
+                className="inline-flex text-general font-bold text-cream hover:text-cyanglow transition-colors duration-200 py-0.5 focus:outline-none"
+              >
+                <RollingText text={link.name} />
+              </MotionLink>
+            ))}
           </div>
 
-          {/* Company Links */}
-          <div className="flex flex-col gap-1.5">
+          {/* Company Links with RollingText & Brochure PDF Link */}
+          <div className="flex flex-col gap-2">
             <h3 className="text-micro text-cream/60 tracking-wider mb-1">Company</h3>
-            <Link to="/contact" className="text-general font-bold text-cream hover:text-cyanglow transition-colors duration-200 py-0.5">Contact Us</Link>
+            <MotionLink
+              to="/contact"
+              initial="initial"
+              whileHover="hover"
+              className="inline-flex text-general font-bold text-cream hover:text-cyanglow transition-colors duration-200 py-0.5 focus:outline-none"
+            >
+              <RollingText text="Contact Us" />
+            </MotionLink>
+            
+            <a
+              href="/unisip-brochure.pdf"
+              download="UniSip-Brochure.pdf"
+              className="inline-flex items-center gap-1.5 text-general font-bold text-cyanglow/90 hover:text-cyanglow transition-colors duration-200 py-0.5"
+            >
+              <span>Brochure (PDF)</span>
+              <svg className="w-3.5 h-3.5 stroke-current" viewBox="0 0 24 24" fill="none" strokeWidth="2.5">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+            </a>
           </div>
 
-          {/* Address Section */}
+          {/* Address */}
           <div className="flex flex-col gap-1 col-span-2 md:col-span-1">
             <h3 className="text-micro text-cream/60 tracking-wider mb-1">Address</h3>
             <strong className="text-general font-bold text-cream">Liluah, Howrah</strong>
@@ -215,9 +311,17 @@ export default function Footer() {
             <span className="hidden sm:inline">•</span>
             <span className="text-micro tracking-wider text-cream/60">YOUR CUSTOMIZED HYDRATION PARTNER.</span>
           </p>
-          <a href="#top" onClick={scrollToTop} className="font-bold uppercase text-cream hover:text-cyanglow transition-colors duration-200 py-1">
-            BACK TO TOP ↑
-          </a>
+          
+          <Magnetic pullStrength={0.25} radius={30}>
+            <a
+              href="#top"
+              onClick={scrollToTop}
+              className="font-bold uppercase text-cream hover:text-cyanglow transition-colors duration-200 py-1 inline-flex items-center gap-1"
+            >
+              <span>BACK TO TOP</span>
+              <span>↑</span>
+            </a>
+          </Magnetic>
         </div>
 
       </div>

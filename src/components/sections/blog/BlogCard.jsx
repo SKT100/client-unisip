@@ -19,10 +19,11 @@ export default function BlogCard({ post, isPriority = false, className = '' }) {
               src={image} 
               alt={title} 
               loading={isPriority ? 'eager' : 'lazy'}
-              fetchPriority={isPriority ? 'high' : 'auto'}
+              fetchPriority={isPriority ? 'high' : 'low'}
               decoding="async"
               width="400"
               height="250"
+              sizes="(max-width: 640px) 92vw, (max-width: 1024px) 45vw, 380px"
               className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out will-change-transform"
               onError={(e) => {
                 e.currentTarget.src = fallbackImage;

@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
-import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import SplitReveal from '../../../ui/SplitReveal';
 import ProcessStepCard from './ProcessStepCard';
 
 const images = '/images';
@@ -36,20 +37,19 @@ const DEFAULT_PROCESS_STEPS = [
 ];
 
 function AnimatedProcessCard({ step, idx, progress }) {
-  // Stagger card appearances along the progress curve
   const start = 0.08 + idx * 0.22;
   const end = Math.min(start + 0.16, 0.98);
 
   const opacity = useTransform(progress, [start, end], [0, 1]);
-  const y = useTransform(progress, [start, end], [36, 0]);
-  const scale = useTransform(progress, [start, end], [0.92, 1]);
+  const y = useTransform(progress, [start, end], [28, 0]);
+  const scale = useTransform(progress, [start, end], [0.94, 1]);
 
   const isOddColumn = idx % 2 === 1;
 
   return (
     <motion.div
       style={{ opacity, y, scale }}
-      className={isOddColumn ? 'md:mt-20 lg:mt-32' : ''}
+      className={`will-change-transform ${isOddColumn ? 'md:mt-20 lg:mt-32' : ''}`}
     >
       <ProcessStepCard
         stepNumber={step.stepNumber}
@@ -71,32 +71,24 @@ export default function ProcessSection({
 }) {
   const sectionRef = useRef(null);
 
-  // Reactive scroll tracking that handles dynamic page height changes
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start 75%', 'end 85%'],
-  });
-
-  // Physical spring interpolation for smooth scrolling in both directions
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 120,
-    damping: 24,
-    restDelta: 0.001,
   });
 
   return (
     <section ref={sectionRef} className={`w-full mx-auto font-fira relative ${className}`}>
       <div className="w-full bg-cyanglow text-darkblue rounded-[32px] sm:rounded-[60px] md:rounded-[80px] lg:rounded-[110px] xl:rounded-[130px] p-5 sm:p-10 lg:p-16 xl:p-20 overflow-hidden relative shadow-xl">
         
-        {/* Background Water Texture Overlay */}
         <img
           src={`${images}/logo/water-texture.svg`}
           alt=""
           aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover opacity-15 mix-blend-overlay pointer-events-none select-none z-0"
+          width="1200"
+          height="800"
+          className="absolute inset-0 w-full h-full object-cover opacity-10 pointer-events-none select-none z-0"
         />
 
-        {/* Desktop-Only SVG Flow Curve: Broader 24px stroke with Framer Motion pathLength */}
         <svg
           className="hidden md:block absolute inset-0 w-full h-full pointer-events-none z-0"
           viewBox="0 0 1000 1800"
@@ -112,11 +104,11 @@ export default function ProcessSection({
                C 140 1180, 600 1100, 760 1340 
                C 880 1520, 480 1620, 500 1800"
             stroke="var(--color-cream)"
-            strokeWidth="24"
+            strokeWidth="20"
             strokeLinecap="round"
             strokeLinejoin="round"
             initial={{ pathLength: 0 }}
-            style={{ pathLength: smoothProgress }}
+            style={{ pathLength: scrollYProgress }}
           />
         </svg>
 
@@ -124,10 +116,14 @@ export default function ProcessSection({
         <div className="flex flex-col items-center text-center z-10 relative mb-8 sm:mb-14 lg:mb-20">
           <h2 className="m-0 heading-display text-center leading-[0.83]">
             <span className="block text-cream">
-              {titleLine1}
+              <SplitReveal delay={0.05}>
+                {titleLine1}
+              </SplitReveal>
             </span>
             <span className="block text-darkblue -mt-1 sm:-mt-3">
-              {titleLine2}
+              <SplitReveal delay={0.18}>
+                {titleLine2}
+              </SplitReveal>
             </span>
           </h2>
 
@@ -136,14 +132,14 @@ export default function ProcessSection({
           </p>
         </div>
 
-        {/* 2. 2x2 Grid with Bi-directional Scroll-synced Cards */}
+        {/* 2. 2x2 Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 sm:gap-16 lg:gap-24 z-10 relative max-w-5xl mx-auto pb-8 sm:pb-16">
           {steps.map((step, idx) => (
             <AnimatedProcessCard
               key={step.stepNumber || idx}
               step={step}
               idx={idx}
-              progress={smoothProgress}
+              progress={scrollYProgress}
             />
           ))}
         </div>

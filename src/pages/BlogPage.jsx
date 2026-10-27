@@ -4,6 +4,7 @@ import BlogCard from '../components/sections/blog/BlogCard';
 import BlogSearchFilter from '../components/sections/blog/BlogSearchFilter';
 import Pagination from '../components/sections/blog/Pagination';
 import PillTag from '../components/ui/PillTag';
+import SplitReveal from '../components/ui/SplitReveal';
 import { BLOG_POSTS } from '../data/blogs';
 
 const POSTS_PER_PAGE = 6;
@@ -12,6 +13,24 @@ export default function BlogPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [currentPage, setCurrentPage] = useState(1);
+
+  // Dynamic SEO Injection for Blog Route
+  useEffect(() => {
+    document.title = 'UniSip Blog — Stories, Packaging & Hydration Insights';
+    
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute(
+        'content',
+        'Explore articles, packaging design tips, and stories from the custom hydration industry by UniSip.'
+      );
+    }
+
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) {
+      canonical.setAttribute('href', 'https://unisip.in/blog');
+    }
+  }, []);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -49,18 +68,22 @@ export default function BlogPage() {
     <PageShell>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 font-fira">
         
-        <header className="flex flex-col items-center text-center pt-2 pb-8 sm:pb-10">
+        {/* Strictly Centered Header Section */}
+        <header className="flex flex-col items-center text-center pt-2 pb-8 sm:pb-10 w-full">
           <div className="mb-1.5 sm:mb-3">
             <PillTag variant="dark" size="md" rotate="-rotate-[3deg]">
               Blog
             </PillTag>
           </div>
 
-          <h1 className="heading-display text-midblue max-w-4xl text-center leading-[0.85]">
-            BOTTLES, BRANDS &amp; EVERYTHING IN BETWEEN
+          <h1 className="heading-display text-midblue max-w-4xl w-full text-center leading-[0.85] m-0 mx-auto">
+            <SplitReveal trigger="mount" delay={0.06}>
+              BOTTLES, BRANDS & EVERYTHING IN BETWEEN
+            </SplitReveal>
           </h1>
         </header>
 
+        {/* Search & Category Filter Controls */}
         <BlogSearchFilter
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
@@ -68,6 +91,7 @@ export default function BlogPage() {
           onCategoryChange={setSelectedCategory}
         />
 
+        {/* Blog Cards Grid */}
         {paginatedPosts.length > 0 ? (
           <main className="pb-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">

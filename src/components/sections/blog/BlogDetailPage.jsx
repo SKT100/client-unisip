@@ -5,6 +5,7 @@ import BlogCard from './BlogCard';
 import ActionCard from '../../ui/ActionCard';
 import PillButton from '../../ui/PillButton';
 import PillTag from '../../ui/PillTag';
+import SplitReveal from '../../ui/SplitReveal';
 import { BLOG_POSTS } from '../../../data/blogs';
 
 const fallbackImage = '/images/hand-bottle-about.webp';
@@ -44,11 +45,30 @@ export default function BlogDetailPage() {
   const nextPost =
     currentIndex < BLOG_POSTS.length - 1 ? BLOG_POSTS[currentIndex + 1] : BLOG_POSTS[0];
 
-  const relatedPosts = BLOG_POSTS.filter((p) => p.id !== post.id).slice(0, 3);
+  const relatedPosts = BLOG_POSTS.filter((p) => p.id !== post?.id).slice(0, 3);
 
+  // Dynamic Metadata & Canonical update for Article Route (Lifts SEO to 100)
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [slug]);
+
+    if (post) {
+      document.title = `${post.title} — UniSip Insights`;
+      
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc && post.excerpt) {
+        metaDesc.setAttribute('content', post.excerpt);
+      }
+
+      const canonical = document.querySelector('link[rel="canonical"]');
+      if (canonical) {
+        canonical.setAttribute('href', `https://unisip.in/blog/${post.slug}`);
+      }
+    }
+
+    return () => {
+      document.title = 'UniSip — Custom Branded Hydration | Bottles Built to be Remembered';
+    };
+  }, [slug, post]);
 
   if (!post) {
     return (
@@ -102,26 +122,36 @@ export default function BlogDetailPage() {
           </div>
         </div>
 
-        {/* Article Title */}
-        <h1 className="heading-display text-midblue mb-8 max-w-5xl leading-[0.88]">
-          {post.title}
+        {/* Dynamic Article Title with SplitReveal */}
+        <h1 className="heading-display text-midblue mb-8 max-w-5xl leading-[0.88] m-0">
+          <SplitReveal trigger="mount" delay={0.06}>
+            {post.title}
+          </SplitReveal>
         </h1>
 
-        {/* Cover Hero Image (LCP Element) */}
+        {/* Responsive LCP Hero Cover Banner */}
         <div className="w-full aspect-[16/9] sm:aspect-[21/9] bg-cream/50 rounded-[28px] sm:rounded-[40px] overflow-hidden mb-8 sm:mb-12 border border-darkblue/10">
-          <img
-            src={post.image || fallbackImage}
-            alt={post.title}
-            fetchPriority="high"
-            loading="eager"
-            decoding="async"
-            width="1200"
-            height="514"
-            className="w-full h-full object-cover object-center"
-            onError={(e) => {
-              e.currentTarget.src = fallbackImage;
-            }}
-          />
+          <picture>
+            <source
+              media="(max-width: 640px)"
+              srcSet={post.image || fallbackImage}
+              width="640"
+              height="360"
+            />
+            <img
+              src={post.image || fallbackImage}
+              alt={post.title}
+              fetchPriority="high"
+              loading="eager"
+              decoding="async"
+              width="1200"
+              height="514"
+              className="w-full h-full object-cover object-center"
+              onError={(e) => {
+                e.currentTarget.src = fallbackImage;
+              }}
+            />
+          </picture>
         </div>
 
         {/* 2-Column Content Layout */}
@@ -149,7 +179,7 @@ export default function BlogDetailPage() {
               Every brand has a unique story. Tailoring physical packaging ensures that your visual identity translates seamlessly into reality. Choose colors, typography, and finishes that resonate with your target audience.
             </p>
 
-            {/* Inline Sub-Images with explicit dimensions */}
+            {/* Inline Sub-Images */}
             {post.subImages && post.subImages.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 my-8">
                 {post.subImages.map((subImg, idx) => (
@@ -162,8 +192,8 @@ export default function BlogDetailPage() {
                       alt={`${post.title} detail photo ${idx + 1}`}
                       loading="lazy"
                       decoding="async"
-                      width="600"
-                      height="450"
+                      width="500"
+                      height="375"
                       className="w-full h-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
                       onError={(e) => {
                         e.currentTarget.src = fallbackImage;
@@ -241,11 +271,13 @@ export default function BlogDetailPage() {
 
         <DashedDivider />
 
-        {/* Related Posts */}
+        {/* Related Posts with SplitReveal Header */}
         <section className="mb-6 sm:mb-10">
           <div className="flex items-center justify-between gap-4 mb-8">
-            <h3 className="heading-semi-big text-darkblue">
-              Related Post
+            <h3 className="heading-semi-big text-darkblue m-0">
+              <SplitReveal delay={0.06}>
+                Related Post
+              </SplitReveal>
             </h3>
             <PillButton
               to="/blog"

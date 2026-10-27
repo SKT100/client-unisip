@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import SplitReveal from '../../../ui/SplitReveal';
 import TestimonialCard from './TestimonialCard';
 
 const images = '/images';
@@ -87,7 +88,6 @@ export default function TestimonialSection({
   const containerRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // Synchronous initialization avoids double-mount on mobile devices
   const [isMobile, setIsMobile] = useState(() => {
     return typeof window !== 'undefined' ? window.innerWidth < 768 : false;
   });
@@ -139,7 +139,7 @@ export default function TestimonialSection({
           aria-hidden="true"
           width="1200"
           height="800"
-          className="absolute inset-0 w-full h-full object-cover opacity-15 mix-blend-overlay pointer-events-none select-none z-0"
+          className="absolute inset-0 w-full h-full object-cover opacity-8 pointer-events-none select-none z-0"
         />
 
         {/* 1. HEADER */}
@@ -154,10 +154,14 @@ export default function TestimonialSection({
 
           <h2 className="m-0 font-fira font-extrabold uppercase tracking-tight leading-[0.83] text-center">
             <span className="block text-[#f5f4ef] text-[36px] sm:text-[68px] lg:text-[96px] xl:text-[112px]">
-              {titleLine1}
+              <SplitReveal delay={0.05}>
+                {titleLine1}
+              </SplitReveal>
             </span>
             <span className="block text-[#39b8f2] text-[36px] sm:text-[68px] lg:text-[96px] xl:text-[112px] -mt-1 sm:-mt-2">
-              {titleLine2}
+              <SplitReveal delay={0.18}>
+                {titleLine2}
+              </SplitReveal>
             </span>
           </h2>
 
@@ -175,22 +179,22 @@ export default function TestimonialSection({
 
         {/* 2. CARD DISPLAY AREA */}
         {isMobile ? (
-          <div className="relative w-full max-w-[320px] h-[390px] flex items-center justify-center z-20 my-auto">
-            <AnimatePresence mode="wait">
+          <div className="relative w-full max-w-[320px] h-[390px] flex items-center justify-center z-20 my-auto overflow-hidden">
+            <AnimatePresence initial={false}>
               <motion.div
                 key={testimonials[activeIndex].id}
-                initial={{ opacity: 0, x: 25, scale: 0.95 }}
-                animate={{ opacity: 1, x: 0, scale: 1 }}
-                exit={{ opacity: 0, x: -25, scale: 0.95 }}
-                transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -50 }}
+                transition={{ duration: 0.18, ease: 'easeOut' }}
                 drag="x"
                 dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={0.25}
+                dragElastic={0.2}
                 onDragEnd={(_, info) => {
-                  if (info.offset.x < -40) handleNext();
-                  if (info.offset.x > 40) handlePrev();
+                  if (info.offset.x < -35) handleNext();
+                  if (info.offset.x > 35) handlePrev();
                 }}
-                className="w-full flex justify-center touch-pan-y"
+                className="w-full flex justify-center touch-pan-y absolute will-change-transform"
               >
                 <TestimonialCard
                   id={testimonials[activeIndex].id}
@@ -257,7 +261,7 @@ export default function TestimonialSection({
                 type="button"
                 onClick={() => setActiveIndex(i)}
                 aria-label={`Go to slide ${i + 1}`}
-                className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                className={`h-2.5 rounded-full transition-all duration-200 cursor-pointer ${
                   activeIndex === i ? 'w-6 bg-[#39b8f2]' : 'w-2.5 bg-white/30'
                 }`}
               />

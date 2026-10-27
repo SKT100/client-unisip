@@ -2,9 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence, MotionConfig } from 'framer-motion';
 import PillButton from '../ui/PillButton';
+import RollingText from '../ui/RollingText';
+import Magnetic from '../ui/Magnetic';
 
 const images = '/images';
 const ease = [0.22, 1, 0.36, 1];
+
+const MotionLink = motion(Link);
 
 const navLinks = [
   { name: 'About', path: '/about' },
@@ -49,7 +53,7 @@ export default function Navbar() {
     setIsOpen(false);
   }, [location.pathname]);
 
-  // Optimized scroll listener with state equality check
+  // Optimized scroll listener with RAF & state equality check
   useEffect(() => {
     let ticking = false;
     const onScroll = () => {
@@ -131,52 +135,57 @@ export default function Navbar() {
               </span>
             </Link>
 
-            {/* Desktop Navigation Links */}
+            {/* Desktop Navigation Links with Rolling Text (Underline removed, highlighted with cyanglow) */}
             <nav className="hidden items-center gap-6 md:flex lg:gap-8" aria-label="Primary">
               {navLinks.map((link) => {
                 const isActive = location.pathname === link.path;
                 return (
-                  <Link
+                  <MotionLink
                     key={link.name}
                     to={link.path}
+                    initial="initial"
+                    whileHover="hover"
                     aria-current={isActive ? 'page' : undefined}
-                    className={`select-none rounded-full px-4 py-1.5 font-fira text-lg lg:text-xl uppercase tracking-wider transition-colors duration-200 ${
+                    className={`relative inline-flex items-center select-none rounded-full px-4 py-1.5 font-fira text-lg lg:text-xl uppercase tracking-wider transition-colors duration-200 ${
                       isActive
                         ? 'bg-cream/10 font-bold text-cyanglow'
                         : 'text-cream font-medium hover:bg-cream/5 hover:text-cyanglow'
                     }`}
                   >
-                    {link.name}
-                  </Link>
+                    <RollingText text={link.name} />
+                  </MotionLink>
                 );
               })}
             </nav>
 
-            {/* Desktop Action Area */}
+            {/* Desktop Action Area: Magnetic Pull Button with Static Text */}
             <div className="hidden items-center justify-self-end gap-4 md:flex lg:gap-6">
               <span className="hidden font-fira text-sm lg:text-base font-extrabold uppercase tracking-widest text-cyanglow xl:inline-block select-none">
                 #BOTTLEYOURBRAND
               </span>
-              <PillButton 
-                to="/contact" 
-                size="sm"
-                logo={`${images}/logo/bottle-logo-mini.svg`}
-                className="!px-5 !py-2.5 !text-sm sm:!text-base font-extrabold uppercase tracking-wide hover:scale-105 transition-transform"
-              >
-                Contact Us
-              </PillButton>
+              
+              <Magnetic pullStrength={0.28} radius={35}>
+                <PillButton 
+                  to="/contact" 
+                  size="sm"
+                  logo={`${images}/logo/bottle-logo-mini.svg`}
+                  className="!px-5 !py-2.5 !text-sm sm:!text-base font-extrabold uppercase tracking-wide hover:scale-105 transition-transform"
+                >
+                  <span>Contact Us</span>
+                </PillButton>
+              </Magnetic>
             </div>
 
-            {/* Mobile Toggle Button (Expanded to 48x48px for WCAG compliance) */}
+            {/* Mobile Toggle Button */}
             <button
               type="button"
               onClick={() => setIsOpen((v) => !v)}
-              className="-mr-2 flex h-12 w-12 items-center justify-center text-cream transition-colors active:text-cyanglow focus-visible:outline-2 focus-visible:outline-cyanglow md:hidden"
+              className="-mr-2 flex h-12 w-12 items-center justify-center text-cream transition-colors active:text-cyanglow focus-visible:outline-2 focus-visible:outline-cyanglow md:hidden cursor-pointer"
               aria-expanded={isOpen}
               aria-controls="mobile-menu"
               aria-label="Toggle navigation menu"
             >
-              <span className="relative flex h-4 w-5 flex-col items-center justify-between">
+              <span className="relative flex h-4 w-5 flex-col items-center justify-between pointer-events-none">
                 <span className={`h-0.5 w-full origin-center rounded-full bg-current transition-transform duration-300 ease-out ${isOpen ? 'translate-y-[7px] rotate-45' : ''}`} />
                 <span className={`h-0.5 w-full rounded-full bg-current transition-opacity duration-200 ${isOpen ? 'opacity-0' : 'opacity-100'}`} />
                 <span className={`h-0.5 w-full origin-center rounded-full bg-current transition-transform duration-300 ease-out ${isOpen ? '-translate-y-[7px] -rotate-45' : ''}`} />
@@ -225,13 +234,12 @@ export default function Navbar() {
                     <PillButton 
                       to="/contact" 
                       size="lg" 
-                      iconSize={40} 
+                      iconSize={32} 
                       logo={`${images}/logo/bottle-logo-mini.svg`}
-                      fullWidth
                       onClick={() => setIsOpen(false)}
-                      className="!text-base font-extrabold uppercase tracking-wider"
+                      className="w-full !text-base font-extrabold uppercase tracking-wider"
                     >
-                      Contact Us
+                      <span>Contact Us</span>
                     </PillButton>
                   </motion.div>
                 </div>

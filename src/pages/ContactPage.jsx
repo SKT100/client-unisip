@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PageShell from '../components/layout/PageShell';
 import ActionCard from '../components/ui/ActionCard';
 import PillButton from '../components/ui/PillButton';
 import PillTag from '../components/ui/PillTag';
+import SplitReveal from '../components/ui/SplitReveal';
+import AngledBadgeReveal from '../components/ui/AngledBadgeReveal';
 
 const images = '/images';
 
@@ -21,6 +23,17 @@ export default function ContactPage() {
   const [isSubmittingSheet, setIsSubmittingSheet] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
   const [statusType, setStatusType] = useState('info');
+
+  useEffect(() => {
+    document.title = 'Contact UniSip — Start Your Custom Bottle Project';
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute(
+        'content',
+        'Connect with UniSip to design, produce, and deliver custom branded water bottles and private label hydration experiences tailored to your brand.'
+      );
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -128,31 +141,38 @@ export default function ContactPage() {
           </div>
 
           <h1 className="m-0 font-fira font-extrabold text-darkblue uppercase tracking-tight leading-[0.82] text-[48px] sm:text-[84px] lg:text-[130px] xl:text-[165px]">
-            TELL US ABOUT
+            <SplitReveal trigger="mount" delay={0.06}>
+              TELL US ABOUT
+            </SplitReveal>
           </h1>
 
-          <div className="-mt-2 sm:-mt-4 lg:-mt-6 inline-block relative bg-cream p-1.5 sm:p-2.5 lg:p-3 -rotate-[2.5deg] select-none shadow-none">
-            <div className="relative bg-darkblue text-cream font-fira font-extrabold uppercase leading-[0.823] tracking-tight text-[34px] sm:text-[64px] lg:text-[98px] xl:text-[126px] px-3 sm:px-5 lg:px-7 py-1.5 sm:py-2.5 lg:py-3 overflow-hidden whitespace-nowrap shadow-md">
-              <img
-                src={`${images}/logo/water-texture.svg`}
-                alt=""
-                aria-hidden="true"
-                width="240"
-                height="60"
-                className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay pointer-events-none"
-              />
-              <span className="relative z-10">YOUR BRAND</span>
+          {/* Slanted Emblem Badge Pop-in */}
+          <AngledBadgeReveal
+            trigger="mount"
+            targetRotate={-2.5}
+            delay={0.24}
+            className="-mt-2 sm:-mt-4 lg:-mt-6 z-10"
+          >
+            <div className="relative bg-cream p-1.5 sm:p-2.5 lg:p-3 select-none shadow-none">
+              <div className="relative bg-darkblue text-cream font-fira font-extrabold uppercase leading-[0.823] tracking-tight text-[34px] sm:text-[64px] lg:text-[98px] xl:text-[126px] px-3 sm:px-5 lg:px-7 py-1.5 sm:py-2.5 lg:py-3 overflow-hidden whitespace-nowrap shadow-md">
+                <img
+                  src={`${images}/logo/water-texture.svg`}
+                  alt=""
+                  aria-hidden="true"
+                  width="240"
+                  height="60"
+                  className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay pointer-events-none select-none z-0"
+                />
+                <span className="relative z-10">YOUR BRAND</span>
+              </div>
             </div>
-          </div>
+          </AngledBadgeReveal>
         </header>
 
-        {/* Form + Sidebar Grid: Stretches naturally without items-start */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 mb-6 sm:mb-10">
+        {/* Form + Sidebar Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 mb-6 sm:mb-10 items-stretch">
 
-          {/* Contact Form Column */}
           <form className="lg:col-span-7 flex flex-col gap-5 sm:gap-6 font-fira" noValidate>
-
-            {/* NAME */}
             <div>
               <label htmlFor="contact-name" className="block font-fira font-extrabold text-base sm:text-lg text-darkblue uppercase tracking-wide mb-2 leading-none">
                 NAME *
@@ -170,7 +190,6 @@ export default function ContactPage() {
               />
             </div>
 
-            {/* EMAIL */}
             <div>
               <label htmlFor="contact-email" className="block font-fira font-extrabold text-base sm:text-lg text-darkblue uppercase tracking-wide mb-2 leading-none">
                 EMAIL
@@ -187,7 +206,6 @@ export default function ContactPage() {
               />
             </div>
 
-            {/* PHONE */}
             <div>
               <label htmlFor="contact-phone" className="block font-fira font-extrabold text-base sm:text-lg text-darkblue uppercase tracking-wide mb-2 leading-none">
                 PHONE *
@@ -205,7 +223,6 @@ export default function ContactPage() {
               />
             </div>
 
-            {/* COMPANY / BRAND */}
             <div>
               <label htmlFor="contact-company" className="block font-fira font-extrabold text-base sm:text-lg text-darkblue uppercase tracking-wide mb-2 leading-none">
                 COMPANY / BRAND
@@ -218,11 +235,10 @@ export default function ContactPage() {
                 value={formData.company}
                 onChange={handleChange}
                 placeholder="ENTER YOUR BRAND NAME"
-                className="w-full bg-cream border border-darkblue/30 rounded-full px-6 py-3 sm:py-3.5 font-fira font-semibold text-base sm:text-lg tracking-wider text-darkblue placeholder:text-darkblue/35 focus:outline-none focus:border-darkblue transition-colors"
+                className="w-full bg-cream border border-darkblue/30 rounded-full px-6 py-3 sm:py-3.5 font-fira font-semibold text-base sm:text-lg tracking-wider text-darkblue placeholder:text-darkblue/35 focus:outline-none focus:border-darkblue focus:ring-1 focus:ring-darkblue transition-colors"
               />
             </div>
 
-            {/* REQUIREMENT */}
             <div>
               <label htmlFor="contact-requirement" className="block font-fira font-extrabold text-base sm:text-lg text-darkblue uppercase tracking-wide mb-2 leading-none">
                 WHAT DO YOU NEED?
@@ -240,7 +256,6 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Status Feedback Notification */}
             {statusMessage && (
               <p
                 role="status"
@@ -256,7 +271,6 @@ export default function ContactPage() {
               </p>
             )}
 
-            {/* Actions */}
             <div className="pt-2 flex flex-wrap items-center gap-4">
               <PillButton
                 onClick={handleSheetSubmit}
@@ -282,10 +296,9 @@ export default function ContactPage() {
                 Send via WhatsApp
               </button>
             </div>
-
           </form>
 
-          {/* Stretched Sidebar Column with Sticky ActionCard inside */}
+          {/* Sidebar */}
           <aside className="lg:col-span-5 h-full">
             <div className="sticky top-28">
               <ActionCard

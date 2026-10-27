@@ -1,6 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import PillButton from '../../ui/PillButton';
+import SplitReveal from '../../ui/SplitReveal';
+import AngledBadgeReveal from '../../ui/AngledBadgeReveal';
 
 const images = '/images';
 
@@ -16,9 +18,7 @@ export default function HomeHero() {
     <section className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 font-fira relative overflow-hidden">
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-4 lg:gap-6 items-center w-full relative pt-8 xs:pt-10 sm:pt-12 md:pt-4 lg:pt-6 xl:pt-8 pb-4 sm:pb-6">
 
-        {/* ========================================================================
-            BACKGROUND FADED BOTTLE & SPLASH (MOBILE ONLY: < md)
-            ======================================================================== */}
+        {/* Mobile Background Splash */}
         <div className="absolute left-1/2 -translate-x-1/2 top-[53%] -translate-y-1/2 w-[260px] xs:w-[300px] sm:w-[350px] h-[360px] xs:h-[400px] sm:h-[440px] opacity-25 pointer-events-none select-none z-0 md:hidden flex items-center justify-center">
           <img
             src={`${images}/splash-final.webp`}
@@ -47,28 +47,46 @@ export default function HomeHero() {
           />
         </div>
 
-        {/* ========================================================================
-            FOREGROUND COLUMN: DISPLAY HEADLINE, SUBTITLE & CTAS
-            ======================================================================== */}
+        {/* Foreground Content Stack */}
         <div className="md:col-span-7 flex flex-col items-center text-center md:items-start md:text-left z-10 relative">
+          
           <h1 className="m-0 font-fira font-extrabold text-darkblue uppercase tracking-tight leading-[0.82] text-[56px] xs:text-[68px] sm:text-[82px] md:text-[84px] lg:text-[104px] xl:text-[120px]">
-            <span className="block">BOTTLES</span>
-            <span className="block -mt-1 sm:-mt-2 lg:-mt-3">BUILT TO BE</span>
+            <span className="block">
+              <SplitReveal trigger="mount" delay={0.05}>
+                BOTTLES
+              </SplitReveal>
+            </span>
+            <span className="block -mt-1 sm:-mt-2 lg:-mt-3">
+              <SplitReveal trigger="mount" delay={0.16}>
+                BUILT TO BE
+              </SplitReveal>
+            </span>
           </h1>
 
-          <div className="-mt-1 sm:-mt-3 lg:-mt-4 mb-5 sm:mb-6 inline-block relative bg-cream p-1 sm:p-2 -rotate-[2.5deg] select-none shadow-none z-10">
-            <div className="relative bg-[#223856] text-cream font-fira font-extrabold uppercase leading-[0.82] tracking-tight text-[38px] xs:text-[46px] sm:text-[56px] md:text-[62px] lg:text-[76px] xl:text-[88px] px-4 sm:px-5 lg:px-6 py-1.5 sm:py-2 overflow-hidden whitespace-nowrap shadow-md">
-              <img
-                src={`${images}/logo/water-texture.svg`}
-                alt=""
-                aria-hidden="true"
-                width="200"
-                height="80"
-                className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay pointer-events-none select-none"
-              />
-              <span className="relative z-10">REMEMBERED.</span>
+          {/* Slanted Emblem Badge Stamped Directly in Place */}
+          <AngledBadgeReveal
+            trigger="mount"
+            targetRotate={-2.5}
+            delay={0.28}
+            className="-mt-1 sm:-mt-3 lg:-mt-4 mb-5 sm:mb-6 z-10"
+          >
+            <div className="relative bg-cream p-1 sm:p-2 select-none shadow-none">
+              <div className="relative bg-darkblue text-cream font-fira font-extrabold uppercase leading-[0.82] tracking-tight text-[38px] xs:text-[46px] sm:text-[56px] md:text-[62px] lg:text-[76px] xl:text-[88px] px-4 sm:px-5 lg:px-6 py-1.5 sm:py-2 overflow-hidden whitespace-nowrap shadow-md">
+                
+                {/* Preserved High-Contrast Water Texture */}
+                <img
+                  src={`${images}/logo/water-texture.svg`}
+                  alt=""
+                  aria-hidden="true"
+                  width="300"
+                  height="100"
+                  className="absolute inset-0 w-full h-full object-cover opacity-65 mix-blend-overlay pointer-events-none select-none z-0"
+                />
+
+                <span className="relative z-10">REMEMBERED.</span>
+              </div>
             </div>
-          </div>
+          </AngledBadgeReveal>
 
           <p className="max-w-xl sm:max-w-2xl font-fira font-normal text-darkblue/90 text-base sm:text-xl lg:text-[22px] leading-[1.18] tracking-tight mb-6 sm:mb-8 z-10 mx-auto md:mx-0">
             Custom bottles and branded hydration experiences designed around your identity.
@@ -79,29 +97,25 @@ export default function HomeHero() {
               to="/contact"
               variant="dark"
               size="md"
-              className="w-full sm:w-auto !min-h-[50px] !px-7 !text-base sm:!min-h-[52px] sm:!px-6 lg:!min-h-[56px] lg:!px-7 !shadow-md hover:scale-[1.03] transition-transform"
+              className="w-full sm:w-auto !min-h-[50px] !px-7 !text-base sm:!min-h-[52px] sm:!px-6 lg:!min-h-[56px] lg:!px-7 !shadow-md"
             >
               Bottle Your Brand
             </PillButton>
 
             <PillButton
               to="/work"
-              variant="outline"
+              variant="cream"
               size="md"
-              className="w-full sm:w-auto !min-h-[50px] !px-7 !text-base sm:!min-h-[52px] sm:!px-6 lg:!min-h-[56px] lg:!px-7 !shadow-none !border-2 !border-darkblue hover:scale-[1.03] transition-transform"
+              className="w-full sm:w-auto !min-h-[50px] !px-7 !text-base sm:!min-h-[52px] sm:!px-6 lg:!min-h-[56px] lg:!px-7 !shadow-none !border-2 !border-darkblue"
             >
               Explore Our Work
             </PillButton>
           </div>
         </div>
 
-        {/* ========================================================================
-            RIGHT COLUMN: DESKTOP BOTTLE & GPU PULSING SPLASH
-            ======================================================================== */}
+        {/* Desktop Bottle */}
         <div className="hidden md:flex md:col-span-5 justify-center items-center relative z-10 md:-translate-y-3 lg:-translate-y-5 md:-ml-2 lg:-ml-4 xl:-ml-6">
           <div className="relative w-full max-w-[340px] lg:max-w-[390px] xl:max-w-[430px] flex justify-center items-center select-none">
-            
-            {/* GPU Composited Continuous Breathing Splash */}
             <img
               src={`${images}/splash-final.webp`}
               alt=""
@@ -114,7 +128,6 @@ export default function HomeHero() {
               }}
             />
 
-            {/* Interactive LCP Bottle */}
             <motion.img
               initial={{ scale: 0.55, opacity: 0, rotate: -34, y: 30 }}
               animate={{ scale: 1, opacity: 1, rotate: -28, y: 0 }}
@@ -137,12 +150,11 @@ export default function HomeHero() {
               fetchPriority="high"
               loading="eager"
               decoding="async"
-              className="relative z-10 w-full h-auto object-contain drop-shadow-2xl origin-center pointer-events-auto cursor-pointer "
+              className="relative z-10 w-full h-auto object-contain drop-shadow-2xl origin-center pointer-events-auto cursor-pointer"
               onError={(e) => {
                 e.currentTarget.src = `${images}/about-bg-bottle.webp`;
               }}
             />
-
           </div>
         </div>
 

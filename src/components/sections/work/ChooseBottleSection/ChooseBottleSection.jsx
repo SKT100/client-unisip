@@ -1,6 +1,8 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import { motion, useMotionValue, useAnimationFrame } from 'framer-motion';
 import ChooseBottleCard from './ChooseBottleCard';
+import SplitReveal from '../../../ui/SplitReveal';
+import Magnetic from '../../../ui/Magnetic';
 
 const images = '/images';
 
@@ -14,14 +16,6 @@ const DEFAULT_BOTTLES = [
   { id: 'nira',    title: 'Unisip Nira',    volume: '750 ml',       image: `${images}/unisip-nira.webp`,    rotate: '-rotate-2' },
 ];
 
-/**
- * Interactive Infinite Marquee:
- * - Auto-scrolls smoothly at 50px/sec
- * - Pauses on hover so bottles stay steady under the cursor
- * - Draggable with mouse or touch (pointer capture)
- * - Trackpad horizontal scroll scrub enabled
- * - Seamless bidirectional infinite wrap
- */
 function Marquee({ items, renderItem, reverse = false, speed = 45 }) {
   const wrapRef = useRef(null);
   const groupRef = useRef(null);
@@ -35,7 +29,6 @@ function Marquee({ items, renderItem, reverse = false, speed = 45 }) {
 
   const x = useMotionValue(0);
 
-  // Measure group width to configure seamless infinite wrap points
   useLayoutEffect(() => {
     const measure = () => {
       if (!wrapRef.current || !groupRef.current) return;
@@ -46,7 +39,6 @@ function Marquee({ items, renderItem, reverse = false, speed = 45 }) {
       const totalWidth = setWidth * needed;
       setGroupWidth(totalWidth);
       
-      // Initialize view in the center set (Set B)
       if (x.get() === 0 && totalWidth > 0) {
         x.set(-totalWidth);
       }
@@ -59,7 +51,6 @@ function Marquee({ items, renderItem, reverse = false, speed = 45 }) {
     return () => ro.disconnect();
   }, [repeats, items]);
 
-  // Infinite wrapping math: maintains x in range [-2 * groupWidth, -groupWidth]
   const wrapX = (val) => {
     if (!groupWidth) return val;
     let current = val;
@@ -68,14 +59,12 @@ function Marquee({ items, renderItem, reverse = false, speed = 45 }) {
     return current;
   };
 
-  // Continuous auto-scroll (active only when not hovered or dragged)
   useAnimationFrame((time, delta) => {
     if (!groupWidth || isHovered || isDragging.current) return;
     const moveBy = (speed * (delta / 1000)) * (reverse ? 1 : -1);
     x.set(wrapX(x.get() + moveBy));
   });
 
-  // Pointer drag events (mouse & touch)
   const handlePointerDown = (e) => {
     if (e.button !== 0 && e.pointerType === 'mouse') return;
     isDragging.current = true;
@@ -100,7 +89,6 @@ function Marquee({ items, renderItem, reverse = false, speed = 45 }) {
     } catch (err) {}
   };
 
-  // Horizontal trackpad and Shift+wheel scrubbing
   const handleWheel = (e) => {
     const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : (e.shiftKey ? e.deltaY : 0);
     if (delta !== 0) {
@@ -132,7 +120,6 @@ function Marquee({ items, renderItem, reverse = false, speed = 45 }) {
         style={{ x }}
         className="flex w-max will-change-transform"
       >
-        {/* 3 identical sets ensure infinite scroll and drag in both directions */}
         <div ref={groupRef} className="flex shrink-0">{group}</div>
         <div className="flex shrink-0" aria-hidden="true">{group}</div>
         <div className="flex shrink-0" aria-hidden="true">{group}</div>
@@ -144,7 +131,6 @@ function Marquee({ items, renderItem, reverse = false, speed = 45 }) {
 export default function ChooseBottleSection({
   titleOutlined = 'CHOOSE YOUR',
   titleSolid = 'BOTTLE.',
-  subtitle = 'Different shapes · Different materials · One bottle for your brand.',
   bottles = DEFAULT_BOTTLES,
   className = '',
 }) {
@@ -160,35 +146,61 @@ export default function ChooseBottleSection({
   return (
     <section className={`w-full overflow-hidden bg-cream py-4 sm:py-6 font-fira relative ${className}`}>
 
-      {/* Top Carousel: scrolls left, draggable */}
+      {/* Top Forward Marquee */}
       <Marquee items={bottles} renderItem={renderCard} speed={45} />
 
-      {/* Central Headline */}
-      <div className="flex flex-col items-center text-center my-4 sm:my-6 lg:my-8 px-4 z-10 relative max-w-[1400px] mx-auto">
+      {/* Central Headline & Download Brochure Action */}
+      <div className="flex flex-col items-center text-center my-6 sm:my-8 lg:my-10 px-4 z-10 relative max-w-[1400px] mx-auto">
         <h2 className="m-0 font-fira font-extrabold uppercase tracking-tight leading-[0.83] text-center">
           {titleOutlined && (
-            <span
-              className="block text-[44px] sm:text-[76px] lg:text-[104px] xl:text-[120px] select-none"
-              style={{ WebkitTextStroke: '2.5px var(--color-darkblue)', color: 'transparent' }}
-            >
-              {titleOutlined}
+            <span className="block text-[44px] sm:text-[76px] lg:text-[104px] xl:text-[120px]">
+              <SplitReveal
+                delay={0.06}
+                charStyle={{
+                  WebkitTextStroke: '2.5px var(--color-darkblue)',
+                  color: 'transparent',
+                }}
+              >
+                {titleOutlined}
+              </SplitReveal>
             </span>
           )}
           {titleSolid && (
             <span className="block text-darkblue text-[44px] sm:text-[76px] lg:text-[104px] xl:text-[120px] -mt-1 sm:-mt-3">
-              {titleSolid}
+              <SplitReveal delay={0.22}>
+                {titleSolid}
+              </SplitReveal>
             </span>
           )}
         </h2>
 
-        {subtitle && (
-          <p className="mt-3 sm:mt-5 font-fira font-bold text-darkblue/90 text-sm sm:text-lg lg:text-xl leading-snug tracking-tight m-0 max-w-xl">
-            {subtitle}
-          </p>
-        )}
+        {/* Magnetic Download Brochure Button */}
+        <div className="mt-6 sm:mt-8">
+          <Magnetic pullStrength={0.3} radius={35}>
+            <a
+              href="/unisip--brochure.pdf"
+              download="UniSip-Brochure.pdf"
+              className="group relative inline-flex items-center justify-center gap-2.5 rounded-full bg-darkblue text-cream hover:bg-midblue px-7 sm:px-9 py-3 sm:py-4 font-fira font-extrabold uppercase tracking-wider text-xs sm:text-sm lg:text-base transition-all duration-200 shadow-md hover:shadow-xl active:scale-95 cursor-pointer select-none"
+            >
+              <svg
+                className="w-4 h-4 sm:w-5 sm:h-5 stroke-current transition-transform duration-300 group-hover:translate-y-0.5"
+                viewBox="0 0 24 24"
+                fill="none"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              <span>DOWNLOAD BROCHURE</span>
+            </a>
+          </Magnetic>
+        </div>
       </div>
 
-      {/* Bottom Carousel: scrolls right, draggable */}
+      {/* Bottom Reverse Marquee */}
       <Marquee items={bottles} renderItem={renderCard} reverse speed={45} />
 
     </section>

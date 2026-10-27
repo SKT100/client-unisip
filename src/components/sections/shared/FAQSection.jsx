@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import PillTag from '../../ui/PillTag';
 import PillButton from '../../ui/PillButton';
+import SplitReveal from '../../ui/SplitReveal';
 
 const DEFAULT_FAQS = [
   {
@@ -56,9 +57,7 @@ export default function FAQSection({
   return (
     <section className={`w-full max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8 font-fira relative ${className}`}>
       
-      {/* ========================================================================
-          MOBILE-ONLY HEADER STACK
-          ======================================================================== */}
+      {/* Mobile-Only Header Stack */}
       <div className="flex flex-col items-start text-left lg:hidden mb-8 sm:mb-10">
         {tagText && (
           <div className="mb-3 sm:mb-4">
@@ -71,23 +70,25 @@ export default function FAQSection({
         <h2 className="m-0 flex flex-col items-start font-fira font-extrabold uppercase tracking-tight leading-[0.82] mb-4 sm:mb-6">
           {titleRow1 && (
             <span className="text-darkblue text-[44px] sm:text-[72px]">
-              {titleRow1}
+              <SplitReveal delay={0.05}>{titleRow1}</SplitReveal>
             </span>
           )}
           {titleRow2 && (
             <span className="text-darkblue text-[44px] sm:text-[72px] -mt-1">
-              {titleRow2}
+              <SplitReveal delay={0.16}>{titleRow2}</SplitReveal>
             </span>
           )}
           {titleOutlined && (
-            <span
-              className="text-[44px] sm:text-[72px] -mt-1 select-none"
-              style={{
-                WebkitTextStroke: '3px #101A35',
-                color: 'transparent',
-              }}
-            >
-              {titleOutlined}
+            <span className="text-[44px] sm:text-[72px] -mt-1">
+              <SplitReveal
+                delay={0.28}
+                charStyle={{
+                  WebkitTextStroke: '3px var(--color-darkblue)',
+                  color: 'transparent',
+                }}
+              >
+                {titleOutlined}
+              </SplitReveal>
             </span>
           )}
         </h2>
@@ -107,9 +108,7 @@ export default function FAQSection({
         )}
       </div>
 
-      {/* ========================================================================
-          DESKTOP GRID & ACCORDION CARDS LAYOUT
-          ======================================================================== */}
+      {/* Desktop Grid & Accordion Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
         
         {/* Left Column (Sticky Desktop) */}
@@ -139,30 +138,32 @@ export default function FAQSection({
           )}
         </div>
 
-        {/* Right Column: Restored Initial Stacked Heading & Cards */}
+        {/* Right Column: Title Stack & Accordion Cards */}
         <div className="lg:col-span-8 flex flex-col items-start text-left w-full">
           
           {/* Main Title Stack (Desktop) */}
           <h2 className="hidden lg:flex m-0 flex-col items-start font-fira font-extrabold uppercase tracking-tight leading-[0.82] mb-10 sm:mb-14">
             {titleRow1 && (
               <span className="text-darkblue text-[52px] sm:text-[84px] lg:text-[112px] xl:text-[128px]">
-                {titleRow1}
+                <SplitReveal delay={0.05}>{titleRow1}</SplitReveal>
               </span>
             )}
             {titleRow2 && (
               <span className="text-darkblue text-[52px] sm:text-[84px] lg:text-[112px] xl:text-[128px] -mt-1 sm:-mt-2">
-                {titleRow2}
+                <SplitReveal delay={0.16}>{titleRow2}</SplitReveal>
               </span>
             )}
             {titleOutlined && (
-              <span
-                className="text-[52px] sm:text-[84px] lg:text-[112px] xl:text-[128px] -mt-1 sm:-mt-2 select-none"
-                style={{
-                  WebkitTextStroke: '3.5px #101A35',
-                  color: 'transparent',
-                }}
-              >
-                {titleOutlined}
+              <span className="text-[52px] sm:text-[84px] lg:text-[112px] xl:text-[128px] -mt-1 sm:-mt-2">
+                <SplitReveal
+                  delay={0.28}
+                  charStyle={{
+                    WebkitTextStroke: '3.5px var(--color-darkblue)',
+                    color: 'transparent',
+                  }}
+                >
+                  {titleOutlined}
+                </SplitReveal>
               </span>
             )}
           </h2>
@@ -177,7 +178,6 @@ export default function FAQSection({
                   key={faq.id || idx}
                   className="w-full bg-[#93B5F6] text-darkblue rounded-[20px] sm:rounded-[24px] overflow-hidden border border-darkblue/10"
                 >
-                  {/* Card Header Button (No hover color shifting) */}
                   <button
                     type="button"
                     onClick={() => toggleAccordion(idx)}
@@ -188,7 +188,6 @@ export default function FAQSection({
                       {faq.question}
                     </span>
 
-                    {/* Prominent Circular Toggle with Enlarged SVG Symbol */}
                     <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-[#101a35] text-[#f5f4ef] flex items-center justify-center shrink-0">
                       <svg
                         className="w-4 h-4 sm:w-5 sm:h-5 stroke-current"
@@ -197,10 +196,7 @@ export default function FAQSection({
                         strokeWidth="3.2"
                         strokeLinecap="round"
                       >
-                        {/* Horizontal Bar */}
                         <line x1="4" y1="12" x2="20" y2="12" />
-                        
-                        {/* Vertical Bar (Morphs cleanly into minus) */}
                         <motion.line
                           x1="12"
                           y1="4"
@@ -221,7 +217,6 @@ export default function FAQSection({
                     </div>
                   </button>
 
-                  {/* Smooth Accordion Body (Zero-Jitter Container) */}
                   <AnimatePresence initial={false}>
                     {isOpen && (
                       <motion.div

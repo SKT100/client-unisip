@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import PillTag from '../../../ui/PillTag';
+import SplitReveal from '../../../ui/SplitReveal';
 import BottleTypeCard from './BottleTypeCard';
 
 const images = '/images';
@@ -70,7 +71,7 @@ export default function BottleTypesCarousel({
   return (
     <section className={`w-full max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8 font-fira relative overflow-hidden ${className}`}>
       
-      {/* 1. Header Stack with Integrated Glass Drag Indicator */}
+      {/* 1. Header Stack */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 sm:mb-12">
         <div className="flex flex-col items-start text-left">
           {tagText && (
@@ -82,19 +83,29 @@ export default function BottleTypesCarousel({
           )}
 
           <h2 className="m-0 heading-display text-darkblue leading-[0.82]">
-            {titleLine1 && <span className="block">{titleLine1}</span>}
+            {titleLine1 && (
+              <span className="block">
+                <SplitReveal delay={0.06}>
+                  {titleLine1}
+                </SplitReveal>
+              </span>
+            )}
             <span className="flex items-center gap-3 sm:gap-5 flex-wrap -mt-1 sm:-mt-3">
-              {titleLine2Prefix && <span>{titleLine2Prefix}</span>}
+              {titleLine2Prefix && (
+                <SplitReveal delay={0.2}>
+                  {titleLine2Prefix}
+                </SplitReveal>
+              )}
               {titleLine2Outlined && (
-                <span
-                  className="select-none"
-                  style={{
+                <SplitReveal
+                  delay={0.28}
+                  charStyle={{
                     WebkitTextStroke: '3px var(--color-darkblue)',
                     color: 'transparent',
                   }}
                 >
                   {titleLine2Outlined}
-                </span>
+                </SplitReveal>
               )}
             </span>
           </h2>
@@ -120,7 +131,7 @@ export default function BottleTypesCarousel({
         </div>
       </div>
 
-      {/* 2. Draggable Carousel Track */}
+      {/* 2. Draggable Track */}
       <div
         ref={containerRef}
         className="w-full overflow-hidden cursor-grab active:cursor-grabbing select-none py-2 touch-pan-y"
@@ -147,7 +158,7 @@ export default function BottleTypesCarousel({
         </motion.div>
       </div>
 
-      {/* 3. Synchronized Progress Track */}
+      {/* 3. Progress Track */}
       <div className="flex justify-center mt-6 sm:mt-10">
         <div className="w-36 sm:w-52 h-1.5 sm:h-2 bg-cyanglow/30 backdrop-blur-sm rounded-full relative overflow-hidden border border-darkblue/10">
           <motion.div

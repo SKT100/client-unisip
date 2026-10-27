@@ -1,5 +1,6 @@
 import React from 'react';
 import PillTag from '../../../ui/PillTag';
+import SplitReveal from '../../../ui/SplitReveal';
 import BrandShowcaseCard from './BrandShowcaseCard';
 
 const images = '/images';
@@ -35,21 +36,27 @@ export default function WhereBrandShowsUpSection({
 
         <h2 className="m-0 heading-display text-darkblue text-center leading-[0.83]">
           <span className="flex items-center justify-center gap-3 sm:gap-5 flex-wrap">
-            <span>{titleLine1Prefix}</span>
+            <SplitReveal delay={0.05}>
+              {titleLine1Prefix}
+            </SplitReveal>
+            
             {titleLine1Outlined && (
-              <span
-                className="select-none"
-                style={{
+              <SplitReveal
+                delay={0.18}
+                charStyle={{
                   WebkitTextStroke: '3px var(--color-darkblue)',
                   color: 'transparent',
                 }}
               >
                 {titleLine1Outlined}
-              </span>
+              </SplitReveal>
             )}
           </span>
+
           <span className="block -mt-1 sm:-mt-3">
-            {titleLine2}
+            <SplitReveal delay={0.28}>
+              {titleLine2}
+            </SplitReveal>
           </span>
         </h2>
 

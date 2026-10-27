@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll } from 'framer-motion';
 import PillTag from '../../ui/PillTag';
+import SplitReveal from '../../ui/SplitReveal';
 
 const images = '/images';
 
@@ -42,7 +43,7 @@ export default function OurStorySection() {
   return (
     <section className="w-full max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8 font-fira relative overflow-visible pb-12 sm:pb-20 lg:pb-36">
       
-      {/* Header Section */}
+      {/* Header Section with SplitReveal */}
       <div className="flex flex-col items-center text-center mb-16 sm:mb-24">
         <div className="mb-2 sm:mb-3">
           <PillTag variant="dark" size="md" rotate="-rotate-[3deg]">
@@ -51,14 +52,21 @@ export default function OurStorySection() {
         </div>
 
         <h2 className="m-0 flex flex-col items-center font-fira font-extrabold uppercase leading-[0.82] tracking-tight">
-          <span 
-            className="text-[54px] sm:text-[90px] lg:text-[120px] select-none"
-            style={{ WebkitTextStroke: '2.5px var(--color-darkblue)', color: 'transparent' }}
-          >
-            WHY
+          <span className="text-[54px] sm:text-[90px] lg:text-[120px]">
+            <SplitReveal
+              delay={0.06}
+              charStyle={{
+                WebkitTextStroke: '2.5px var(--color-darkblue)',
+                color: 'transparent',
+              }}
+            >
+              WHY
+            </SplitReveal>
           </span>
-          <span className="text-darkblue text-[58px] sm:text-[98px] lg:text-[132px]">
-            UNISIP?
+          <span className="text-darkblue text-[58px] sm:text-[98px] lg:text-[132px] -mt-1 sm:-mt-2">
+            <SplitReveal delay={0.2}>
+              UNISIP?
+            </SplitReveal>
           </span>
         </h2>
       </div>

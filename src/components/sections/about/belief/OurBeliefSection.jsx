@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { motion, useInView, animate } from 'framer-motion';
 import PillTag from '../../../ui/PillTag';
 import BeliefCard from './BeliefCard';
+import SplitReveal from '../../../ui/SplitReveal';
 
 const images = '/images';
 
@@ -99,9 +100,7 @@ export default function OurBeliefSection() {
           className="absolute inset-0 w-full h-full object-cover opacity-10 mix-blend-overlay pointer-events-none select-none z-0"
         />
 
-        {/* ========================================================================
-            1. TOP SECTION: OUR BELIEF & 3 PILLAR CARDS
-            ======================================================================== */}
+        {/* 1. TOP SECTION: OUR BELIEF & 3 PILLAR CARDS */}
         <div className="flex flex-col items-center text-center relative z-10">
           
           <div className="mb-3 sm:mb-4">
@@ -112,10 +111,14 @@ export default function OurBeliefSection() {
 
           <h2 className="m-0 heading-display text-center leading-[0.85]">
             <span className="block text-cream">
-              MORE THAN A BOTTLE.
+              <SplitReveal delay={0.06}>
+                MORE THAN A BOTTLE.
+              </SplitReveal>
             </span>
             <span className="block text-cyanglow -mt-1 sm:-mt-3">
-              IT'S PART OF YOUR BRAND.
+              <SplitReveal delay={0.22}>
+                IT'S PART OF YOUR BRAND.
+              </SplitReveal>
             </span>
           </h2>
 
@@ -124,7 +127,7 @@ export default function OurBeliefSection() {
             its identity, its attention to detail and the experience it wants people to remember.
           </p>
 
-          {/* 3 Pillar Cards Grid (Tighter mobile gaps) */}
+          {/* 3 Pillar Cards Grid */}
           <motion.div 
             variants={containerVariants}
             initial="hidden"
@@ -167,15 +170,25 @@ export default function OurBeliefSection() {
           </svg>
         </div>
 
-        {/* ========================================================================
-            2. BOTTOM SECTION: FROM BRAND TO BOTTLE
-            ======================================================================== */}
+        {/* 2. BOTTOM SECTION: FROM BRAND TO BOTTLE */}
         <div className="flex flex-col items-center text-center relative z-10">
           
           <h2 className="heading-display text-center leading-[0.83] m-0">
-            <span className="text-cream block">FROM BRAND</span>
-            <span className="text-cream">TO </span>
-            <span className="text-cyanglow">BOTTLE.</span>
+            <span className="text-cream block">
+              <SplitReveal delay={0.06}>
+                FROM BRAND
+              </SplitReveal>
+            </span>
+            <span className="text-cream">
+              <SplitReveal delay={0.2}>
+                TO
+              </SplitReveal>{' '}
+            </span>
+            <span className="text-cyanglow">
+              <SplitReveal delay={0.26}>
+                BOTTLE.
+              </SplitReveal>
+            </span>
           </h2>
 
           <div className="mt-8 sm:mt-12 w-full max-w-7xl mx-auto flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-12 items-center lg:items-end">

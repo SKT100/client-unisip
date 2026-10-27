@@ -1,9 +1,9 @@
 import React from 'react';
 import SelectedWorkItem from './SelectedWorkItem';
+import SplitReveal from '../../../ui/SplitReveal';
 
 const images = '/images';
 
-// Updated dataset: First two are YouTube videos, followed by two image showcases
 const DEFAULT_PROJECTS = [
   {
     id: 1,
@@ -49,33 +49,32 @@ export default function SelectedWorksSection({
   return (
     <section className={`w-full max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8 font-fira relative ${className}`}>
       
-      {/* ========================================================================
-          SECTION HEADER
-          ======================================================================== */}
-      <div className="flex flex-col items-center text-center mb-12 sm:mb-20">
+      {/* Section Header with SplitReveal */}
+      <div className="flex flex-col items-center text-center mb-8 sm:mb-16">
         <h2 className="m-0 font-fira font-extrabold uppercase tracking-tight leading-[0.83] text-center">
-          {/* Outlined Top Line */}
           {titleOutlined && (
-            <span
-              className="block text-[48px] sm:text-[76px] lg:text-[104px] xl:text-[116px] select-none"
-              style={{
-                WebkitTextStroke: '2.5px #101A35',
-                color: 'transparent',
-              }}
-            >
-              {titleOutlined}
+            <span className="block text-[48px] sm:text-[76px] lg:text-[104px] xl:text-[116px]">
+              <SplitReveal
+                delay={0.06}
+                charStyle={{
+                  WebkitTextStroke: '2.5px var(--color-darkblue)',
+                  color: 'transparent',
+                }}
+              >
+                {titleOutlined}
+              </SplitReveal>
             </span>
           )}
 
-          {/* Solid Navy Bottom Line */}
           {titleSolid && (
             <span className="block text-darkblue text-[48px] sm:text-[76px] lg:text-[104px] xl:text-[116px] -mt-1 sm:-mt-3">
-              {titleSolid}
+              <SplitReveal delay={0.22}>
+                {titleSolid}
+              </SplitReveal>
             </span>
           )}
         </h2>
 
-        {/* Subtitle Statement */}
         {subtitle && (
           <p className="mt-4 sm:mt-6 font-fira font-normal text-darkblue/80 text-sm sm:text-lg lg:text-xl leading-snug tracking-tight m-0 max-w-md text-center">
             {subtitle}
@@ -83,9 +82,7 @@ export default function SelectedWorksSection({
         )}
       </div>
 
-      {/* ========================================================================
-          ZIG-ZAG SELECTED WORK ITEMS (SCROLL APPEARANCE)
-          ======================================================================== */}
+      {/* Synchronized Spotlight Scroll Track */}
       <div className="w-full flex flex-col items-center">
         {projects.map((project, idx) => (
           <SelectedWorkItem
@@ -95,8 +92,9 @@ export default function SelectedWorksSection({
             category={project.category}
             mediaSrc={project.mediaSrc}
             mediaType={project.mediaType}
-            isReversed={idx % 2 !== 0} // Alternates left/right
+            isReversed={idx % 2 !== 0}
             index={idx}
+            totalCount={projects.length}
           />
         ))}
       </div>
