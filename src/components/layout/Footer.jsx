@@ -273,7 +273,7 @@ export default function Footer() {
               <RollingText text="Contact Us" />
             </MotionLink>
             
-            <a
+            {/* <a
               href="/unisip-brochure.pdf"
               download="UniSip-Brochure.pdf"
               className="inline-flex items-center gap-1.5 text-general font-bold text-cyanglow/90 hover:text-cyanglow transition-colors duration-200 py-0.5"
@@ -284,7 +284,7 @@ export default function Footer() {
                 <polyline points="7 10 12 15 17 10" />
                 <line x1="12" y1="15" x2="12" y2="3" />
               </svg>
-            </a>
+            </a> */}
           </div>
 
           {/* Address */}
