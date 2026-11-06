@@ -175,7 +175,7 @@ export default function ChooseBottleSection({
         </h2>
 
         {/* Magnetic Download Brochure Button */}
-        <div className="mt-6 sm:mt-8">
+        {/* <div className="mt-6 sm:mt-8">
           <Magnetic pullStrength={0.3} radius={35}>
             <a
               href="/unisip--brochure.pdf"
@@ -197,7 +197,7 @@ export default function ChooseBottleSection({
               <span>DOWNLOAD BROCHURE</span>
             </a>
           </Magnetic>
-        </div>
+        </div> */}
       </div>
 
       {/* Bottom Reverse Marquee */}

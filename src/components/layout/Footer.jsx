@@ -117,7 +117,7 @@ export default function Footer() {
             </PillButton>
 
             {/* Secondary Magnetic Brochure Download Button */}
-            <Magnetic pullStrength={0.3} radius={35}>
+            {/* <Magnetic pullStrength={0.3} radius={35}>
               <a
                 href="/unisip--brochure.pdf"
                 download="UniSip-Brochure.pdf"
@@ -137,7 +137,7 @@ export default function Footer() {
                 </svg>
                 <span>DOWNLOAD BROCHURE</span>
               </a>
-            </Magnetic>
+            </Magnetic> */}
 
           </div>
 

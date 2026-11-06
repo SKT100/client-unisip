@@ -1,24 +1,35 @@
 import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, useReducedMotion, useInView } from 'framer-motion';
 import PillTag from '../../ui/PillTag';
 import SplitReveal from '../../ui/SplitReveal';
 
 const images = '/images';
+const ease = [0.22, 1, 0.36, 1];
 
 export default function HomeAboutBanner() {
   const containerRef = useRef(null);
+  const headingRef = useRef(null);
+  const reduce = useReducedMotion();
 
+  // Entrance fires once, when the heading reaches the lower-middle of the viewport
+  const bottleIn = useInView(headingRef, { once: true, margin: '0px 0px -30% 0px' });
+
+  // Original scroll range: bottle settles into place by the time the section is centered
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start end', 'center center'],
   });
 
-  const riseY = useTransform(scrollYProgress, [0, 1], [80, 0]);
+  const smooth = useSpring(scrollYProgress, { stiffness: 100, damping: 26, mass: 0.4 });
+
+  // Stronger version of the original rise (was 80 -> 0)
+  const riseY = useTransform(smooth, [0, 1], reduce ? [0, 0] : [280, 0]);
+  const riseScale = useTransform(smooth, [0, 1], reduce ? [1, 1] : [0.9, 1]);
 
   return (
     <section ref={containerRef} className="w-full mx-auto font-fira relative">
       <div className="w-full bg-[#090F1F] text-cream rounded-[32px] sm:rounded-[60px] md:rounded-[80px] lg:rounded-[110px] xl:rounded-[130px] p-5 sm:p-10 lg:p-16 xl:p-20 overflow-hidden shadow-2xl relative min-h-[740px] sm:min-h-[960px] lg:min-h-[1140px] xl:min-h-[1240px] flex flex-col justify-between">
-        
+
         {/* Subtly Hidden Background Texture */}
         <img
           src={`${images}/logo/water-texture.svg`}
@@ -30,7 +41,10 @@ export default function HomeAboutBanner() {
         />
 
         {/* 1. Header Stack */}
-        <div className="flex flex-col items-center text-center z-10 relative pt-2 sm:pt-6">
+        <div
+          ref={headingRef}
+          className="flex flex-col items-center text-center z-10 relative pt-2 sm:pt-6"
+        >
           <div className="mb-3 sm:mb-4">
             <PillTag variant="cyan" size="md" rotate="-rotate-[3deg]">
               ABOUT US
@@ -52,33 +66,41 @@ export default function HomeAboutBanner() {
         </div>
 
         {/* 2. Bottle in Hand Visual */}
-        <div className="absolute inset-0 flex justify-center items-end z-20 pointer-events-none select-none">
+        <div className="absolute inset-0 z-20 pointer-events-none select-none">
+
+          {/* Layer A: scroll-linked rise (your original effect, strengthened) */}
           <motion.div
-            style={{ y: riseY }}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.45, ease: 'easeOut' }}
-            className="relative w-full max-w-[420px] sm:max-w-[500px] lg:max-w-[600px] xl:max-w-[675px] h-full flex items-end justify-center pt-24 sm:pt-36 lg:pt-48 will-change-transform"
+            style={{ y: riseY, scale: riseScale, originY: 1 }}
+            className="w-full h-full flex justify-center items-end will-change-transform"
           >
-            <img
-              src={`${images}/hand-bottle-about.webp`}
-              alt="Hand holding UniSip custom branded bottle"
-              loading="lazy"
-              decoding="async"
-              width="675"
-              height="800"
-              className="w-full h-auto object-contain object-bottom"
-              onError={(e) => {
-                e.currentTarget.src = `${images}/unisip-bottle-hero.webp`;
+            {/* Layer B: one-time entrance rise from the bottom edge */}
+            <motion.div
+              initial={{ y: '60%', opacity: 0 }}
+              animate={bottleIn ? { y: 0, opacity: 1 } : { y: '60%', opacity: 0 }}
+              transition={{
+                y: { duration: 1.2, ease, delay: 0.1 },
+                opacity: { duration: 0.5, delay: 0.1 },
               }}
-            />
+              className="relative w-full max-w-[420px] sm:max-w-[500px] lg:max-w-[600px] xl:max-w-[675px] h-full flex items-end justify-center pt-24 sm:pt-36 lg:pt-48"
+            >
+              <img
+                src={`${images}/hand-bottle-about.webp`}
+                alt="Hand holding UniSip custom branded bottle"
+                decoding="async"
+                width="675"
+                height="800"
+                className="w-full h-auto object-contain object-bottom"
+                onError={(e) => {
+                  e.currentTarget.src = `${images}/unisip-bottle-hero.webp`;
+                }}
+              />
+            </motion.div>
           </motion.div>
         </div>
 
         {/* 3. Bottom Information Layer */}
         <div className="relative z-30 flex flex-row justify-between items-end mt-auto pt-32 sm:pt-40 lg:pt-0 w-full">
-          <div className="w-[62%] sm:w-auto max-w-[270px] sm:max-w-[310px] lg:max-w-[350px] flex flex-col items-start text-left bg-[#070C18]/95 p-4 sm:p-5 rounded-2xl border border-cream/10 shadow-2xl">
+          <div className="w-[62%] sm:w-auto max-w-[270px] sm:max-w-[310px] lg:max-w-[350px] flex flex-col items-start text-left bg-lightblue/20 p-4 sm:p-5 rounded-2xl border border-cream/10 shadow-2xl">
             <div className="mb-3 sm:mb-4 opacity-95 select-none w-full">
               <img
                 src={`${images}/logo/barcode-logo.svg`}
