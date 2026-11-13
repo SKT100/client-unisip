@@ -6,6 +6,29 @@ import RollingText from '../ui/RollingText';
 import Magnetic from '../ui/Magnetic';
 
 const images = '/images';
+const fromOwnSoilUrl = 'https://fromownsoil.tuii.in';
+
+function FromOwnSoilButton({ onClick, className = '' }) {
+  return (
+    <a
+      href={fromOwnSoilUrl}
+      onClick={onClick}
+      className={`soil-nav-link ${className}`}
+    >
+      <span className="soil-nav-link__seal" aria-hidden="true">
+        <img src="/images/logo/from-own-soil.svg" alt="" width="32" height="32" decoding="async" />
+      </span>
+      <span className="soil-nav-link__wordmark">
+        <span className="soil-nav-link__eyebrow">A TUII collection</span>
+        <span className="soil-nav-link__name">From Own Soil</span>
+      </span>
+      <svg className="soil-nav-link__arrow" width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M3 13 13 3M3 3h10v10" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </a>
+  );
+}
+
 const ease = [0.22, 1, 0.36, 1];
 
 const MotionLink = motion(Link);
@@ -81,7 +104,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const onKey = (e) => e.key === 'Escape' && setIsOpen(false);
-    const mq = window.matchMedia('(min-width: 768px)');
+    const mq = window.matchMedia('(min-width: 1024px)');
     const onChange = (e) => e.matches && setIsOpen(false);
 
     window.addEventListener('keydown', onKey);
@@ -102,7 +125,7 @@ export default function Navbar() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             onClick={() => setIsOpen(false)}
-            className="fixed inset-0 z-40 bg-darkblue/50 backdrop-blur-sm md:hidden"
+            className="fixed inset-0 z-40 bg-darkblue/50 backdrop-blur-sm lg:hidden"
             aria-hidden="true"
           />
         )}
@@ -110,33 +133,30 @@ export default function Navbar() {
 
       <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-3 pt-[max(0.875rem,env(safe-area-inset-top))] sm:px-6 sm:pt-4 lg:px-8 font-fira">
         <div
-          className={`pointer-events-auto mx-auto w-full max-w-[1280px] overflow-hidden rounded-[28px] sm:rounded-[32px] border border-cream/15 bg-darkblue text-cream transition-shadow duration-300 ${
+          className={`pointer-events-auto mx-auto w-full max-w-[1280px] lg:max-w-[1120px] overflow-hidden rounded-[28px] sm:rounded-[32px] border border-cream/15 bg-darkblue text-cream transition-shadow duration-300 ${
             scrolled ? 'shadow-[0_12px_32px_rgba(16,26,53,0.35)]' : 'shadow-none'
           }`}
         >
-          <div className="flex h-14 w-full items-center justify-between px-4 sm:h-16 sm:px-6 md:grid md:grid-cols-[1fr_auto_1fr]">
+          <div className="flex h-14 w-full items-center justify-between px-4 sm:h-16 sm:px-6 lg:grid lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:gap-4">
             
             {/* Logo & Brand Wordmark */}
             <Link
               to="/"
               onClick={() => setIsOpen(false)}
-              aria-label="Unisip Home"
+              aria-label="TUII Home"
               className="group inline-flex items-center gap-2.5 justify-self-start rounded-full transition-transform duration-300 hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyanglow"
             >
               <img
-                src={`${images}/logo/unisip-logo.svg`}
-                alt="Unisip Logo"
-                width={36}
-                height={36}
-                className="h-8 w-auto shrink-0 object-contain sm:h-9"
+                src={`${images}/logo/tuii-logo.svg`}
+                alt="TUII Logo"
+                width={867}
+                height={668}
+                className="h-8 w-auto shrink-0 object-contain sm:h-9 lg:h-11"
               />
-              <span className="font-fira text-2xl sm:text-3xl font-extrabold uppercase tracking-wider text-cream group-hover:text-cyanglow transition-colors duration-200">
-                UNISIP
-              </span>
             </Link>
 
             {/* Desktop Navigation Links with Rolling Text (Underline removed, highlighted with cyanglow) */}
-            <nav className="hidden items-center gap-6 md:flex lg:gap-8" aria-label="Primary">
+            <nav className="hidden items-center gap-2 lg:flex xl:gap-4" aria-label="Primary">
               {navLinks.map((link) => {
                 const isActive = location.pathname === link.path;
                 return (
@@ -159,17 +179,15 @@ export default function Navbar() {
             </nav>
 
             {/* Desktop Action Area: Magnetic Pull Button with Static Text */}
-            <div className="hidden items-center justify-self-end gap-4 md:flex lg:gap-6">
-              <span className="hidden font-fira text-sm lg:text-base font-extrabold uppercase tracking-widest text-cyanglow xl:inline-block select-none">
-                #BOTTLEYOURBRAND
-              </span>
-              
+            <div className="hidden items-center justify-self-end gap-2 lg:flex xl:gap-3">
+              <FromOwnSoilButton />
+
               <Magnetic pullStrength={0.28} radius={35}>
                 <PillButton 
                   to="/contact" 
                   size="sm"
                   logo={`${images}/logo/bottle-logo-mini.svg`}
-                  className="!px-5 !py-2.5 !text-sm sm:!text-base font-extrabold uppercase tracking-wide hover:scale-105 transition-transform"
+                  className="!h-[42px] !min-h-[42px] !px-5 !py-0 !text-sm sm:!text-base font-extrabold uppercase tracking-wide hover:scale-105 transition-transform"
                 >
                   <span>Contact Us</span>
                 </PillButton>
@@ -180,7 +198,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => setIsOpen((v) => !v)}
-              className="-mr-2 flex h-12 w-12 items-center justify-center text-cream transition-colors active:text-cyanglow focus-visible:outline-2 focus-visible:outline-cyanglow md:hidden cursor-pointer"
+              className="-mr-2 flex h-12 w-12 items-center justify-center text-cream transition-colors active:text-cyanglow focus-visible:outline-2 focus-visible:outline-cyanglow lg:hidden cursor-pointer"
               aria-expanded={isOpen}
               aria-controls="mobile-menu"
               aria-label="Toggle navigation menu"
@@ -204,7 +222,7 @@ export default function Navbar() {
                 animate="open"
                 exit="closed"
                 variants={drawerVariants}
-                className="overflow-hidden md:hidden"
+                className="overflow-hidden lg:hidden"
               >
                 <div className="max-h-[calc(100dvh-6rem)] overflow-y-auto border-t border-cream/10 px-5 pb-6 pt-3">
                   <nav className="flex flex-col gap-2" aria-label="Mobile">
@@ -228,9 +246,7 @@ export default function Navbar() {
                   </nav>
 
                   <motion.div variants={itemVariants} className="mt-4 flex flex-col gap-4 border-t border-cream/10 pt-4">
-                    <span className="font-fira text-sm font-extrabold text-cyanglow uppercase tracking-widest">
-                      #BOTTLEYOURBRAND
-                    </span>
+                    <FromOwnSoilButton onClick={() => setIsOpen(false)} className="w-full" />
                     <PillButton 
                       to="/contact" 
                       size="lg" 

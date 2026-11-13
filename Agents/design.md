@@ -1,7 +1,7 @@
-# UniSip Complete Design System & Specification
+# TUII Complete Design System & Specification
 
 ## 1. Primary Brand Identity
-UniSip is a premium custom-branded hydration solution. The brand aesthetic balances bold, high-contrast editorial typography with clean, tactile paper-cut sticker emblems, rich blue water textures, and off-white background tones.
+TUII is a premium custom-branded hydration solution. The brand aesthetic balances bold, high-contrast editorial typography with clean, tactile paper-cut sticker emblems, rich blue water textures, and off-white background tones.
 
 ---
 

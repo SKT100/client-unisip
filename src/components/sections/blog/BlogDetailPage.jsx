@@ -52,7 +52,7 @@ export default function BlogDetailPage() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     if (post) {
-      document.title = `${post.title} — UniSip Insights`;
+      document.title = `${post.title} — TUII Insights`;
       
       const metaDesc = document.querySelector('meta[name="description"]');
       if (metaDesc && post.excerpt) {
@@ -66,7 +66,7 @@ export default function BlogDetailPage() {
     }
 
     return () => {
-      document.title = 'UniSip — Custom Branded Hydration | Bottles Built to be Remembered';
+      document.title = 'TUII — Custom Branded Hydration | Bottles Built to be Remembered';
     };
   }, [slug, post]);
 

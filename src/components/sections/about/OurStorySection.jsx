@@ -29,7 +29,7 @@ export default function OurStorySection() {
     {
       id: 'build',
       title: 'THE BUILD',
-      text: 'UniSip was created to bring together custom bottles, thoughtful design and reliable production.',
+      text: 'TUII was created to bring together custom bottles, thoughtful design and reliable production.',
       side: 'left',
     },
     {
@@ -65,7 +65,7 @@ export default function OurStorySection() {
           </span>
           <span className="text-darkblue text-[58px] sm:text-[98px] lg:text-[132px] -mt-1 sm:-mt-2">
             <SplitReveal delay={0.2}>
-              UNISIP?
+              TUII?
             </SplitReveal>
           </span>
         </h2>

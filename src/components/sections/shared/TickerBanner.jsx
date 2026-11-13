@@ -5,7 +5,7 @@ const fallbackIcon = `${images}/cone-bottle-outline-logo.svg`;
 
 const MARQUEE_ITEMS = [
   { word: 'FRESH', icon: `${images}/sipper-bottle-outline-logo.svg` },
-  { word: 'SPECIALTY', icon: `${images}/cylindrical-bottle-outline.svg` },
+  { word: 'SPECIALTY', icon: `${images}/cylindrical-bottle-outline-logo.svg` },
   { word: 'CUSTOM', icon: `${images}/cone-bottle-outline-logo.svg` },
   { word: 'PREMIUM', icon: `${images}/curve-bottle-outline-logo.svg` },
 ];

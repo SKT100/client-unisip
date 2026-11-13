@@ -7,6 +7,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function SmoothScroll({ children }) {
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce), (pointer: coarse)').matches) return;
+
     // 1. Initialize Lenis with balanced touch and wheel physics
     const lenis = new Lenis({
       duration: 1.15,

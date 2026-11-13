@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * Reusable UniSip Pill Tag / Badge Component
+ * Reusable TUII Pill Tag / Badge Component
  * 
  * @param {React.ReactNode} children - Text or content inside the pill
  * @param {'dark'|'light'|'blue'|'cyan'} variant - Preset background & text colors

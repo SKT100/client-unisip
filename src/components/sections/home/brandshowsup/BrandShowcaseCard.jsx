@@ -7,7 +7,7 @@ export default function BrandShowcaseCard({
   image,
   title,
   subtitle,
-  alt = 'UniSip Brand Showcase',
+  alt = 'TUII Brand Showcase',
   aspectClass = 'aspect-[4/3]',
   className = '',
 }) {

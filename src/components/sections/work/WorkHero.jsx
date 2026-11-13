@@ -7,12 +7,6 @@ import AngledBadgeReveal from '../../ui/AngledBadgeReveal';
 
 const images = '/images';
 
-const dropDownTransition = {
-  duration: 0.9,
-  delay: 0.1,
-  ease: [0.16, 1, 0.3, 1],
-};
-
 export default function WorkHero({ className = '' }) {
   return (
     <section className={`w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 font-fira relative overflow-hidden ${className}`}>
@@ -105,7 +99,7 @@ export default function WorkHero({ className = '' }) {
               animate={{ y: 0 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               src={`${images}/work-hero.webp`}
-              alt="UniSip custom branded bottle making process"
+              alt="TUII custom branded bottle making process"
               width="500"
               height="500"
               fetchPriority="high"

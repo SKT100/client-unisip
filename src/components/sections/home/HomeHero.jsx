@@ -26,7 +26,7 @@ export default function HomeHero() {
             aria-hidden="true"
             width="350"
             height="350"
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[125%] h-[125%] object-contain pointer-events-none z-0 origin-center animate-pulse"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[125%] h-[125%] object-contain pointer-events-none z-0 origin-center"
             onError={(e) => {
               e.currentTarget.style.display = 'none';
             }}
@@ -37,7 +37,9 @@ export default function HomeHero() {
             animate={{ scale: 1, opacity: 1, rotate: -28, y: 0 }}
             transition={springPhysics}
             src={`${images}/unisip-bottle-hero.webp`}
-            alt="UniSip custom branded bottle"
+            alt="TUII custom branded bottle"
+            fetchPriority="high"
+            decoding="async"
             width="280"
             height="380"
             className="relative z-10 w-full h-auto max-h-[340px] xs:max-h-[380px] object-contain drop-shadow-md"
@@ -122,7 +124,7 @@ export default function HomeHero() {
               aria-hidden="true"
               width="500"
               height="500"
-              className="absolute left-1/2 top-1/2 w-[126%] h-[126%] object-contain pointer-events-none z-0 origin-center animate-splash-pulse will-change-transform"
+              className="absolute left-1/2 top-1/2 w-[126%] h-[126%] object-contain pointer-events-none z-0 origin-center animate-splash-pulse"
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
               }}
@@ -144,7 +146,7 @@ export default function HomeHero() {
               }}
               transition={springPhysics}
               src={`${images}/unisip-bottle-hero.webp`}
-              alt="UniSip custom branded bottle with water splash"
+              alt="TUII custom branded bottle with water splash"
               width="430"
               height="580"
               fetchPriority="high"

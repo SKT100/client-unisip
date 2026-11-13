@@ -3,6 +3,8 @@ import { useScroll, motion, useTransform } from 'framer-motion';
 import SelectedWorkItem from './SelectedWorkItem';
 import SplitReveal from '../../../ui/SplitReveal';
 
+import useMediaQuery from '../../../utils/useMediaQuery';
+
 const images = '/images';
 
 // 1. Ashish Solanki (Top)
@@ -12,7 +14,7 @@ const images = '/images';
 const DEFAULT_PROJECTS = [
   {
     id: 'ashish-solanki',
-    title: 'Ashish Solanki trusts Unisip',
+    title: 'Ashish Solanki trusts TUII',
     subtitle: 'Exclusive backstage comedy tour bottles designed for live show audiences and VIP artist lounges.',
     category: 'CREATOR EDITION',
     mediaSrc: `${images}/ashish_solanki.webp`,
@@ -20,7 +22,7 @@ const DEFAULT_PROJECTS = [
   },
   {
     id: 'boat',
-    title: 'UNISIP x Boat',
+    title: 'TUII x Boat',
     subtitle: 'Limited edition high-impact matte black bottles crafted for nationwide product launch kits and influencer gifting.',
     category: 'CO-BRANDED DROP',
     mediaSrc: `${images}/boat.webp`,
@@ -28,7 +30,7 @@ const DEFAULT_PROJECTS = [
   },
   {
     id: 'chirag-panjwani',
-    title: 'UniSip x Chirag Panjwani',
+    title: 'TUII x Chirag Panjwani',
     subtitle: 'Custom tour hydration crafted for live stand-up specials, fan meetups, and backstage artist hospitality.',
     category: 'CREATOR EDITION',
     mediaSrc: `${images}/unisip-chirag.webp`,
@@ -52,6 +54,7 @@ export default function SelectedWorksSection({
   className = '',
 }) {
   const containerRef = useRef(null);
+  const staticLayout = useMediaQuery('(max-width: 1023px), (prefers-reduced-motion: reduce)');
 
   // Global scroll through the pinned stage
   const { scrollYProgress } = useScroll({
@@ -60,17 +63,17 @@ export default function SelectedWorksSection({
   });
 
   // Dynamic progress line tracking on the left column
-  const trackHeight = useTransform(scrollYProgress, [0, 1], ['25%', '100%']);
+  const trackHeight = useTransform(scrollYProgress, [0, 1], [0.25, 1]);
 
   return (
     <section
       ref={containerRef}
-      className={`relative w-full font-fira h-[380vh] ${className}`}
+      className={`relative w-full font-fira ${staticLayout ? '' : 'h-[380vh]'} ${className}`}
     >
       {/* Viewport Stays Pinned While User Scrolls Through Projects */}
-      <div className="sticky top-0 h-[100dvh] w-full flex items-center py-6 sm:py-10 px-4 sm:px-6 lg:px-8 max-w-[1440px] mx-auto overflow-hidden">
+      <div className={`${staticLayout ? 'relative' : 'sticky top-0 h-[100svh]'} w-full flex items-center py-6 sm:py-10 px-4 sm:px-6 lg:px-8 max-w-[1440px] mx-auto overflow-hidden`}>
         
-        <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div className={`w-full grid grid-cols-1 ${staticLayout ? '' : 'lg:grid-cols-12'} gap-8 lg:gap-12 items-center`}>
 
           {/* ====================================================================
               LEFT COLUMN (PINNED HEADLINE & EDITORIAL CONTEXT ON DESKTOP)
@@ -107,10 +110,10 @@ export default function SelectedWorksSection({
             )}
 
             {/* Architectural Progress Track (Desktop Only) */}
-            <div className="hidden lg:flex items-center gap-3 mt-10">
+            <div className={`${staticLayout ? 'hidden' : 'hidden lg:flex'} items-center gap-3 mt-10`}>
               <div className="w-28 h-1 bg-darkblue/15 rounded-full overflow-hidden">
                 <motion.div
-                  style={{ width: trackHeight }}
+                  style={{ scaleX: trackHeight, transformOrigin: 'left' }}
                   className="h-full bg-darkblue rounded-full"
                 />
               </div>
@@ -123,7 +126,7 @@ export default function SelectedWorksSection({
           {/* ====================================================================
               RIGHT COLUMN (ELABORATE DISPLAY STAGE: ONE FADES & ANOTHER APPEARS)
               ==================================================================== */}
-          <div className="lg:col-span-7 relative w-full h-[380px] xs:h-[420px] sm:h-[480px] lg:h-[560px] flex items-center z-10">
+          <div className={`relative w-full z-10 ${staticLayout ? 'grid gap-12' : 'lg:col-span-7 h-[560px] flex items-center'}`}>
             {projects.map((project, idx) => (
               <SelectedWorkItem
                 key={project.id || idx}
@@ -134,6 +137,7 @@ export default function SelectedWorksSection({
                 mediaType={project.mediaType}
                 index={idx}
                 progress={scrollYProgress}
+                staticLayout={staticLayout}
               />
             ))}
           </div>

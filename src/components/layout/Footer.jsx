@@ -120,7 +120,7 @@ export default function Footer() {
             {/* <Magnetic pullStrength={0.3} radius={35}>
               <a
                 href="/unisip--brochure.pdf"
-                download="UniSip-Brochure.pdf"
+                download="TUII-Brochure.pdf"
                 className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-full border-2 border-cream/35 hover:border-cyanglow bg-cream/10 hover:bg-cream/20 px-7 sm:px-9 min-h-[50px] sm:min-h-[60px] text-cream hover:text-cyanglow font-fira font-extrabold uppercase tracking-wider text-xs sm:text-sm lg:text-base transition-all duration-200 backdrop-blur-sm cursor-pointer shadow-lg active:scale-95"
               >
                 <svg
@@ -153,22 +153,19 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-8">
 
           {/* Logo & Wordmark */}
-          <Link to="/" className="inline-flex items-center gap-3 sm:gap-5 group" aria-label="Unisip Home">
+          <Link to="/" className="inline-flex flex-col items-start gap-2 sm:gap-3 group" aria-label="TUII Home">
             <img
-              alt="Unisip Logo"
-              src={`${images}/logo/unisip-logo-white.svg`}
-              width="80"
-              height="80"
+              alt="TUII Logo"
+              src={`${images}/logo/tuii-logo.svg`}
+              width="867"
+              height="668"
               className="h-12 sm:h-16 md:h-20 lg:h-24 w-auto object-contain shrink-0 transition-transform duration-300 group-hover:scale-105"
               onError={(e) => {
                 e.currentTarget.onerror = null;
-                e.currentTarget.src = `${images}/logo/unisip-logo.svg`;
+                e.currentTarget.src = `${images}/logo/tuii-logo.svg`;
               }}
             />
             <div className="flex flex-col text-left">
-              <strong className="font-fira font-extrabold text-4xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.85] text-cream group-hover:text-cyanglow transition-colors duration-200">
-                UNISIP
-              </strong>
               <span className="font-fira font-bold text-xs sm:text-base md:text-lg lg:text-xl text-cyanglow tracking-wider mt-1 sm:mt-2">
                 #BOTTLE YOUR BRAND
               </span>
@@ -181,13 +178,13 @@ export default function Footer() {
               LET'S TALK
             </h3>
             <a
-              href="mailto:enquiry.unisip@gmail.com"
+              href="mailto:info@tui.in"
               className="text-general font-medium text-cream/90 hover:text-cyanglow transition-colors duration-200 flex items-center gap-2.5 group py-1"
             >
               <svg className="w-4 h-4 sm:w-5 sm:h-5 text-cyanglow shrink-0 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
               </svg>
-              enquiry.unisip@gmail.com
+              info@tui.in
             </a>
             <a
               href="tel:+918585034143"
@@ -274,8 +271,8 @@ export default function Footer() {
             </MotionLink>
             
             {/* <a
-              href="/unisip-brochure.pdf"
-              download="UniSip-Brochure.pdf"
+              href="/unisip--brochure.pdf"
+              download="TUII-Brochure.pdf"
               className="inline-flex items-center gap-1.5 text-general font-bold text-cyanglow/90 hover:text-cyanglow transition-colors duration-200 py-0.5"
             >
               <span>Brochure (PDF)</span>
@@ -307,7 +304,7 @@ export default function Footer() {
         {/* Legal Row */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-small text-cream/80">
           <p className="m-0 flex flex-col sm:flex-row items-center gap-1.5 sm:gap-3">
-            <span className="font-bold text-cream">© 2026 UNISIP</span>
+            <span className="font-bold text-cream">© 2026 TUII</span>
             <span className="hidden sm:inline">•</span>
             <span className="text-micro tracking-wider text-cream/60">YOUR CUSTOMIZED HYDRATION PARTNER.</span>
           </p>

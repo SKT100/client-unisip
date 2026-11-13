@@ -3,7 +3,7 @@ import React from 'react';
 const fallbackImage = '/images/unisip-bottle-hero.webp';
 
 export default function ChooseBottleCard({
-  title = 'Unisip Glacier',
+  title = 'TUII Glacier',
   volume = '500 ml',
   image = fallbackImage,
   rotate = 'rotate-0',

@@ -1,9 +1,16 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useState, useSyncExternalStore, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import SplitReveal from '../../../ui/SplitReveal';
 import TestimonialCard from './TestimonialCard';
 
 const images = '/images';
+const mobileQuery = '(max-width: 767px)';
+const subscribeViewport = (notify) => {
+  const query = window.matchMedia(mobileQuery);
+  query.addEventListener('change', notify);
+  return () => query.removeEventListener('change', notify);
+};
+const getMobileSnapshot = () => window.matchMedia(mobileQuery).matches;
 
 const DEFAULT_TESTIMONIALS = [
   {
@@ -88,29 +95,11 @@ export default function TestimonialSection({
   const containerRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const [isMobile, setIsMobile] = useState(() => {
-    return typeof window !== 'undefined' ? window.innerWidth < 768 : false;
-  });
+  const isMobile = useSyncExternalStore(subscribeViewport, getMobileSnapshot, () => false);
 
   const [zOrder, setZOrder] = useState(() =>
     testimonials.reduce((acc, t, idx) => ({ ...acc, [t.id]: idx + 10 }), {})
   );
-
-  useEffect(() => {
-    let ticking = false;
-    const checkViewport = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          setIsMobile(window.innerWidth < 768);
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener('resize', checkViewport, { passive: true });
-    return () => window.removeEventListener('resize', checkViewport);
-  }, []);
 
   const bringToFront = useCallback((id) => {
     setZOrder((prev) => {
@@ -140,6 +129,8 @@ export default function TestimonialSection({
           aria-hidden="true"
           width="1200"
           height="800"
+          loading="lazy"
+          decoding="async"
           className="absolute inset-0 w-full h-full object-cover opacity-8 pointer-events-none select-none z-0"
         />
 
@@ -192,7 +183,7 @@ export default function TestimonialSection({
                   if (info.offset.x < -40) handleNext();
                   if (info.offset.x > 40) handlePrev();
                 }}
-                className="w-full flex justify-center touch-pan-y will-change-transform"
+                className="w-full flex justify-center touch-pan-y "
               >
                 <TestimonialCard
                   id={testimonials[activeIndex].id}
@@ -230,7 +221,7 @@ export default function TestimonialSection({
                 dragConstraintsRef={containerRef}
                 zIndex={zOrder[item.id] || 10}
                 isDraggable={true}
-                onBringToFront={() => bringToFront(item.id)}
+                onBringToFront={bringToFront}
                 bgColor={item.bgColor}
                 textColor={item.textColor}
                 starColor={item.starColor}
@@ -259,6 +250,7 @@ export default function TestimonialSection({
                 type="button"
                 onClick={() => setActiveIndex(i)}
                 aria-label={`Go to slide ${i + 1}`}
+                aria-current={activeIndex === i ? "true" : undefined}
                 className={`h-2.5 rounded-full transition-all duration-200 cursor-pointer ${
                   activeIndex === i ? 'w-6 bg-[#39b8f2]' : 'w-2.5 bg-white/30'
                 }`}

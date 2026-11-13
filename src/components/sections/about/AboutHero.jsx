@@ -68,7 +68,7 @@ export default function AboutHero() {
             />
             <img
               src={`${images}/about-bg-bottle.webp`}
-              alt="Custom branded UniSip glass bottle"
+              alt="Custom branded TUII glass bottle"
               fetchPriority="high"
               loading="eager"
               decoding="async"

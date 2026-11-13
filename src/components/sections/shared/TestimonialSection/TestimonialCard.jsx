@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 const fallbackAvatar = '/images/unisip-bottle-hero.webp';
 const fallbackImage = '/images/hand-bottle-about.webp';
 
-export default function TestimonialCard({
+function TestimonialCard({
   id,
   quote,
   name,
@@ -28,7 +28,7 @@ export default function TestimonialCard({
 }) {
   const cardContent = (
     <div
-      className={`w-[88vw] max-w-[310px] xs:max-w-[330px] sm:max-w-[380px] md:w-[410px] lg:w-[440px] ${bgColor} ${textColor} rounded-[26px] sm:rounded-[36px] lg:rounded-[42px] p-3.5 xs:p-4 sm:p-6 lg:p-7 shadow-xl select-none font-fira border border-white/20 will-change-transform ${className}`}
+      className={`w-[88vw] max-w-[310px] xs:max-w-[330px] sm:max-w-[380px] md:w-[410px] lg:w-[440px] ${bgColor} ${textColor} rounded-[26px] sm:rounded-[36px] lg:rounded-[42px] p-3.5 xs:p-4 sm:p-6 lg:p-7 shadow-xl select-none font-fira border border-white/20 ${className}`}
     >
       {/* 1. Photo Preview Visual */}
       <div className="w-full h-[135px] xs:h-[155px] sm:h-[200px] lg:h-[235px] bg-black/10 rounded-[18px] sm:rounded-[24px] overflow-hidden mb-2.5 xs:mb-3 sm:mb-4 relative">
@@ -108,7 +108,7 @@ export default function TestimonialCard({
         }}
         viewport={{ once: true }}
         style={{ zIndex }}
-        className="absolute cursor-grab touch-pan-y will-change-transform"
+        className="absolute cursor-grab touch-pan-y"
       >
         {cardContent}
       </motion.div>
@@ -117,3 +117,4 @@ export default function TestimonialCard({
 
   return cardContent;
 }
+export default React.memo(TestimonialCard);

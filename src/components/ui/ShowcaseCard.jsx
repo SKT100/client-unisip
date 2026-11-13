@@ -3,7 +3,7 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 
 export default function ShowcaseCard({
   image,
-  alt = 'UniSip Bottle Showcase',
+  alt = 'TUII Bottle Showcase',
   badgeText = 'LIMITED DROP',
   title = 'CUSTOM EDITION',
   className = '',

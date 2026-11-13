@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { MotionConfig } from 'framer-motion';
 import SmoothScroll from './components/utils/SmoothScroll';
 import LiquidLoader from './components/ui/LiquidLoader';
 
@@ -34,19 +35,6 @@ function AppContent() {
     mode: 'initial',
     key: 0,
   });
-
-  // Warm up route chunks in idle time so page switches have 0ms suspense lag
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      loadHomePage();
-      loadAboutPage();
-      loadWorkPage();
-      loadContactPage();
-      loadBlogPage();
-      loadBlogDetailPage();
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
 
   useEffect(() => {
     if (location.pathname !== pendingLocationRef.current.pathname) {
@@ -101,8 +89,10 @@ function AppContent() {
 
 export default function App() {
   return (
+    <MotionConfig reducedMotion="user">
     <Router>
       <AppContent />
     </Router>
+    </MotionConfig>
   );
 }

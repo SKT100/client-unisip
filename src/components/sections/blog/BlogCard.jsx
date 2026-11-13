@@ -31,7 +31,7 @@ export default function BlogCard({ post, isPriority = false, className = '' }) {
             />
           ) : (
             <div className="w-full h-full bg-cream/90 flex flex-col items-center justify-center text-darkblue/30 text-micro p-4 text-center">
-              <span>UNISIP INSIGHTS</span>
+              <span>TUII INSIGHTS</span>
             </div>
           )}
         </div>

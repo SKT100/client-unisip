@@ -25,12 +25,12 @@ export default function ContactPage() {
   const [statusType, setStatusType] = useState('info');
 
   useEffect(() => {
-    document.title = 'Contact UniSip — Start Your Custom Bottle Project';
+    document.title = 'Contact TUII — Start Your Custom Bottle Project';
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) {
       metaDesc.setAttribute(
         'content',
-        'Connect with UniSip to design, produce, and deliver custom branded water bottles and private label hydration experiences tailored to your brand.'
+        'Connect with TUII to design, produce, and deliver custom branded water bottles and private label hydration experiences tailored to your brand.'
       );
     }
   }, []);
@@ -49,7 +49,7 @@ export default function ContactPage() {
       return;
     }
 
-    const message = `*NEW UNISIP ENQUIRY*\n\n` +
+    const message = `*NEW TUII ENQUIRY*\n\n` +
       `*Name:* ${formData.name}\n` +
       `*Email:* ${formData.email || 'N/A'}\n` +
       `*Phone:* ${formData.phone}\n` +
@@ -112,8 +112,8 @@ export default function ContactPage() {
   const contactItems = [
     {
       icon: 'email',
-      label: 'enquiry.unisip@gmail.com',
-      href: 'mailto:enquiry.unisip@gmail.com',
+      label: 'info@tui.in',
+      href: 'mailto:info@tui.in',
     },
     {
       icon: 'phone',

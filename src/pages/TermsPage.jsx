@@ -21,7 +21,7 @@ export default function TermsPage() {
         <article className="mt-12 sm:mt-16 lg:mt-20 max-w-4xl mx-auto font-fira text-[#101A35] leading-relaxed">
           
           <p className="text-lg sm:text-xl font-medium text-[#101A35]/80 mb-10 border-l-4 border-[#39B8F2] pl-4 py-1">
-            Welcome to UNISIP. Please read these Terms and Conditions carefully before engaging our services or placing an order for custom-branded water bottles. By accessing our platform or placing an order, you agree to be bound by these terms.
+            Welcome to TUII. Please read these Terms and Conditions carefully before engaging our services or placing an order for custom-branded water bottles. By accessing our platform or placing an order, you agree to be bound by these terms.
           </p>
 
           {/* Section 1 */}
@@ -30,10 +30,10 @@ export default function TermsPage() {
               1. Overview & Service Scope
             </h2>
             <p className="text-base sm:text-lg text-[#101A35]/80 mb-3">
-              UNISIP ("we", "us", "our") provides custom-packaged mineral water and custom-branded hydration products for corporate events, hospitality venues, retail brands, and private occasions.
+              TUII ("we", "us", "our") provides custom-packaged mineral water and custom-branded hydration products for corporate events, hospitality venues, retail brands, and private occasions.
             </p>
             <p className="text-base sm:text-lg text-[#101A35]/80">
-              All quotes, production agreements, artwork proofs, and deliveries issued by UNISIP are subject to the terms outlined on this page.
+              All quotes, production agreements, artwork proofs, and deliveries issued by TUII are subject to the terms outlined on this page.
             </p>
           </section>
 
@@ -44,10 +44,10 @@ export default function TermsPage() {
             </h2>
             <ul className="list-disc pl-6 space-y-2 text-base sm:text-lg text-[#101A35]/80">
               <li>
-                <strong>Artwork Submission:</strong> Clients must provide vector logo files (.AI, .EPS, .SVG, or high-res PDF) or high-density raster graphics matching UNISIP’s label print specifications.
+                <strong>Artwork Submission:</strong> Clients must provide vector logo files (.AI, .EPS, .SVG, or high-res PDF) or high-density raster graphics matching TUII’s label print specifications.
               </li>
               <li>
-                <strong>Digital Proof Sign-Off:</strong> Production will only begin after explicit written approval (via email or digital sign-off) of the final label design proof provided by UNISIP.
+                <strong>Digital Proof Sign-Off:</strong> Production will only begin after explicit written approval (via email or digital sign-off) of the final label design proof provided by TUII.
               </li>
               <li>
                 <strong>Color Accuracy:</strong> While we utilize precision digital and offset printing, minor color variations between digital screens and physical labels on polypropylene/matte material may occur.
@@ -82,7 +82,7 @@ export default function TermsPage() {
               Because all products feature custom client branding, <strong>orders cannot be cancelled or refunded once label printing or bottling has commenced</strong>.
             </p>
             <p className="text-base sm:text-lg text-[#101A35]/80">
-              In the rare event of physical transit damage or manufacturing defects, clients must notify UNISIP within 48 hours of delivery with photo evidence. Verified defective items will be replaced or credited promptly.
+              In the rare event of physical transit damage or manufacturing defects, clients must notify TUII within 48 hours of delivery with photo evidence. Verified defective items will be replaced or credited promptly.
             </p>
           </section>
 
@@ -93,7 +93,7 @@ export default function TermsPage() {
             </h2>
             <ul className="list-disc pl-6 space-y-2 text-base sm:text-lg text-[#101A35]/80">
               <li>
-                Estimated delivery timelines are provided in good faith. UNISIP is not liable for transport delays caused by weather conditions, traffic restrictions, or third-party courier disruptions.
+                Estimated delivery timelines are provided in good faith. TUII is not liable for transport delays caused by weather conditions, traffic restrictions, or third-party courier disruptions.
               </li>
               <li>
                 Clients are responsible for providing clear delivery location details and ensuring adequate unloading personnel or loading dock facilities at the destination address.
@@ -107,10 +107,10 @@ export default function TermsPage() {
               6. Intellectual Property & Brand Rights
             </h2>
             <p className="text-base sm:text-lg text-[#101A35]/80 mb-3">
-              You warrant that you hold all necessary trademarks, copyrights, and usage permissions for logos and graphics submitted to UNISIP. You agree to indemnify UNISIP against any third-party trademark or copyright claims arising from your custom label graphics.
+              You warrant that you hold all necessary trademarks, copyrights, and usage permissions for logos and graphics submitted to TUII. You agree to indemnify TUII against any third-party trademark or copyright claims arising from your custom label graphics.
             </p>
             <p className="text-base sm:text-lg text-[#101A35]/80">
-              UNISIP reserves the right to photograph finished bottles for promotional usage in our portfolio, website, and marketing materials unless a written Non-Disclosure Agreement (NDA) is executed beforehand.
+              TUII reserves the right to photograph finished bottles for promotional usage in our portfolio, website, and marketing materials unless a written Non-Disclosure Agreement (NDA) is executed beforehand.
             </p>
           </section>
 
@@ -126,8 +126,8 @@ export default function TermsPage() {
               <p className="font-bold text-lg text-[#101A35] mb-1">Have questions regarding our Terms?</p>
               <p className="text-base text-[#101A35]/80">
                 Email us at{' '}
-                <a href="mailto:hello@unisip.in" className="text-[#39B8F2] font-bold hover:underline">
-                  hello@unisip.in
+                <a href="mailto:info@tui.in" className="text-[#39B8F2] font-bold hover:underline">
+                  info@tui.in
                 </a>{' '}
                 or call us at <span className="font-bold text-[#101A35]">+91 XXXXX XXXXX</span>.
               </p>

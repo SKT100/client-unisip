@@ -20,9 +20,9 @@ export default function NotFoundPage() {
         >
           <span>4</span>
           <img
-            alt="Unisip Logo"
-            src={`${images}/logo/unisip-logo.svg`}
-            className="h-[0.82em] w-auto object-contain shrink-0 mx-1 sm:mx-2"
+            alt="TUII Logo"
+            src={`${images}/logo/tuii-logo.svg`}
+            className="h-[0.65em] w-auto brightness-0 object-contain shrink-0 mx-1 sm:mx-2"
           />
           <span>4</span>
         </div>
@@ -31,7 +31,7 @@ export default function NotFoundPage() {
         <p className="heading-small text-darkblue/80 max-w-sm sm:max-w-xl mt-3 sm:mt-6 tracking-wide normal-case font-normal">
           This page has run dry.
           <br />
-          Please go back to Unisip Home Page.
+          Please go back to TUII Home Page.
         </p>
 
         {/* Home CTA Button */}

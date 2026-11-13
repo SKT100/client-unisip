@@ -234,12 +234,12 @@ export default function OurBeliefSection() {
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 src={`${images}/about-belief-img.webp`}
-                alt="UniSip custom crafted bottle details"
+                alt="TUII custom crafted bottle details"
                 loading="lazy"
                 decoding="async"
                 className="w-full max-w-[320px] sm:max-w-[460px] lg:max-w-[800px] xl:max-w-[920px] h-auto object-contain block"
                 onError={(e) => {
-                  e.currentTarget.src = '/about-bg-bottle.webp';
+                  e.currentTarget.src = '/images/about-bg-bottle.webp';
                 }}
               />
             </div>

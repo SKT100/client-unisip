@@ -64,7 +64,7 @@ export default function StoryBannerSection({
           >
             <img
               src={bannerImage}
-              alt="UniSip Bottle Water Drop Visual"
+              alt="TUII Bottle Water Drop Visual"
               loading="lazy"
               decoding="async"
               width="440"

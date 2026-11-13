@@ -65,6 +65,12 @@ export default function LiquidLoader({
   }, [onCovered, onComplete]);
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      onCoveredRef.current?.();
+      onCompleteRef.current?.();
+      setVisible(false);
+      return;
+    }
     setVisible(true);
     document.body.style.overflow = 'hidden';
 
@@ -74,9 +80,9 @@ export default function LiquidLoader({
 
     // Timings (ms): Initial load is fuller; route transitions are snappier
     const isInitial = mode === 'initial';
-    const collapseDur = isInitial ? 0 : 440;     // Phase 1: Water collapses inward
-    const fillDur = isInitial ? 1450 : 720;      // Phase 2: UNISIP squiggles in & fills
-    const dissolveDur = isInitial ? 780 : 640;   // Phase 3: Squiggle dissolve & splash open
+    const collapseDur = isInitial ? 0 : 220;     // Phase 1: Water collapses inward
+    const fillDur = isInitial ? 850 : 240;      // Phase 2: TUII squiggles in & fills
+    const dissolveDur = isInitial ? 500 : 350;   // Phase 3: Squiggle dissolve & splash open
     const totalDur = collapseDur + fillDur + dissolveDur;
 
     const maxRadius = 860; // Diagonal coverage for 1000x1000 viewBox
@@ -121,7 +127,7 @@ export default function LiquidLoader({
       }
 
       // ======================================================================
-      // PHASE 2: "UNISIP" CONDENSES FROM SQUIGGLE & FILLS WITH WATER
+      // PHASE 2: "TUII" CONDENSES FROM SQUIGGLE & FILLS WITH WATER
       // ======================================================================
       else if (elapsed < collapseDur + fillDur) {
         if (!coveredCalled) {
@@ -158,7 +164,7 @@ export default function LiquidLoader({
           splashBurstRef.current.style.opacity = '0';
         }
 
-        // 3. Rising Water Wave Level inside UNISIP ClipPath
+        // 3. Rising Water Wave Level inside TUII ClipPath
         // Y goes from 145 (empty bottom) to -25 (100% submerged)
         const waveY = 145 - easeInOutCubic(p) * 170;
         const waveShiftFront = -((now * 0.22) % 400);
@@ -188,7 +194,7 @@ export default function LiquidLoader({
         const p = Math.min(1, dissolveElapsed / dissolveDur);
         const eased = easeOutExpo(p);
 
-        // 1. UNISIP Text Squiggle Dissolve & Splash Apart
+        // 1. TUII Text Squiggle Dissolve & Splash Apart
         const dissolveSquiggle = 3 + p * 95;
         if (displacementRef.current) {
           displacementRef.current.setAttribute('scale', dissolveSquiggle.toFixed(1));
@@ -322,7 +328,7 @@ export default function LiquidLoader({
       </div>
 
       {/* ====================================================================
-          3. CENTER STAGE: SQUIGGLE-FILTERED "UNISIP" WATER FILL WORDMARK
+          3. CENTER STAGE: SQUIGGLE-FILTERED "TUII" WATER FILL WORDMARK
           ==================================================================== */}
       <div
         ref={centerStageRef}
@@ -336,7 +342,7 @@ export default function LiquidLoader({
           >
             <defs>
               {/* SVG Squiggle / Liquid Turbulence Filter */}
-              <filter id="unisip-liquid-squiggle" x="-20%" y="-20%" width="140%" height="140%">
+              <filter id="TUII-liquid-squiggle" x="-20%" y="-20%" width="140%" height="140%">
                 <feTurbulence
                   ref={turbulenceRef}
                   type="fractalNoise"
@@ -355,22 +361,13 @@ export default function LiquidLoader({
                 />
               </filter>
 
-              {/* UNISIP Lettering Mask */}
-              <clipPath id="unisip-letter-mask">
-                <text
-                  x="50%"
-                  y="68%"
-                  textAnchor="middle"
-                  className="font-fira font-extrabold uppercase"
-                  fontSize="132"
-                  letterSpacing="0.04em"
-                >
-                  UNISIP
-                </text>
+              {/* TUII Lettering Mask */}
+              <clipPath id="TUII-letter-mask">
+                <path d="M6,3 382,3 384,5 384,43 382,45 339,32 294,22 249,16 218,16 218,496 218,657 216,659 168,659 166,656 166,16 134,16 98,21 63,28 5,45 3,44 3,6ZM827,77 841,79 849,83 859,93 864,105 864,118 858,132 848,141 839,145 831,146 820,145 807,139 799,130 794,116 795,103 801,91 809,83 817,79ZM719,79 735,80 745,85 753,92 759,106 759,121 754,133 743,143 731,147 718,147 707,143 697,135 690,120 690,107 695,94 704,85ZM369,175 418,175 420,177 420,181 415,189 407,211 394,238 386,263 380,275 351,364 343,398 336,440 333,476 334,506 341,545 348,564 359,586 370,602 384,617 386,617 395,626 414,637 440,645 464,646 489,641 514,631 540,614 560,595 560,593 565,589 580,569 583,561 587,557 597,538 608,505 609,186 612,184 659,184 661,186 661,307 662,454 660,659 609,659 607,554 605,554 593,577 572,605 539,635 533,637 523,645 509,652 486,660 468,664 426,665 401,660 376,651 357,640 345,631 338,623 336,623 320,605 309,589 292,551 285,522 283,500 283,473 286,433 294,382 303,344 333,253 361,186 365,178ZM807,183 853,183 858,186 858,657 854,659 804,659 801,656 801,188ZM705,184 754,184 756,186 756,657 752,660 704,660 701,658 701,186Z" transform="translate(309 30) scale(.21)" fillRule="evenodd" />
               </clipPath>
 
               {/* Vibrant Hydration Gradient */}
-              <linearGradient id="unisip-water-grad" x1="0%" y1="100%" x2="0%" y2="0%">
+              <linearGradient id="TUII-water-grad" x1="0%" y1="100%" x2="0%" y2="0%">
                 <stop offset="0%" stopColor="#101a35" />
                 <stop offset="40%" stopColor="#22649b" />
                 <stop offset="85%" stopColor="#39b8f2" />
@@ -379,25 +376,13 @@ export default function LiquidLoader({
             </defs>
 
             {/* Filtered Group: Squiggles on Entry, Shimmers on Fill, Dissolves on Exit */}
-            <g filter="url(#unisip-liquid-squiggle)">
+            <g filter="url(#TUII-liquid-squiggle)">
               
               {/* Ghost Letter Outline */}
-              <text
-                x="50%"
-                y="68%"
-                textAnchor="middle"
-                className="font-fira font-extrabold uppercase"
-                fontSize="132"
-                letterSpacing="0.04em"
-                fill="rgba(245, 244, 239, 0.05)"
-                stroke="rgba(245, 244, 239, 0.28)"
-                strokeWidth="2.5"
-              >
-                UNISIP
-              </text>
+              <path d="M6,3 382,3 384,5 384,43 382,45 339,32 294,22 249,16 218,16 218,496 218,657 216,659 168,659 166,656 166,16 134,16 98,21 63,28 5,45 3,44 3,6ZM827,77 841,79 849,83 859,93 864,105 864,118 858,132 848,141 839,145 831,146 820,145 807,139 799,130 794,116 795,103 801,91 809,83 817,79ZM719,79 735,80 745,85 753,92 759,106 759,121 754,133 743,143 731,147 718,147 707,143 697,135 690,120 690,107 695,94 704,85ZM369,175 418,175 420,177 420,181 415,189 407,211 394,238 386,263 380,275 351,364 343,398 336,440 333,476 334,506 341,545 348,564 359,586 370,602 384,617 386,617 395,626 414,637 440,645 464,646 489,641 514,631 540,614 560,595 560,593 565,589 580,569 583,561 587,557 597,538 608,505 609,186 612,184 659,184 661,186 661,307 662,454 660,659 609,659 607,554 605,554 593,577 572,605 539,635 533,637 523,645 509,652 486,660 468,664 426,665 401,660 376,651 357,640 345,631 338,623 336,623 320,605 309,589 292,551 285,522 283,500 283,473 286,433 294,382 303,344 333,253 361,186 365,178ZM807,183 853,183 858,186 858,657 854,659 804,659 801,656 801,188ZM705,184 754,184 756,186 756,657 752,660 704,660 701,658 701,186Z" transform="translate(309 30) scale(.21)" fill="rgba(245,244,239,0.08)" stroke="rgba(245,244,239,0.28)" strokeWidth="2.5" fillRule="evenodd" />
 
-              {/* Rising Water Waves Clipped Inside "UNISIP" */}
-              <g clipPath="url(#unisip-letter-mask)">
+              {/* Rising Water Waves Clipped Inside "TUII" */}
+              <g clipPath="url(#TUII-letter-mask)">
                 {/* Back Deep Wave */}
                 <path
                   ref={backWaveRef}
@@ -411,7 +396,7 @@ export default function LiquidLoader({
                 <path
                   ref={frontWaveRef}
                   d="M 0 0 Q 100 -24, 200 0 T 400 0 T 600 0 T 800 0 T 1000 0 T 1200 0 V 320 H 0 Z"
-                  fill="url(#unisip-water-grad)"
+                  fill="url(#TUII-water-grad)"
                   transform="translate(0, 145)"
                 />
 

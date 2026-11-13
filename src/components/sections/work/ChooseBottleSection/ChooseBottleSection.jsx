@@ -1,24 +1,25 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
-import { motion, useMotionValue, useAnimationFrame } from 'framer-motion';
+import { motion, useMotionValue, useAnimationFrame, useInView, useReducedMotion } from 'framer-motion';
 import ChooseBottleCard from './ChooseBottleCard';
 import SplitReveal from '../../../ui/SplitReveal';
-import Magnetic from '../../../ui/Magnetic';
 
 const images = '/images';
 
 const DEFAULT_BOTTLES = [
-  { id: 'glacier', title: 'Unisip Glacier', volume: '250ml / 500ml', image: `${images}/unisip-glacier.webp`, rotate: '-rotate-3' },
-  { id: 'evolve',  title: 'Unisip Evolve',  volume: '500 ml',       image: `${images}/unisip-evolve.webp`,    rotate: 'rotate-2' },
-  { id: 'cascade', title: 'Unisip Cascade', volume: '1L',           image: `${images}/unisip-cascade.webp`,  rotate: '-rotate-2' },
-  { id: 'dehaexa', title: 'Unisip Dehaexa', volume: '1L',           image: `${images}/unisip-dehexa.webp`,   rotate: 'rotate-3' },
-  { id: 'decone',  title: 'Unisip Decone',  volume: '1L',           image: `${images}/unisip-decone.webp`,   rotate: '-rotate-1' },
-  { id: 'onyx',    title: 'Unisip Onyx',    volume: '750 ml',       image: `${images}/unisip-onyx.webp`,    rotate: 'rotate-2' },
-  { id: 'nira',    title: 'Unisip Nira',    volume: '750 ml',       image: `${images}/unisip-nira.webp`,    rotate: '-rotate-2' },
+  { id: 'glacier', title: 'TUII Glacier', volume: '250ml / 500ml', image: `${images}/unisip-glacier.webp`, rotate: '-rotate-3' },
+  { id: 'evolve',  title: 'TUII Evolve',  volume: '500 ml',       image: `${images}/unisip-evolve.webp`,    rotate: 'rotate-2' },
+  { id: 'cascade', title: 'TUII Cascade', volume: '1L',           image: `${images}/unisip-cascade.webp`,  rotate: '-rotate-2' },
+  { id: 'dehaexa', title: 'TUII Dehaexa', volume: '1L',           image: `${images}/unisip-dehexa.webp`,   rotate: 'rotate-3' },
+  { id: 'decone',  title: 'TUII Decone',  volume: '1L',           image: `${images}/unisip-decone.webp`,   rotate: '-rotate-1' },
+  { id: 'onyx',    title: 'TUII Onyx',    volume: '750 ml',       image: `${images}/unisip-onyx.webp`,    rotate: 'rotate-2' },
+  { id: 'nira',    title: 'TUII Nira',    volume: '750 ml',       image: `${images}/unisip-nira.webp`,    rotate: '-rotate-2' },
 ];
 
 function Marquee({ items, renderItem, reverse = false, speed = 45 }) {
   const wrapRef = useRef(null);
   const groupRef = useRef(null);
+  const inView = useInView(wrapRef, { margin: "100px" });
+  const reducedMotion = useReducedMotion();
   const [repeats, setRepeats] = useState(1);
   const [groupWidth, setGroupWidth] = useState(0);
 
@@ -49,7 +50,7 @@ function Marquee({ items, renderItem, reverse = false, speed = 45 }) {
     ro.observe(wrapRef.current);
     ro.observe(groupRef.current);
     return () => ro.disconnect();
-  }, [repeats, items]);
+  }, [repeats, items, x]);
 
   const wrapX = (val) => {
     if (!groupWidth) return val;
@@ -60,8 +61,8 @@ function Marquee({ items, renderItem, reverse = false, speed = 45 }) {
   };
 
   useAnimationFrame((time, delta) => {
-    if (!groupWidth || isHovered || isDragging.current) return;
-    const moveBy = (speed * (delta / 1000)) * (reverse ? 1 : -1);
+    if (!inView || reducedMotion || !groupWidth || isHovered || isDragging.current) return;
+    const moveBy = (speed * (Math.min(delta, 50) / 1000)) * (reverse ? 1 : -1);
     x.set(wrapX(x.get() + moveBy));
   });
 
@@ -72,7 +73,7 @@ function Marquee({ items, renderItem, reverse = false, speed = 45 }) {
     dragStartVal.current = x.get();
     try {
       e.currentTarget.setPointerCapture(e.pointerId);
-    } catch (err) {}
+    } catch { /* Pointer capture may already have been released. */ }
   };
 
   const handlePointerMove = (e) => {
@@ -86,7 +87,7 @@ function Marquee({ items, renderItem, reverse = false, speed = 45 }) {
     isDragging.current = false;
     try {
       e.currentTarget.releasePointerCapture(e.pointerId);
-    } catch (err) {}
+    } catch { /* Pointer capture may already have been released. */ }
   };
 
   const handleWheel = (e) => {
@@ -179,7 +180,7 @@ export default function ChooseBottleSection({
           <Magnetic pullStrength={0.3} radius={35}>
             <a
               href="/unisip--brochure.pdf"
-              download="UniSip-Brochure.pdf"
+              download="TUII-Brochure.pdf"
               className="group relative inline-flex items-center justify-center gap-2.5 rounded-full bg-darkblue text-cream hover:bg-midblue px-7 sm:px-9 py-3 sm:py-4 font-fira font-extrabold uppercase tracking-wider text-xs sm:text-sm lg:text-base transition-all duration-200 shadow-md hover:shadow-xl active:scale-95 cursor-pointer select-none"
             >
               <svg

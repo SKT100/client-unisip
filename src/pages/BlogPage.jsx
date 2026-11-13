@@ -16,13 +16,13 @@ export default function BlogPage() {
 
   // Dynamic SEO Injection for Blog Route
   useEffect(() => {
-    document.title = 'UniSip Blog — Stories, Packaging & Hydration Insights';
+    document.title = 'TUII Blog — Stories, Packaging & Hydration Insights';
     
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) {
       metaDesc.setAttribute(
         'content',
-        'Explore articles, packaging design tips, and stories from the custom hydration industry by UniSip.'
+        'Explore articles, packaging design tips, and stories from the custom hydration industry by TUII.'
       );
     }
 
@@ -31,10 +31,6 @@ export default function BlogPage() {
       canonical.setAttribute('href', 'https://unisip.in/blog');
     }
   }, []);
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchQuery, selectedCategory]);
 
   const filteredPosts = useMemo(() => {
     return BLOG_POSTS.filter((post) => {
@@ -86,9 +82,9 @@ export default function BlogPage() {
         {/* Search & Category Filter Controls */}
         <BlogSearchFilter
           searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
+          onSearchChange={(value) => { setSearchQuery(value); setCurrentPage(1); }}
           selectedCategory={selectedCategory}
-          onCategoryChange={setSelectedCategory}
+          onCategoryChange={(value) => { setSelectedCategory(value); setCurrentPage(1); }}
         />
 
         {/* Blog Cards Grid */}

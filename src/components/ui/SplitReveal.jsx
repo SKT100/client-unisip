@@ -60,7 +60,7 @@ export default function SplitReveal({
                           }
                         : { animate: 'visible' })}
                       style={charStyle}
-                      className="inline-block will-change-transform"
+                      className="inline-block"
                     >
                       {char}
                     </motion.span>

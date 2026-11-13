@@ -85,7 +85,7 @@ export default function HomeAboutBanner() {
             >
               <img
                 src={`${images}/hand-bottle-about.webp`}
-                alt="Hand holding UniSip custom branded bottle"
+                alt="Hand holding TUII custom branded bottle"
                 decoding="async"
                 width="675"
                 height="800"
@@ -119,7 +119,7 @@ export default function HomeAboutBanner() {
             </h3>
 
             <p className="text-small text-cream/75 m-0 font-normal">
-              UniSip helps businesses turn everyday drinking water into a branded experience. From custom bottle labels to production and delivery, we create bottles designed around the identity of the businesses they represent.
+              TUII helps businesses turn everyday drinking water into a branded experience. From custom bottle labels to production and delivery, we create bottles designed around the identity of the businesses they represent.
             </p>
           </div>
 
@@ -128,7 +128,7 @@ export default function HomeAboutBanner() {
             <a
               href="/about"
               className="group relative w-24 h-24 sm:w-36 sm:h-36 lg:w-44 lg:h-44 rounded-full flex items-center justify-center transition-transform duration-300 hover:scale-105 active:scale-95"
-              aria-label="More About UniSip"
+              aria-label="More About TUII"
             >
               <div className="absolute inset-0 w-full h-full animate-[spin_24s_linear_infinite] will-change-transform pointer-events-none">
                 <svg viewBox="0 0 100 100" className="w-full h-full overflow-visible">
@@ -139,7 +139,7 @@ export default function HomeAboutBanner() {
                   />
                   <text className="text-[8px] font-fira font-extrabold uppercase tracking-[0.22em] fill-cream/90">
                     <textPath href="#aboutCirclePath">
-                      • MORE ABOUT UNISIP • MORE ABOUT UNISIP • MORE ABOUT UNISIP 
+                      • MORE ABOUT TUII • MORE ABOUT TUII • MORE ABOUT TUII
                     </textPath>
                   </text>
                 </svg>
