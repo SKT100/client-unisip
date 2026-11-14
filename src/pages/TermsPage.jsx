@@ -126,8 +126,8 @@ export default function TermsPage() {
               <p className="font-bold text-lg text-[#101A35] mb-1">Have questions regarding our Terms?</p>
               <p className="text-base text-[#101A35]/80">
                 Email us at{' '}
-                <a href="mailto:info@tui.in" className="text-[#39B8F2] font-bold hover:underline">
-                  info@tui.in
+                <a href="mailto:info@tuii.in" className="text-[#39B8F2] font-bold hover:underline">
+                  info@tuii.in
                 </a>{' '}
                 or call us at <span className="font-bold text-[#101A35]">+91 XXXXX XXXXX</span>.
               </p>

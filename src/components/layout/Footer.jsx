@@ -178,13 +178,13 @@ export default function Footer() {
               LET'S TALK
             </h3>
             <a
-              href="mailto:info@tui.in"
+              href="mailto:info@tuii.in"
               className="text-general font-medium text-cream/90 hover:text-cyanglow transition-colors duration-200 flex items-center gap-2.5 group py-1"
             >
               <svg className="w-4 h-4 sm:w-5 sm:h-5 text-cyanglow shrink-0 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
               </svg>
-              info@tui.in
+              info@tuii.in
             </a>
             <a
               href="tel:+918585034143"

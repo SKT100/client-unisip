@@ -112,8 +112,8 @@ export default function ContactPage() {
   const contactItems = [
     {
       icon: 'email',
-      label: 'info@tui.in',
-      href: 'mailto:info@tui.in',
+      label: 'info@tuii.in',
+      href: 'mailto:info@tuii.in',
     },
     {
       icon: 'phone',
